@@ -1,4 +1,14 @@
 // Styling for the contact page
+.contact-form {
+  width: 100%;
+  border-top: 3px solid $primary;
+  border-bottom: 3px solid $primary;
+  text-align: left;
+  padding: 30px;
+  background: $white;
+  box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
+}
+
 .floating-label-form-group {
   font-size: 14px;
   position: relative;
