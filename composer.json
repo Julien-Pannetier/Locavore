@@ -1,0 +1,17 @@
+{
+    "name": "julien/locavore",
+    "authors": [
+        {
+            "name": "Julien Pannetier",
+            "email": "pannetier.j@hotmail.fr"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Model\\": "Model/",
+            "App\\": "App/",
+            "Controller\\": "Controller/"
+        }
+    },
+    "require": {}
+}
