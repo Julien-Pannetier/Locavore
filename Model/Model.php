@@ -13,7 +13,7 @@ class Model extends Database
 
     public function findAll()
     {
-        $query = $this->query('SELECT * FROM '. $this->table);
+        $query = $this->request('SELECT * FROM '. $this->table);
         return $query->fetchAll();
     }
 
@@ -29,24 +29,24 @@ class Model extends Database
         }
         
         $fields_list = implode(' AND ', $fields);
-        return $this->query('SELECT * FROM '.$this->table.' WHERE '.$fields_list, $values)->fetchAll();
+        return $this->request('SELECT * FROM '.$this->table.' WHERE '.$fields_list, $values)->fetchAll();
     }
 
 
     public function find(int $id)
     {
-        return $this->query("SELECT * FROM $this->table WHERE id = $id")->fetch();
+        return $this->request("SELECT * FROM $this->table WHERE id = $id")->fetch();
     }
 
 
-    public function create(Model $model)
+    public function create()
     {
         $fields = [];
         $interrogation_point = [];
         $values = [];
         
 
-        foreach($model as $field => $value){
+        foreach($this as $field => $value){
             if($value !== null && $field != 'database' && $field !='table'){
                 $fields[] = $field;
                 $interrogation_point [] = "?";
@@ -56,35 +56,35 @@ class Model extends Database
         
         $fields_list = implode(', ', $fields);
         $interrogation_point_list = implode(', ', $interrogation_point);
-        return $this->query('INSERT INTO '.$this->table.' ('.$fields_list.') VALUES ('.$interrogation_point_list.') ', $values);
+        return $this->request('INSERT INTO '.$this->table.' ('.$fields_list.') VALUES ('.$interrogation_point_list.') ', $values);
     }
 
 
-    public function update(int $id, Model $model)
+    public function update()
     {
         $fields = [];
         $values = [];
 
-        foreach($model as $field => $value){
+        foreach($this as $field => $value){
             if($value !== null && $field != 'database' && $field !='table'){
                 $fields[] = "$field = ?";
                 $values[] = $value;
             }
         }
 
-        $values[] = $id;
+        $values[] = $this->id;
         $fields_list = implode(', ', $fields);
-        return $this->query('UPDATE '.$this->table.' SET '.$fields_list.' WHERE id = ?', $values);
+        return $this->request('UPDATE '.$this->table.' SET '.$fields_list.' WHERE id = ?', $values);
     }
 
 
     public function delete(int $id)
     {
-        return $this->query('DELETE FROM '.$this->table.' WHERE id = ?', [$id]);
+        return $this->request('DELETE FROM '.$this->table.' WHERE id = ?', [$id]);
     }
 
 
-    public function query(string $sql, array $attributs = null)
+    public function request(string $sql, array $attributs = null)
     {
         $this->database = Database::getInstance();
 
@@ -98,11 +98,11 @@ class Model extends Database
     }
 
 
-    public function hydrate(array $data) 
+    public function hydrate($data)
     {
         foreach ($data as $key => $value) {
             $method = 'set'.ucfirst($key);          
-            $method = ucwords("$method", "_");          
+            $method = ucwords($method, "_");          
             $method = str_replace("_", "", $method);
             if (method_exists($this, $method)) {
                 $this->$method($value);

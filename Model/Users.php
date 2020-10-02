@@ -23,6 +23,31 @@ class Users extends Model
     }
 
     /**
+     * Récupère un utilisateur à partir de son email
+     *
+     * @param string $email
+     * @return mixed
+     */
+    public function findOneByEmail(string $email)
+    {
+        return $this->request("SELECT * FROM $this->table WHERE email = ?", [$email])->fetch();
+    }
+
+    /**
+     * Crée la session de l'utilisateur
+     *
+     * @return void
+     */
+    public function setSession()
+    {
+        $_SESSION['user'] = [
+            'id' => $this->id,
+            'role' => $this->role,
+            'email' => $this->email
+        ];
+    }
+
+    /**
      * Get the value of id
      */ 
     public function getId()
