@@ -13,5 +13,7 @@
             "Controller\\": "Controller/"
         }
     },
-    "require": {}
+    "require": {
+        "twig/twig": "^3.0"
+    }
 }

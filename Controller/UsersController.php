@@ -21,7 +21,7 @@ class UsersController extends Controller
 
             if(!$userArray){
                 $_SESSION['error'] = "Identifiant et/ou mot de passe incorrect !";
-                header('Location: /locavore/users/login');
+                header('Location: /users/login');
                 exit;
             }
 
@@ -29,11 +29,11 @@ class UsersController extends Controller
 
             if(password_verify($_POST['password'], $user->getPassword())){
                 $user->setSession();
-                header('location: /locavore/users/profil');
+                header('location: /users/profil');
                 exit;
             } else {
                 $_SESSION['error'] = "Identifiant et/ou mot de passe incorrect !";
-                header('Location: /locavore/users/login');
+                header('Location: /users/login');
                 exit;
             }
         }

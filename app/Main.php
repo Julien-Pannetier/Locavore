@@ -14,6 +14,7 @@ class Main
         //On démarre la session
         session_start();
 
+        //Routing
         $uri = $_SERVER['REQUEST_URI'];
         if(!empty($uri) && $uri != '/' && $uri[-1] === "/") {
             $uri = substr($uri, 0, -1);

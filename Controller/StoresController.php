@@ -51,7 +51,7 @@ class StoresController extends Controller
 
                 $store->create();
                 $_SESSION['message'] = "Votre point de vente a été ajouté avec succès";
-                header('Location : locavore/users/profil');
+                header('Location : /users/profil');
             } else {
                 $_SESSION['error'] = !empty($_POST) ? "Le formulaire est incomplet" : '';
                 $name = isset($_POST['name']) ? strip_tags($_POST['name']) : '';
@@ -79,7 +79,7 @@ class StoresController extends Controller
 
         } else {
             $_SESSION['error'] = "Vous devez être connecté(e) pour accéder à cette page !";
-            header('Location: /locavore/users/login');
+            header('Location: /users/login');
             exit;
         }
     }
@@ -100,13 +100,13 @@ class StoresController extends Controller
             if(!$store){
                 http_response_code(404);
                 $_SESSION['error'] = "L'annonce recherchée n'existe pas !";
-                header('Location: /locavore/admin');
+                header('Location: /admin');
                 exit;
             }
             if($store->user_id !== $_SESSION['user']['id']){
                 if($_SESSION['user']['role'] !== 'admin'){
                     $_SESSION['error'] = "Vous n'avez pas accès à cette page !";
-                    header('Location: /locavore/admin');
+                    header('Location: /admin');
                     exit;
                 }
             }
@@ -124,7 +124,7 @@ class StoresController extends Controller
                 $updateStore->update();
 
                 $_SESSION['message'] = "Votre point de vente a été modifié avec succès";
-                header('Location : /locavore/admin');
+                header('Location : /admin');
 
             } else {
                 $_SESSION['error'] = !empty($_POST) ? "Le formulaire est incomplet" : '';
@@ -152,7 +152,7 @@ class StoresController extends Controller
 
         } else {
             $_SESSION['error'] = "Vous devez être connecté(e) pour accéder à cette page !";
-            header('Location: /locavore/users/login');
+            header('Location: /users/login');
             exit;
         }
     }

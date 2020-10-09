@@ -34,7 +34,7 @@ class AdminController extends Controller
             return true;
         } else {
             $_SESSION['error'] = "Vous n'avez pas les droits nécessaires pour effectuer cette opération !";
-            header('Location: /locavore/index.php?p=');
+            header('Location: /index.php?p=');
             exit;
         }
     }
