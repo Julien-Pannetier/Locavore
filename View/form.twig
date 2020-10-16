@@ -1,0 +1,29 @@
+{% macro text(name, label, message) %}
+    <div class="control-group">
+        <div class="form-group controls">
+            <label for="{{ name }}">{{ label }}</label>
+            <input type="text" id="{{ name }}" name="{{ name }}" class="form-control" required data-validation-required-message="{{ message }}">
+            <p class="help-block text-danger"></p>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro email(name, label, message) %}
+    <div class="control-group">
+        <div class="form-group controls">
+            <label for="{{ name }}">{{ label }}</label>
+            <input type="email" id="{{ name }}" name="{{ name }}" class="form-control" required data-validation-required-message="{{ message }}">
+            <p class="help-block text-danger"></p>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro textarea(name, label, message) %}
+    <div class="control-group">
+        <div class="form-group controls">
+            <label for="{{ name }}">{{ label }}</label>
+            <textarea rows="5" id="{{ name }}" name="{{ name }}" class="form-control" required data-validation-required-message="{{ message }}"></textarea>
+            <p class="help-block text-danger"></p>
+        </div>
+    </div>
+{% endmacro %}

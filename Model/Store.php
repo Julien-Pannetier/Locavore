@@ -2,7 +2,7 @@
 
 namespace Model;
 
-class Stores extends Model
+class Store extends Model
 {
     protected $id;
     protected $userId;
@@ -25,9 +25,13 @@ class Stores extends Model
     protected $creationDate;
     protected $updateDate;
 
-    public function __construct()
-    {
-        $this->table = 'stores';
+    /**
+     * Constructor
+     *
+     * @param array $store
+     */
+    public function __construct(array $store) {
+        $this->hydrate($store);
     }
 
     /**

@@ -2,18 +2,30 @@
 
 namespace Controller;
 
-use App\Form;
-use Model\Stores;
+use Model\StoreManager;
 use Controller\Controller;
 
 class StoresController extends Controller
 {
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->storeManager = new StoreManager();
+    }
+
+    /**
+     * Affiche tous les points de vente
+     *
+     * @return void
+     */
     public function index()
     {
-        $stores = new Stores;
-        $allStores = $stores->findAll();
+        $allStores =  $this->storeManager->findAllStores(0, 1000000);
         
-       $this->render('stores/index', compact('allStores'));
+        $this->render('stores/index', compact('allStores'));
     }
 
     /**
@@ -24,18 +36,31 @@ class StoresController extends Controller
      */
     public function read(int $id)
     {
-        $stores = new Stores;
-        $store = $stores->find($id);
+        $store = $this->storeManager->findStoreById($id);
 
         $this->render('stores/read', compact('store'));
     }
+     
+    /**
+     * Supprime un point de vente
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function deleteStore(int $id)
+    {
+        $this->storeManager->deleteStore($id);
+        
+        header('Location: '.$_SERVER['HTTP_REFERER']);
+    }
+}
 
     /**
      * Crée un point de vente
      *
      * @return void
      */
-    public function create()
+    /* public function create()
     {
         if(isset($_SESSION['user']) && !empty($_SESSION['user']['id'])){
 
@@ -82,7 +107,7 @@ class StoresController extends Controller
             header('Location: /users/login');
             exit;
         }
-    }
+    } */
 
     /**
      * Modifie un point de vente
@@ -90,7 +115,7 @@ class StoresController extends Controller
      * @param integer $id
      * @return void
      */
-    public function update(int $id)
+    /* public function update(int $id)
     {
         if(isset($_SESSION['user']) && !empty($_SESSION['user']['id'])){
 
@@ -156,17 +181,4 @@ class StoresController extends Controller
             exit;
         }
     }
-
-    /**
-     * Supprime un point de vente
-     *
-     * @param integer $id
-     * @return void
-     */
-    public function delete(int $id)
-    {
-        $store = new Stores;
-        $store->delete($id);
-        header('Location: '.$_SERVER['HTTP_REFERER']);
-    }
-}
+} */

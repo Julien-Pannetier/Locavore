@@ -3,11 +3,17 @@
 namespace Controller;
 
 use App\Form;
-use Model\Users;
+use Model\UserManager;
 use Controller\Controller;
 
 class UsersController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->userManager = new UserManager();
+    }
+
     /**
      * Connexion des utilisateurs
      *
@@ -16,8 +22,8 @@ class UsersController extends Controller
     public function login()
     {
         if(Form::validate($_POST, ['email', 'password'])){
-            $users = new Users;
-            $userArray = $users->findOneByEmail(strip_tags($_POST['email']));
+            //$users = new Users;
+            $userArray = $this->userManager->findUserByEmail(strip_tags($_POST['email']));
 
             if(!$userArray){
                 $_SESSION['error'] = "Identifiant et/ou mot de passe incorrect !";
@@ -25,7 +31,7 @@ class UsersController extends Controller
                 exit;
             }
 
-            $user = $users->hydrate($userArray);
+            $user = $this->userManager->hydrate($userArray);
 
             if(password_verify($_POST['password'], $user->getPassword())){
                 $user->setSession();
@@ -62,11 +68,11 @@ class UsersController extends Controller
             $email = strip_tags($_POST['email']);
             $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
-            $user = new Users;
-            $user->setEmail($email)
+            //$user = new Users;
+            $this->userManager->setEmail($email)
                 ->setPassword($password);
             
-            $user->create();
+                $this->userManager->create();
         }
         
         $form = new Form;
@@ -92,5 +98,11 @@ class UsersController extends Controller
         unset($_SESSION['user']);
         header('Location: '. $_SERVER['HTTP_REFERER']);
         exit;
+    }
+
+    
+    public function forgotPassword()
+    {
+        $this->render('users/forgotPassword', []);
     }
 }

@@ -2,9 +2,24 @@
 
 namespace Model;
 
-use Model\Database;
+abstract class Model
+{
+    public function hydrate(array $data) 
+    {
+        foreach ($data as $key => $value) {
+            $method = 'set'.ucfirst($key);          
+            $method = ucwords("$method", "_");          
+            $method = str_replace("_", "", $method);
+            if (method_exists($this, $method)) {
+                $this->$method($value);
+            }
+        }
+    }
+}
 
-class Model extends Database 
+
+
+/* class Model extends Database 
 {
     protected $table;
 
@@ -98,16 +113,5 @@ class Model extends Database
     }
 
 
-    public function hydrate($data)
-    {
-        foreach ($data as $key => $value) {
-            $method = 'set'.ucfirst($key);          
-            $method = ucwords($method, "_");          
-            $method = str_replace("_", "", $method);
-            if (method_exists($this, $method)) {
-                $this->$method($value);
-            }
-        }
-        return $this;
-    }
-}
+
+} */

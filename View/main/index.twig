@@ -1,6 +1,54 @@
 {% extends 'default.twig' %}
 
+{% block description %}
+    Description
+{% endblock %}
+{% block author %}
+    Auteur
+{% endblock %}
+{% block title %}
+    Title
+{% endblock %}
+
 {% block content %}
-    <p>Page d'accueil du site</p>
+
+    <!-- ======= Map Section ======= -->
+    <section class="section">
+        <div class="container">
+            <div>
+                <h2 class="section__title">Carte</h2>
+                <p class="section__subtitle">Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 d-flex justify-content-center">
+                    <input class="section__input" type="radio" id="select-all" name="button" />
+                    <label for="select-all" class="section__label section__label--active">Tous les points de vente</label>
+                    <input class="section__input" type="radio" id="select-farm" name="button" />
+                    <label for="select-farm" class="section__label">A la ferme</label>
+                    <input class="section__input" type="radio" id="select-market" name="button" />
+                    <label for="select-market" class="section__label">Marchés</label>
+                    <input class="section__input" type="radio" id="select-drive" name="button" />
+                    <label for="select-drive" class="section__label">Drive fermier</label>
+                </div>
+            </div>
+            <div id="map"></div>
+        </div>
+    </section><!-- End Map Section -->
+
+    <!-- ======= Cta Section ======= -->
+    <section id="cta" class="cta">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 text-center text-lg-left">
+                    <h3 class="cta__title">Call To Action</h3>
+                    <p class="cta__text"> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+                <div class="col-lg-3 cta__btn-container text-center">
+                    <a class="cta__btn btn" href="#">Call To Action</a>
+                </div>
+            </div>
+        </div>
+    </section><!-- End Cta Section -->
+
 {% endblock %}
 

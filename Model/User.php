@@ -2,7 +2,7 @@
 
 namespace Model;
 
-class Users extends Model
+class User extends Model
 {
     protected $id;
     protected $role;
@@ -17,34 +17,13 @@ class Users extends Model
     protected $updateToken;
     protected $updateDate;
 
-    public function __construct()
-    {
-        $this->table = 'users';
-    }
-
     /**
-     * Récupère un utilisateur à partir de son email
+     * Constructor
      *
-     * @param string $email
-     * @return mixed
+     * @param array $user
      */
-    public function findOneByEmail(string $email)
-    {
-        return $this->request("SELECT * FROM $this->table WHERE email = ?", [$email])->fetch();
-    }
-
-    /**
-     * Crée la session de l'utilisateur
-     *
-     * @return void
-     */
-    public function setSession()
-    {
-        $_SESSION['user'] = [
-            'id' => $this->id,
-            'role' => $this->role,
-            'email' => $this->email
-        ];
+    public function __construct(array $user) {
+        $this->hydrate($user);
     }
 
     /**
