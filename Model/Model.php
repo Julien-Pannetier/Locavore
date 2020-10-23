@@ -4,7 +4,7 @@ namespace Model;
 
 abstract class Model
 {
-    public function hydrate(array $data) 
+    public function hydrate($data) 
     {
         foreach ($data as $key => $value) {
             $method = 'set'.ucfirst($key);          

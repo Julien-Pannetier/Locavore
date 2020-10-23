@@ -1,0 +1,43 @@
+{% extends 'authentication.twig' %}
+{% import 'form.twig' as form %}
+
+{% block description %}
+    Description
+{% endblock %}
+{% block author %}
+    Auteur
+{% endblock %}
+{% block title %}
+    Title
+{% endblock %}
+
+{% block content %}
+
+    <!-- ======= Register Section ======= -->
+    <section id="register" class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto contact-form">
+                    <form name="registerForm" id="registerForm" action="" method="POST" novalidate>
+                        <h2 class="section__title text-center">Créer votre compte</h2>
+                        {{ form.email('email', 'Adresse de messagerie :', 'Veuillez entrer votre adresse de messagerie.') }}
+                        {{ form.password('password', 'Mot de passe :', 'Veuillez entrer votre mot de passe.') }}
+                        <br>
+                        <div id="success"></div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary" id="registerButton">S'inscrire</button>
+                        </div>
+                    </form>
+                    <hr>
+                    <div class="text-center">
+                      <a class="small" href="login">Déjà inscrit ? Se connecter !</a>
+                    </div>
+                    <div class="text-center">
+                      <a class="small" href="forgotPassword">Mot de passe oublié ?</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- End Register Section -->
+
+{% endblock %}

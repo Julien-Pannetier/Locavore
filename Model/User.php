@@ -20,9 +20,9 @@ class User extends Model
     /**
      * Constructor
      *
-     * @param array $user
+     * @param [type] $user
      */
-    public function __construct(array $user) {
+    public function __construct($user) {
         $this->hydrate($user);
     }
 

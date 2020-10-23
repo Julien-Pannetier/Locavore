@@ -5,7 +5,7 @@ namespace Controller;
 use Model\StoreManager;
 use Controller\Controller;
 
-class StoresController extends Controller
+class StoreController extends Controller
 {
 
     /**
@@ -23,9 +23,9 @@ class StoresController extends Controller
      */
     public function index()
     {
-        $allStores =  $this->storeManager->findAllStores(0, 1000000);
-        
-        $this->render('stores/index', compact('allStores'));
+        $stores =  $this->storeManager->findAllStores(0, 1000000);
+        echo(json_encode($stores));
+        $this->render('store/index', compact('stores'));
     }
 
     /**
@@ -38,13 +38,13 @@ class StoresController extends Controller
     {
         $store = $this->storeManager->findStoreById($id);
 
-        $this->render('stores/read', compact('store'));
+        $this->render('store/read', compact('store'));
     }
      
     /**
      * Supprime un point de vente
      *
-     * @param integer $id
+     * @param integer $id Id du point de vente
      * @return void
      */
     public function deleteStore(int $id)

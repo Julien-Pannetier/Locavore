@@ -2,7 +2,7 @@
 
 namespace Controller;
 
-use Model\Stores;
+use Model\StoreManager;
 
 class AdminController extends Controller
 {
@@ -21,8 +21,8 @@ class AdminController extends Controller
     public function stores()
     {
         if($this->isAdmin()){
-            $stores = new Stores;
-            $allStores = $stores->findAll();
+            $storeManager = new StoreManager;
+            $allStores = $storeManager->findAllStores(0, 1000000);
             
            $this->render('admin/stores', compact('allStores'), 'admin');
         }

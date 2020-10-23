@@ -27,3 +27,13 @@
         </div>
     </div>
 {% endmacro %}
+
+{% macro password(name, label, message) %}
+    <div class="control-group">
+        <div class="form-group controls">
+            <label for="{{ name }}">{{ label }}</label>
+            <input type="password" id="{{ name }}" name="{{ name }}" class="form-control" required data-validation-required-message="{{ message }}">
+            <p class="help-block text-danger"></p>
+        </div>
+    </div>
+{% endmacro %}

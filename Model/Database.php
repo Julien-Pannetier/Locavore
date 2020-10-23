@@ -14,7 +14,7 @@ class Database extends PDO
     private const DB_USER = 'root';
     private const DB_PASSWORD = '';
 
-    private function __construct() 
+    private function __construct()
     {
         $dsn = 'mysql:host=' . self::DB_HOST . ';dbname=' . self::DB_NAME . ';charset=utf8';
 

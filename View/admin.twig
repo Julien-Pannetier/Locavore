@@ -25,23 +25,23 @@
                     <a class="nav-link" href="/admin">Accueil de l'admin</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/stores">Liste des points de vente</a>
+                    <a class="nav-link" href="/store">Liste des points de vente</a>
                 </li>
             </ul>
             <ul class="navbar-nav al-auto">
                 <?php if (isset($_SESSION['user']) && !empty($_SESSION['user']['id'])) : ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="/users/profil">Profil</a>
+                        <a class="nav-link" href="/user/profil">Profil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/users/logout">Deconnexion</a>
+                        <a class="nav-link" href="/user/logout">Deconnexion</a>
                     </li>
                 <?php else : ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="/users/register">Inscription</a>
+                        <a class="nav-link" href="/user/register">Inscription</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/users/login">Connexion</a>
+                        <a class="nav-link" href="/user/login">Connexion</a>
                     </li>
                 <?php endif; ?>
             </ul>

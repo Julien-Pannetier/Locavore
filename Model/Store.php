@@ -28,9 +28,9 @@ class Store extends Model
     /**
      * Constructor
      *
-     * @param array $store
+     * @param [type] $store
      */
-    public function __construct(array $store) {
+    public function __construct($store) {
         $this->hydrate($store);
     }
 
