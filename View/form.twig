@@ -37,3 +37,30 @@
         </div>
     </div>
 {% endmacro %}
+
+{% macro select(name, label, options, message) %}
+    <div class="control-group">
+        <div class="form-group controls">
+            <label for="{{ name }}">{{ label }}</label>
+            <select id="{{ name }}" name="{{name}}" class="form-control" required data-validation-required-message="{{ message }}">
+                {% for option in options %}
+                    {% if option.value == selected %}
+                        <option value="{{option.value}}" selected>{{ option.value }}</option>
+                    {% else %}
+                        <option value="{{option.value}}">{{ option.value }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <p class="help-block text-danger"></p>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro checkbox(name, label) %}
+    <div class="control-group">
+        <div class="form-group controls">
+            <label for="{{ name }}">{{ label }}</label>
+            <input type="checkbox" id="{{ name }}" name="{{ name }}" class="form-control" value="{{ name }}" />
+        </div>
+    </div>
+{% endmacro %}

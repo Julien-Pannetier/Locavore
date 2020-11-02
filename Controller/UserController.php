@@ -32,7 +32,7 @@ class UserController extends Controller
                 //Functions::flash('Identifiant / mot de passe incorrect !', 'error');
                 $this->render('user/login', []);
             } else {
-                $this->render('admin/index', []);
+                $this->render('dashboard', []);
             }
         }
         $this->render('user/login', []);

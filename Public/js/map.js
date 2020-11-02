@@ -1,7 +1,9 @@
-class Carte {
+class Map
+{
 
-	constructor(idMap, latLng, zoom) {
-		this.idMap = idMap; // Identifiant de la carte
+	constructor(mapId, latLng, zoom)
+	{
+		this.mapId = mapId; // Identifiant de la carte
 		this.latLng = latLng; // Coordonnées de la carte
 		this.zoom = zoom; // Niveau de zoom de la carte
 
@@ -10,9 +12,10 @@ class Carte {
 	}
 
 	// Ajout de la carte
-	addMap() {
+	addMap()
+	{
 		// Initialisation de la carte
-		this.map = L.map(this.idMap).setView(this.latLng, this.zoom);
+		this.map = L.map(this.mapId).setView(this.latLng, this.zoom);
 		// Chargement des "tuiles"
 		L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
 			minZoom: 1,
@@ -22,19 +25,28 @@ class Carte {
 	}
 
 	// Ajout de marqueurs à la carte
-	addMarkers(lat, lng, icon) {
+	addMarkers(lat, lng, icon)
+	{
 		this.marker = L.marker([lat, lng], icon);
 		this.markerCluster.addLayer(this.marker);
 	}
 
 	// Regroupement des marqueurs
-	markerCluster() {
+	markerCluster()
+	{
 		this.markerCluster = L.markerClusterGroup();
 		this.map.addLayer(this.markerCluster);
 	}
 
+	// Ajout de popups aux marqueurs
+	addPopups(content)
+	{
+		this.marker.bindPopup(content);
+	}
+
 	// Création d'un événement personnalisé
-	addCustomEvent(object, type, callback) {
+	addCustomEvent(object, type, callback)
+	{
 		object.on(type, callback);
 	}
 }

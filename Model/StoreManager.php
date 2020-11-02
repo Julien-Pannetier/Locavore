@@ -42,12 +42,32 @@ class StoreManager extends Database
         return $stores;
     }
 
-    public function createStore($name, $description) 
+    public function findAllStoresAjax($offset, $limit) 
     {
-        $query = 'INSERT INTO stores(name, description, creation_date) VALUES (:name, :description, NOW())';
+        $stores = [];
+        $query = 'SELECT id, name, description, DATE_FORMAT(creation_date, "%d/%m/%Y") AS date, ST_AsText(lng_lat) as wkt FROM stores ORDER BY creation_date DESC LIMIT :offset, :limit';
+        $req = $this->db->prepare($query);
+        $req->bindParam("offset", $offset, PDO::PARAM_INT);
+        $req->bindParam("limit", $limit, PDO::PARAM_INT);
+        $req->execute();
+        while ($data = $req->fetch()) {
+            $stores[] = $data;
+        }
+        return $stores;
+    }
+
+    public function create($name, $description) 
+    {
+        $query = 'INSERT INTO stores(name, description, type, address, zipCode, city, country, lngLat, creation_date) VALUES (:name, :description, :type, :address, :zipCode, :city, :country, :lngLat, NOW())';
         $stmt = $this->db->prepare($query);
         $stmt->bindParam("name", $name, PDO::PARAM_STR);
         $stmt->bindParam("description", $description, PDO::PARAM_STR);
+        $stmt->bindParam("type", $type, PDO::PARAM_STR);
+        $stmt->bindParam("address", $address, PDO::PARAM_STR);
+        $stmt->bindParam("zipCode", $zipCode, PDO::PARAM_STR);
+        $stmt->bindParam("city", $city, PDO::PARAM_STR);
+        $stmt->bindParam("country", $country, PDO::PARAM_STR);
+        $stmt->bindParam("lngLat", $lngLat, PDO::PARAM_STR);
         $stmt->execute();
         return $stmt;
     }

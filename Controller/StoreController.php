@@ -16,6 +16,7 @@ class StoreController extends Controller
         $this->storeManager = new StoreManager();
     }
 
+
     /**
      * Affiche tous les points de vente
      *
@@ -24,9 +25,10 @@ class StoreController extends Controller
     public function index()
     {
         $stores =  $this->storeManager->findAllStores(0, 1000000);
-        echo(json_encode($stores));
         $this->render('store/index', compact('stores'));
     }
+
+
 
     /**
      * Affiche un point de vente
@@ -53,15 +55,35 @@ class StoreController extends Controller
         
         header('Location: '.$_SERVER['HTTP_REFERER']);
     }
-}
 
     /**
      * Crée un point de vente
      *
      * @return void
      */
-    /* public function create()
+    public function create()
     {
+/*         $name = $_POST['name'];
+        $description = $_POST['description'];
+        $type = $_POST['type'];
+        $address = $_POST['address'];
+        $zipCode = $_POST['zipCode'];
+        $city = $_POST['city'];
+        $country = $_POST['country'];
+        $lngLat = $_POST['lngLat'];
+        if (isset($name) && isset($description) && isset($type) && isset($address) && isset($zipCode) && isset($city) && isset($country) && isset($lngLat)) {
+            $stmt = $this->StoreManager->create($name, $description, $type, $address, $zipCode, $city, $country, $lngLat);
+            if ($stmt === false) {
+                $this->render('store/create', []);
+            } else {
+                $this->render('store/', []);
+            }
+        } else { */
+            $this->render('store/create', []);
+        /* } */
+    }
+
+    /* 
         if(isset($_SESSION['user']) && !empty($_SESSION['user']['id'])){
 
             if(Form::validate($_POST, ['name', 'description'])){
@@ -83,31 +105,17 @@ class StoreController extends Controller
                 $description = isset($_POST['description']) ? strip_tags($_POST['description']) : '';
             }
 
-            $form = new Form;
-            $form->startForm()
-                ->addLabelFor('name', 'Nom du point de vente')
-                ->addInput('text', 'name', [
-                    'id' => 'name',
-                    'class' => 'form-control',
-                    'value' => $name
-                ])
-                ->addLabelFor('description', 'Description du point de vente')
-                ->addTextarea('description', '', [
-                    'id' => 'description',
-                    'class' => 'form-control',
-                    'value' => $description
-                ])
-                ->addButton('Ajouter', ['class' => 'btn btn-primary'])
-                ->endForm();
+            
 
-            $this->render('stores/create', ['form' => $form->create()]);
+            $this->render('dashboard/stores', );
 
         } else {
             $_SESSION['error'] = "Vous devez être connecté(e) pour accéder à cette page !";
-            header('Location: /users/login');
-            exit;
+            
+            $this->render('user/login', []);
         }
     } */
+}
 
     /**
      * Modifie un point de vente

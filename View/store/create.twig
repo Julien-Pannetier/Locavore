@@ -1,6 +1,54 @@
-{% extends 'admin.twig' %}
+{% extends 'dashboard.twig' %}
+{% import 'form.twig' as form %}
+
+{% block description %}
+    Description
+{% endblock %}
+{% block author %}
+    Auteur
+{% endblock %}
+{% block title %}
+    Title
+{% endblock %}
 
 {% block content %}
-    <h1>Ajouter un point de vente</h1>
-    {{ form }}
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Ajouter un point de vente</h1>
+    </div>
+
+    <!-- ======= Create Store Section ======= -->
+    <section id="createStore" class="section">
+        <div class="container">
+{#             <h2 class="section__title">Description du point de vente</h2>
+            <p class="section__subtitle">Est dolorum ut non facere possimus quibusdam eligendi voluptatem. Quia id aut similique quia voluptas sit quaerat debitis. Rerum omnis ipsam aperiam consequatur laboriosam nemo harum praesentium. </p>
+ #}            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <form name="createStoreForm" id="createStoreForm" action="" method="POST" novalidate>
+                        {{ form.text('name', 'Nom du point de vente:', 'Veuillez entrer le nom du point de vente.') }}
+                        {{ form.textarea('description', 'Description :', 'Veuillez entrer une description.') }}
+                        {{ form.select('type', 'Type :', [{"value": ""}, {"value": "Vente à la ferme"}, {"value": "Marchés public"}, {"value": "Drive fermier"}], 'Veuillez entrer un type de point de vente.') }}
+                        {{ form.text('address', 'Adresse :', 'Veuillez entrer l\'adresse du point de vente.') }}
+                        {{ form.text('zipCode', 'Code postal :', 'Veuillez entrer le code postal.') }}
+                        {{ form.text('city', 'Ville :', 'Veuillez entrer la ville.') }}
+                        {{ form.text('country', 'Pays :', 'Veuillez entrer le pays.') }}
+                        {{ form.text('lngLat', 'Coordonnées géographiques :', 'Veuillez entrer les coordonnées géographiques.') }}
+
+                        {# {{ form.checkbox('Alcool', 'Alcool, cidre, bière') }}
+                        {{ form.checkbox('Jus', 'Jus / Boissons sans alcool') }}
+                        {{ form.checkbox('Lait', 'Lait, beurre, glace') }} #}
+
+
+                        <br>
+                        <div id="success"></div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary " id="sendMessageButton">Soumettre le point de vente</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section><!-- End Create Store Section -->
+    
 {% endblock %}

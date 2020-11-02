@@ -1,43 +1,34 @@
-class Store {
+class Store
+{
 
-	constructor(contractName, apiKey, carte, reservation) {
-		this.carte = carte; // Objet carte
+	constructor(map) 
+	{
+		this.map = map; // Objet carte
 
 		this.getStores();
 	}
 
 	// Récupération des données des points de vente
-	getStores() {
+	getStores() 
+	{
 		const self = this;
         $.getJSON('./ajax/getStores', function(stores) {
-            
-            console.log(stores);
-
-
-
-			/* stores.forEach(store => {
+            stores.forEach(store => {
 				// Personnalisation des icônes des marqueurs
-				let iconsColor;
-				if (store.type === "farm") {
-					iconsColor = "red";
-				} else if (store.type === "drive") {
-					iconsColor = "orange";
-				} else if (store.type === "market") {
-					iconsColor = "green";
-				}
 				let icons = L.icon({
-					iconUrl: 'asstes/img/marker__icon_' + iconsColor + '.png'
+					iconUrl: 'public/assets/img/mapMarkerDarken.png',
+					iconSize: [60, 60],
+					iconAnchor: [30, 60],
+					popupAnchor: [0, -60]
 				});
-				// Ajout des marqueurs à la carte
-				self.carte.addMarkers(store.position.lat, store.position.lng, {icon: icons});
-				// Création d'un événement personnalisé au click sur le marqueur
-				self.carte.addCustomEvent(self.carte.marker, 'click', self.storeClick(store).bind(self));
-			}) */
-        })
-	}
 
-	// Affichage les informations du point de vente au click sur le marqueur
-	storeClick = store => () => {
-		
+				// Ajout des marqueurs à la carte
+				const [lng, lat] = store.wkt.substr(6).substr(0, store.wkt.substr(6).length - 1).split(" ");
+				self.map.addMarkers(lat, lng, {icon: icons});
+
+				// Ajout de popups aux marqueurs
+				self.map.addPopups('<p>'+ store.name +'</p><br><a href="/store/read/'+ store.id +'">Pour plus d\'informations...</a>');
+			})
+        })
 	}
 }

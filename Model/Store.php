@@ -14,7 +14,7 @@ class Store extends Model
     protected $zipCode;
     protected $city;
     protected $country;
-    protected $latLong;
+    protected $lngLat;
     protected $contactId;
     protected $timetable;
     protected $website;
@@ -237,9 +237,9 @@ class Store extends Model
     /**
      * Get the value of latLong
      */ 
-    public function getLatLong()
+    public function getLngLat()
     {
-        return $this->latLong;
+        return $this->lngLat;
     }
 
     /**
@@ -247,9 +247,9 @@ class Store extends Model
      *
      * @return  self
      */ 
-    public function setLatLong($latLong)
+    public function setLngLat($lngLat)
     {
-        $this->latLong = $latLong;
+        $this->lngLat = $lngLat;
 
         return $this;
     }

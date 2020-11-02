@@ -2,11 +2,11 @@
 
 {% block content %}
     <h1>Liste des magasins</h1>
-    {% for store in allStores %}
+    {% for store in stores %}
         <article>
             <h2>{{ store.name }}</h2>
             <div>{{ store.description }}</div>
-            <a href="/store/read/{{ store.id }}">Pour plus d'informations...</a>
+            <a href="store/read/{{ store.id }}">Pour plus d'informations...</a>
         </article>
     {% endfor %}
 {% endblock %}
