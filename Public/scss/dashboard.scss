@@ -1,0 +1,20 @@
+// Import Custom Dashboard Variables (Overrides Default Bootstrap Variables)
+@import "dashboard/variables";
+
+// Import Bootstrap
+@import "../../vendor/bootstrap/scss/bootstrap";
+
+// Import Custom Dashboard Mixins and Components
+@import "dashboard/mixins";
+@import "dashboard/global";
+@import "dashboard/utilities";
+
+// Custom Components
+@import "dashboard/dropdowns";
+@import "dashboard/navs";
+@import "dashboard/buttons";
+@import "dashboard/cards";
+@import "dashboard/charts";
+@import "dashboard/login";
+@import "dashboard/error";
+@import "dashboard/footer";

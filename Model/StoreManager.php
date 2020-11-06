@@ -16,9 +16,9 @@ class StoreManager extends Database
         $this->db = Database::getInstance();
     }
 
-    public function findStoreById($id) 
+    public function findById($id) 
     {
-        $query = 'SELECT id, name, description, DATE_FORMAT(creation_date, "%d/%m/%Y") AS date FROM stores WHERE id = :id';
+        $query = 'SELECT * FROM stores WHERE id = :id';
         $req = $this->db->prepare($query);
         $req->bindParam("id", $id, PDO::PARAM_INT);
         $req->execute();
@@ -28,10 +28,10 @@ class StoreManager extends Database
         return $store;
     }
 
-    public function findAllStores($offset, $limit) 
+    public function findAll($offset, $limit) 
     {
         $stores = [];
-        $query = 'SELECT id, name, description, DATE_FORMAT(creation_date, "%d/%m/%Y") AS date FROM stores ORDER BY creation_date DESC LIMIT :offset, :limit';
+        $query = 'SELECT * FROM stores ORDER BY creation_at DESC LIMIT :offset, :limit';
         $req = $this->db->prepare($query);
         $req->bindParam("offset", $offset, PDO::PARAM_INT);
         $req->bindParam("limit", $limit, PDO::PARAM_INT);
@@ -42,10 +42,10 @@ class StoreManager extends Database
         return $stores;
     }
 
-    public function findAllStoresAjax($offset, $limit) 
+    public function findAllAjax($offset, $limit) 
     {
         $stores = [];
-        $query = 'SELECT id, name, description, DATE_FORMAT(creation_date, "%d/%m/%Y") AS date, ST_AsText(lng_lat) as wkt FROM stores ORDER BY creation_date DESC LIMIT :offset, :limit';
+        $query = 'SELECT id, name, address, postal_code, city, country, ST_AsText(lng_lat) as wkt FROM stores ORDER BY creation_at DESC LIMIT :offset, :limit';
         $req = $this->db->prepare($query);
         $req->bindParam("offset", $offset, PDO::PARAM_INT);
         $req->bindParam("limit", $limit, PDO::PARAM_INT);
@@ -56,23 +56,24 @@ class StoreManager extends Database
         return $stores;
     }
 
-    public function create($name, $description) 
+    public function create($name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat)
     {
-        $query = 'INSERT INTO stores(name, description, type, address, zipCode, city, country, lngLat, creation_date) VALUES (:name, :description, :type, :address, :zipCode, :city, :country, :lngLat, NOW())';
+        $query = 'INSERT INTO stores(name, description, type, address, postal_code, city, country, lng_lat=ST_PointFromText(lng lat), creation_at) VALUES (:name, :description, :type, :address, :postalCode, :city, :country, :lng , :lat, NOW())';
         $stmt = $this->db->prepare($query);
         $stmt->bindParam("name", $name, PDO::PARAM_STR);
         $stmt->bindParam("description", $description, PDO::PARAM_STR);
         $stmt->bindParam("type", $type, PDO::PARAM_STR);
         $stmt->bindParam("address", $address, PDO::PARAM_STR);
-        $stmt->bindParam("zipCode", $zipCode, PDO::PARAM_STR);
+        $stmt->bindParam("postalCode", $postalCode, PDO::PARAM_STR);
         $stmt->bindParam("city", $city, PDO::PARAM_STR);
         $stmt->bindParam("country", $country, PDO::PARAM_STR);
-        $stmt->bindParam("lngLat", $lngLat, PDO::PARAM_STR);
+        $stmt->bindParam("lng", $lng, PDO::PARAM_INT);
+        $stmt->bindParam("lat", $lat, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt;
     }
 
-    public function updateStore($id, $name, $description) 
+    public function update($id, $name, $description) 
     {
         $query = 'UPDATE stores SET name = :name, description = :description WHERE id = :id';
         $stmt = $this->db->prepare($query);
@@ -83,7 +84,7 @@ class StoreManager extends Database
         return $stmt;
     }
 
-    public function deleteStore($id) 
+    public function delete($id) 
     {
         $query = 'DELETE FROM stores WHERE id = :id';
         $stmt = $this->db->prepare($query);

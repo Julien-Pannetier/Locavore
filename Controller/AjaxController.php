@@ -14,7 +14,7 @@ class AjaxController extends Controller
 
     public function getStores()
     {
-        $stores =  $this->storeManager->findAllStoresAjax(0, 1000000);
+        $stores =  $this->storeManager->findAllAjax(0, 1000000);
         echo(json_encode($stores));
     }
 }

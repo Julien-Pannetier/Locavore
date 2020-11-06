@@ -22,11 +22,12 @@ class DashboardController extends Controller
     {
         if($this->isAdmin()){
             $storeManager = new StoreManager;
-            $allStores = $storeManager->findAllStores(0, 1000000);
+            $allStores = $storeManager->findAll(0, 1000000);
             
            $this->render('/dashboard/stores', compact('allStores'), 'admin');
         }
     }
+
 
     private function isAdmin()
     {
@@ -34,7 +35,7 @@ class DashboardController extends Controller
             return true;
         } else {
             $_SESSION['error'] = "Vous n'avez pas les droits nécessaires pour effectuer cette opération !";
-            
+
             $this->render('main/index', []);
         }
     }

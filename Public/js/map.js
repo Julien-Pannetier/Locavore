@@ -44,9 +44,21 @@ class Map
 		this.marker.bindPopup(content);
 	}
 
+	// Suppression de marqueurs
+	removeMarkers()
+	{
+		this.map.removeLayer(this.marker);
+	}
+
 	// Création d'un événement personnalisé
 	addCustomEvent(object, type, callback)
 	{
 		object.on(type, callback);
+	}
+
+	// Redéfinition de la vue
+	setView(lat, lng, zoom)
+	{
+		this.map.setView([lat, lng], zoom);
 	}
 }

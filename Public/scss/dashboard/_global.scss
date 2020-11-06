@@ -58,3 +58,14 @@ a {
     font-weight: 800;
   }
 }
+
+#createStoreMap { 
+  height: 400px;
+  width: 100%;
+  border-top: 3px solid $primary;
+  border-bottom: 3px solid $primary;
+  padding: 30px;
+  margin: 25px auto;
+  background: $white;
+  box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
+}

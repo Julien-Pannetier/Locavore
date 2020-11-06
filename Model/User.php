@@ -8,14 +8,14 @@ class User extends Model
     protected $role;
     protected $firstName;
     protected $lastName;
+    protected $phone;    
     protected $email;
-    protected $phone;
     protected $password;
-    protected $registrationDate;
+    protected $registrationAt;
     protected $confirmationToken;
-    protected $confirmationDate;
+    protected $confirmationAt;
     protected $updateToken;
-    protected $updateDate;
+    protected $updateAt;
 
     /**
      * Constructor
@@ -107,26 +107,6 @@ class User extends Model
     }
 
     /**
-     * Get the value of email
-     */ 
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Set the value of email
-     *
-     * @return  self
-     */ 
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
      * Get the value of phone
      */ 
     public function getPhone()
@@ -142,6 +122,26 @@ class User extends Model
     public function setPhone($phone)
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of email
+     */ 
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set the value of email
+     *
+     * @return  self
+     */ 
+    public function setEmail($email)
+    {
+        $this->email = $email;
 
         return $this;
     }
@@ -167,21 +167,21 @@ class User extends Model
     }
 
     /**
-     * Get the value of registrationDate
+     * Get the value of registrationAt
      */ 
-    public function getRegistrationDate()
+    public function getRegistrationAt()
     {
-        return $this->registrationDate;
+        return $this->registrationAt;
     }
 
     /**
-     * Set the value of registrationDate
+     * Set the value of registrationAt
      *
      * @return  self
      */ 
-    public function setRegistrationDate($registrationDate)
+    public function setRegistrationAt($registrationAt)
     {
-        $this->registrationDate = $registrationDate;
+        $this->registrationAt = $registrationAt;
 
         return $this;
     }
@@ -207,21 +207,21 @@ class User extends Model
     }
 
     /**
-     * Get the value of confirmationDate
+     * Get the value of confirmationAt
      */ 
-    public function getConfirmationDate()
+    public function getConfirmationAt()
     {
-        return $this->confirmationDate;
+        return $this->confirmationAt;
     }
 
     /**
-     * Set the value of confirmationDate
+     * Set the value of confirmationAt
      *
      * @return  self
      */ 
-    public function setConfirmationDate($confirmationDate)
+    public function setConfirmationAt($confirmationAt)
     {
-        $this->confirmationDate = $confirmationDate;
+        $this->confirmationAt = $confirmationAt;
 
         return $this;
     }
@@ -247,21 +247,21 @@ class User extends Model
     }
 
     /**
-     * Get the value of updateDate
+     * Get the value of updateAt
      */ 
-    public function getUpdateDate()
+    public function getUpdateAt()
     {
-        return $this->updateDate;
+        return $this->updateAt;
     }
 
     /**
-     * Set the value of updateDate
+     * Set the value of updateAt
      *
      * @return  self
      */ 
-    public function setUpdateDate($updateDate)
+    public function setUpdateAt($updateAt)
     {
-        $this->updateDate = $updateDate;
+        $this->updateAt = $updateAt;
 
         return $this;
     }

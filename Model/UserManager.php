@@ -43,7 +43,7 @@ class UserManager extends Database
     public function findAllUsers($offset, $limit) 
     {
         $users = [];
-        $query = 'SELECT * FROM users ORDER BY registration_date DESC LIMIT :offset, :limit';
+        $query = 'SELECT * FROM users ORDER BY registration_at DESC LIMIT :offset, :limit';
         $req = $this->db->prepare($query);
         $req->bindParam("offset", $offset, PDO::PARAM_INT);
         $req->bindParam("limit", $limit, PDO::PARAM_INT);
@@ -63,7 +63,7 @@ class UserManager extends Database
      */
     public function createUser($email, $password) 
     {
-        $query = 'INSERT INTO users(email, password, registration_date) VALUES (:email, :password, NOW())';
+        $query = 'INSERT INTO users(email, password, registration_at) VALUES (:email, :password, NOW())';
         $stmt = $this->db->prepare($query);
         $stmt->bindParam("email", $email, PDO::PARAM_STR);
         $stmt->bindParam("password", $password, PDO::PARAM_STR);

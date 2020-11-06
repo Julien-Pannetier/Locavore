@@ -9,21 +9,21 @@ class Store extends Model
     protected $name;
     protected $description;
     protected $type;
-    protected $productId;
     protected $address;
-    protected $zipCode;
+    protected $postalCode;
     protected $city;
     protected $country;
     protected $lngLat;
-    protected $contactId;
+    protected $phone;
+    protected $email;
     protected $timetable;
     protected $website;
     protected $facebook;
     protected $twitter;
     protected $instagram;
     protected $status;
-    protected $creationDate;
-    protected $updateDate;
+    protected $creationAt;
+    protected $updateAt;
 
     /**
      * Constructor
@@ -135,26 +135,6 @@ class Store extends Model
     }
 
     /**
-     * Get the value of productId
-     */ 
-    public function getProductId()
-    {
-        return $this->productId;
-    }
-
-    /**
-     * Set the value of productId
-     *
-     * @return  self
-     */ 
-    public function setProductId($productId)
-    {
-        $this->productId = $productId;
-
-        return $this;
-    }
-
-    /**
      * Get the value of address
      */ 
     public function getAddress()
@@ -175,21 +155,21 @@ class Store extends Model
     }
 
     /**
-     * Get the value of zipCode
+     * Get the value of postalCode
      */ 
-    public function getZipCode()
+    public function getPostalCode()
     {
-        return $this->zipCode;
+        return $this->postalCode;
     }
 
     /**
-     * Set the value of zipCode
+     * Set the value of postalCode
      *
      * @return  self
      */ 
-    public function setZipCode($zipCode)
+    public function setPostalCode($postalCode)
     {
-        $this->zipCode = $zipCode;
+        $this->postalCode = $postalCode;
 
         return $this;
     }
@@ -255,21 +235,41 @@ class Store extends Model
     }
 
     /**
-     * Get the value of contactId
+     * Get the value of phone
      */ 
-    public function getContactId()
+    public function getPhone()
     {
-        return $this->contactId;
+        return $this->phone;
     }
 
     /**
-     * Set the value of contactId
+     * Set the value of phone
      *
      * @return  self
      */ 
-    public function setContactId($contactId)
+    public function setPhone($phone)
     {
-        $this->contactId = $contactId;
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of email
+     */ 
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set the value of email
+     *
+     * @return  self
+     */ 
+    public function setEmail($email)
+    {
+        $this->email = $email;
 
         return $this;
     }
@@ -395,41 +395,41 @@ class Store extends Model
     }
 
     /**
-     * Get the value of creationDate
+     * Get the value of creationAt
      */ 
-    public function getCreationDate()
+    public function getCreationAt()
     {
-        return $this->creationDate;
+        return $this->creationAt;
     }
 
     /**
-     * Set the value of creationDate
+     * Set the value of creationAt
      *
      * @return  self
      */ 
-    public function setCreationDate($creationDate)
+    public function setCreationAt($creationAt)
     {
-        $this->creationDate = $creationDate;
+        $this->creationAt = $creationAt;
 
         return $this;
     }
 
     /**
-     * Get the value of updateDate
+     * Get the value of updateAt
      */ 
-    public function getUpdateDate()
+    public function getUpdateAt()
     {
-        return $this->updateDate;
+        return $this->updateAt;
     }
 
     /**
-     * Set the value of updateDate
+     * Set the value of updateAt
      *
      * @return  self
      */ 
-    public function setUpdateDate($updateDate)
+    public function setUpdateAt($updateAt)
     {
-        $this->updateDate = $updateDate;
+        $this->updateAt = $updateAt;
 
         return $this;
     }

@@ -24,11 +24,9 @@ class StoreController extends Controller
      */
     public function index()
     {
-        $stores =  $this->storeManager->findAllStores(0, 1000000);
+        $stores =  $this->storeManager->findAll(0, 1000000);
         $this->render('store/index', compact('stores'));
     }
-
-
 
     /**
      * Affiche un point de vente
@@ -38,7 +36,7 @@ class StoreController extends Controller
      */
     public function read(int $id)
     {
-        $store = $this->storeManager->findStoreById($id);
+        $store = $this->storeManager->findById($id);
 
         $this->render('store/read', compact('store'));
     }
@@ -49,9 +47,9 @@ class StoreController extends Controller
      * @param integer $id Id du point de vente
      * @return void
      */
-    public function deleteStore(int $id)
+    public function delete(int $id)
     {
-        $this->storeManager->deleteStore($id);
+        $this->storeManager->delete($id);
         
         header('Location: '.$_SERVER['HTTP_REFERER']);
     }
@@ -63,24 +61,27 @@ class StoreController extends Controller
      */
     public function create()
     {
-/*         $name = $_POST['name'];
+        $this->render('store/create', []);
+
+        /* $name = $_POST['name'];
         $description = $_POST['description'];
         $type = $_POST['type'];
         $address = $_POST['address'];
         $zipCode = $_POST['zipCode'];
         $city = $_POST['city'];
         $country = $_POST['country'];
-        $lngLat = $_POST['lngLat'];
+        $lat = $_POST['lat'];
+        $lng = $_POST['lng'];
         if (isset($name) && isset($description) && isset($type) && isset($address) && isset($zipCode) && isset($city) && isset($country) && isset($lngLat)) {
-            $stmt = $this->StoreManager->create($name, $description, $type, $address, $zipCode, $city, $country, $lngLat);
+            $stmt = $this->storeManager->create($name, $description, $type, $address, $zipCode, $city, $country, $lat, $lng);
             if ($stmt === false) {
                 $this->render('store/create', []);
             } else {
                 $this->render('store/', []);
             }
-        } else { */
+        } else {
             $this->render('store/create', []);
-        /* } */
+        } */
     }
 
     /* 
