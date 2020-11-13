@@ -61,27 +61,25 @@ class StoreController extends Controller
      */
     public function create()
     {
-        $this->render('store/create', []);
-
-        /* $name = $_POST['name'];
+        $name = $_POST['name'];
         $description = $_POST['description'];
         $type = $_POST['type'];
         $address = $_POST['address'];
-        $zipCode = $_POST['zipCode'];
+        $postalCode = $_POST['postalCode'];
         $city = $_POST['city'];
         $country = $_POST['country'];
         $lat = $_POST['lat'];
         $lng = $_POST['lng'];
-        if (isset($name) && isset($description) && isset($type) && isset($address) && isset($zipCode) && isset($city) && isset($country) && isset($lngLat)) {
-            $stmt = $this->storeManager->create($name, $description, $type, $address, $zipCode, $city, $country, $lat, $lng);
+        if (isset($name) && isset($description) && isset($type) && isset($address) && isset($postalCode) && isset($city) && isset($country) && isset($lat) && isset($lng)) {
+            $stmt = $this->storeManager->create($name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat);
             if ($stmt === false) {
                 $this->render('store/create', []);
             } else {
-                $this->render('store/', []);
+                $this->render('dashboard', []);
             }
         } else {
             $this->render('store/create', []);
-        } */
+        }
     }
 
     /* 

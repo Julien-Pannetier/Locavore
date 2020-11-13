@@ -20,6 +20,8 @@
                 <div class="col-lg-8 col-md-10 mx-auto contact-form">
                     <form name="registerForm" id="registerForm" action="" method="POST" novalidate>
                         <h2 class="section__title text-center">Créer votre compte</h2>
+                        {{ form.text('lastName', 'Nom :', 'Veuillez entrer votre nom.') }}
+                        {{ form.text('firstName', 'Prénom :', 'Veuillez entrer votre prénom.') }}
                         {{ form.email('email', 'Adresse de messagerie :', 'Veuillez entrer votre adresse de messagerie.') }}
                         {{ form.password('password', 'Mot de passe :', 'Veuillez entrer votre mot de passe.') }}
                         <br>
@@ -30,10 +32,10 @@
                     </form>
                     <hr>
                     <div class="text-center">
-                      <a class="small" href="login">Déjà inscrit ? Se connecter !</a>
+                      <a class="small" href="user/login">Déjà inscrit ? Se connecter !</a>
                     </div>
                     <div class="text-center">
-                      <a class="small" href="forgotPassword">Mot de passe oublié ?</a>
+                      <a class="small" href="user/forgotPassword">Mot de passe oublié ?</a>
                     </div>
                 </div>
             </div>

@@ -30,7 +30,7 @@
                         {{ form.textarea('description', 'Description :', 'Veuillez entrer une description.') }}
                         {{ form.select('type', 'Type :', [{"value": ""}, {"value": "Vente à la ferme"}, {"value": "Marchés"}, {"value": "Drive fermier"}], 'Veuillez entrer un type de point de vente.') }}
                         {{ form.text('address', 'Adresse :', 'Veuillez entrer l\'adresse du point de vente.') }}
-                        {{ form.text('zipCode', 'Code postal :', 'Veuillez entrer le code postal.') }}
+                        {{ form.text('postalCode', 'Code postal :', 'Veuillez entrer le code postal.') }}
                         {{ form.text('city', 'Ville :', 'Veuillez entrer la ville.') }}
                         {{ form.text('country', 'Pays :', 'Veuillez entrer le pays.') }}
                         <div id="createStoreMap"></div>
@@ -41,11 +41,10 @@
                         {{ form.checkbox('Jus', 'Jus / Boissons sans alcool') }}
                         {{ form.checkbox('Lait', 'Lait, beurre, glace') }} #}
 
-
                         <br>
                         <div id="success"></div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary " id="sendMessageButton">Soumettre le point de vente</button>
+                            <button type="submit" class="btn btn-primary " id="createStoreButton">Soumettre le point de vente</button>
                         </div>
                     </form>
                 </div>

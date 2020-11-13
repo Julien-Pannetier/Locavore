@@ -1,58 +1,36 @@
 class Marker
 {
 
-	constructor(map) 
+	constructor(map)
 	{
         this.map = map; // Objet carte
+        this.marker;
 
         this.eventListener();
 	}
 
     eventListener()
     {
-        this.map.addCustomEvent(this.map.map, 'click', this.mapClick.bind(this));
-        document.querySelector('#city').addEventListener("blur", this.getCity.bind(this));
+        this.map.addCustomEvent(this.map.map, 'click', this.addMarkerOnMapClick.bind(this));
+        document.querySelector('#city').addEventListener("blur", this.addMarkerByAddress.bind(this));
     }
 
-	// Récupération des coordonnées du point de vente
-	mapClick(e) 
+    // Ajout d'un marker au clic sur la carte
+	addMarkerOnMapClick(e)
 	{
         // Récupération des coordonnées du clic
         let position = e.latlng;
+        let lat = position.lat;
+        let lng = position.lng;
 
-        // Suppression des marqueurs
-        if(this.map.marker != undefined){
-            this.map.removeMarkers();
-        }
-
-        // Personnalisation de l'icône du marqueur
-        let icon = L.icon({
-            iconUrl: '/public/assets/img/mapMarkerDarken.png',
-            iconSize: [50, 50],
-            iconAnchor: [25, 50],
-        });
-
-        // Ajout du marqueur à la carte
-        this.map.addMarkers(position.lat, position.lng, {
-			draggable: true,
-            icon: icon
-        });
-
-        // Affichage des coordonnées dans le formulaire
-        document.querySelector("#lat").value = position.lat;
-        document.querySelector("#lng").value = position.lng;
-
-        /* MARKER.on('dragend', function(e){
-            let position = e.target.getLatLng();
-            document.querySelector("#lat").value = position.lat;
-            document.querySelector("#lng").value = position.lng;
-        }); */
+        this.addMarker(lat, lng);
     }
 
-    getCity()
+    // Ajout d'un marqueur à l'adresse indiquée
+    addMarkerByAddress()
     {
         // Fabrication de l'adresse
-        let address = document.querySelector("#address").value + ", " + document.querySelector("#zipCode").value + ", " + document.querySelector("#city").value;
+        let address = document.querySelector("#address").value + ", " + document.querySelector("#postalCode").value + ", " + document.querySelector("#city").value;
         
         // Initialisation de la requête Ajax
         let xmlhttp = new XMLHttpRequest
@@ -65,22 +43,7 @@ class Marker
                     let lat = response[0]["lat"];
                     let lng = response[0]["lon"];
 
-                    // Personnalisation de l'icône du marqueur
-                    let icon = L.icon({
-                        iconUrl: '/public/assets/img/mapMarkerDarken.png',
-                        iconSize: [50, 50],
-                        iconAnchor: [25, 50],
-                    });
-
-                    // Ajout du marqueur à la carte
-                    this.map.addMarkers(lat, lng, {
-			            draggable: true,
-                        icon: icon
-                    });
-                    
-                    // Affichage des coordonnées dans le formulaire
-                    document.querySelector("#lat").value = lat;
-                    document.querySelector("#lng").value = lng;
+                    this.addMarker(lat, lng);
 
                     this.map.setView(lat, lng, 16);
                 }
@@ -90,6 +53,46 @@ class Marker
         // Ouverture de la requête
         xmlhttp.open("get", `https://nominatim.openstreetmap.org/search?q=${address}&format=json&addressdetails=1&limit=1&polygon_svg=1`);
 
+        // Envoi de la requête
         xmlhttp.send();
+    }
+
+    // Ajout d'un marker à la carte
+    addMarker(lat, lng)
+    {
+        // Suppression des marqueurs
+        if(this.map.marker != undefined){
+            this.map.removeMarkers();
+        }
+
+        // Personnalisation du marqueur
+        let icon = L.icon({
+            iconUrl: '/public/assets/img/mapMarkerDarken.png',
+            iconSize: [50, 50],
+            iconAnchor: [25, 50],
+        });
+
+        // Ajout du marqueur à la carte
+        this.marker = this.map.addMarkers(lat, lng, {
+			draggable: true,
+            icon: icon
+        });
+
+        this.getCurrentPosition(lat, lng);
+        this.marker.on('dragend', this.dragEnd.bind(this));
+    }
+
+    // Affichage des coordonnées dans le formulaire
+    getCurrentPosition(lat, lng)
+    {
+        document.querySelector("#lat").value = lat;
+        document.querySelector("#lng").value = lng;
+    }
+
+    // Correction des coordonnées au déplacement du marqueur
+    dragEnd(e)
+    {
+        let position = e.target.getLatLng();
+        this.getCurrentPosition(position.lat, position.lng);
     }
 }

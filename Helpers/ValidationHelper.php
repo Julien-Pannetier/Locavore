@@ -2,9 +2,19 @@
 
 namespace Helpers;
 
-class ValidationHelper {
+class Helpers {
 
-    public static function getId($getArray) {
+    public static function isConnected() 
+    {
+        if(!isset($_SESSION['user'])){
+            $_SESSION['flash']['danger'] = "Vous n'avez pas les droits suffisants pour accéder à cette page.";
+            //$this->render('user/login', []);
+        }
+    }
+
+
+    public static function getId($getArray) 
+    {
         $id = null;
         if (array_key_exists('id', $getArray) && !empty($getArray['id']) && is_numeric($getArray['id']) && $getArray['id'] > 0) {
             $id = intval($getArray['id']);
@@ -12,7 +22,8 @@ class ValidationHelper {
         return $id;
     }
 
-    public static function getName($post) {
+    public static function getName($post) 
+    {
         $name = null;
         if (isset($post) && array_key_exists('name', $post) && isset($post['name'])) {
             $name = $post['name'];
@@ -20,7 +31,8 @@ class ValidationHelper {
         return $name;
     }
 
-    public static function getDescription($post) {
+    public static function getDescription($post) 
+    {
         $description = null;
         if (isset($post) && array_key_exists('description', $post) && isset($post['description'])) {
             $description = $post['description'];
@@ -28,7 +40,8 @@ class ValidationHelper {
         return $description;
     }
 
-    public static function getEmailInPost($post) {
+    public static function getEmailInPost($post) 
+    {
         $email = null;
         if (isset($post) && array_key_exists('email', $post) && isset($post['email'])) {
             $email = $post['email'];

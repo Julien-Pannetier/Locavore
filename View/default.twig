@@ -52,82 +52,31 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav">
-                        <li>
-                            <a class="btn btn-outline-primary" href="/user/register">S'inscrire</a>
-                        </li>
-                        <li>
-                            <a class="btn btn-outline-primary" href="/user/login">Se connecter</a>
-                        </li>
-                    </ul>
+{#                         <?php if (isset($_SESSION['user']) AND !empty($_SESSION['user']['id'])): ?>
+                            <li>
+                                <a class="btn btn-outline-primary" href="/user/logout">Se déconnecter</a>
+                            </li>
+                        <?php else: ?> #}
+                            <li>
+                                <a class="btn btn-outline-primary" href="/user/register">S'inscrire</a>
+                            </li>
+                            <li>
+                                <a class="btn btn-outline-primary" href="/user/login">Se connecter</a>
+                            </li>
+{#                         <?php endif; ?>
+ #}                    </ul>
                 </div>
             </div>
         </nav><!-- End Navigation -->
 
-
-    {# <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">Les points de ventes</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Accueil</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/stores">Liste des points de vente</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav al-auto">
-                <?php if (isset($_SESSION['user']) && !empty($_SESSION['user']['id'])) : ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/users/profil">Profil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/users/logout">Deconnexion</a>
-                    </li>
-                <?php else : ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/users/register">Inscription</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/users/login">Connexion</a>
-                    </li>
-                <?php endif; ?>
-            </ul>
-        </div>
-    </nav> #}
-
-{#     <div class="container">
-        {% if _SESSION['error'] %}
-            <div class="alert alert-danger" role="alert">
-                {{ _SESSION['error'] }}
-                <?php unset($_SESSION['error']); ?>
-            </div>
-        {% endif %}
-
-        {% if app.session %}
-            <div class="alert alert-danger" role="alert">
-                {{ _SESSION['error'] }}
-                <?php unset($_SESSION['error']); ?>
-            </div>
-        {% endif %}
-
-        <?php if (!empty($_SESSION['error'])) : ?>
-            <div class="alert alert-danger" role="alert">
-                <?php echo $_SESSION['error'];
-                unset($_SESSION['error']); ?>
-            </div>
-        <?php endif; ?>
-        <?php if (!empty($_SESSION['message'])) : ?>
-            <div class="alert alert-success" role="alert">
-                <?php echo $_SESSION['message'];
-                unset($_SESSION['message']); ?>
-            </div>
-        <?php endif; ?>
-        {% block content %}{% endblock %}
-    </div> #}
+{#         <?php if(isset($_SESSION['flash'])): ?>
+            <?php foreach($_SESSION['flash'] as $type => $message): ?>
+                <div class="alert alert-<?= $type; ?>">
+                    <?= $message; ?>
+                </div>                    
+            <?php endforeach; ?>
+            <?php unset($_SESSION['flash']); ?>
+        <?php endif; ?>  #}           
 
         {% block content %}{% endblock %}
 

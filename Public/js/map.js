@@ -15,6 +15,7 @@ class Map
 	addMap()
 	{
 		// Initialisation de la carte
+		console
 		this.map = L.map(this.mapId).setView(this.latLng, this.zoom);
 		// Chargement des "tuiles"
 		L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
@@ -29,6 +30,7 @@ class Map
 	{
 		this.marker = L.marker([lat, lng], icon);
 		this.markerCluster.addLayer(this.marker);
+		return this.marker;
 	}
 
 	// Regroupement des marqueurs
@@ -44,10 +46,11 @@ class Map
 		this.marker.bindPopup(content);
 	}
 
-	// Suppression de marqueurs
+	// Suppression des marqueurs
 	removeMarkers()
 	{
-		this.map.removeLayer(this.marker);
+		this.markerCluster.removeLayer(this.marker);
+		this.marker = null;
 	}
 
 	// Création d'un événement personnalisé

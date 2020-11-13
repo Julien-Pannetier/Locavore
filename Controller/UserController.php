@@ -18,6 +18,49 @@ class UserController extends Controller
     }
 
     /**
+     * Inscription des utilisateurs
+     * 
+     *  @return void
+     */
+    public function register()
+    {
+        if(!empty($_POST)){
+            $errors = array();
+
+            if(empty($_POST['lastName'])){
+                $errors['lastName'] = "Veuillez entrer votre nom.";
+            }
+            if(empty($_POST['firstName'])){
+                $errors['firstName'] = "Veuillez entrer votre prénom.";
+            }
+            if(empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
+                $errors['email'] = "Veuillez entrer une adresse de messagerie valide.";
+            } else {
+                $email = strip_tags($_POST['email']);
+                $user = $this->userManager->findByEmail($email);
+                if($user){
+                    $errors['email'] = "Cette adresse de messagerie est déjà utilisée.";
+                }
+            }
+            if(empty($_POST['password']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
+                $errors['password'] = "Veuillez entrer un mot de passe valide.";
+            }
+
+            if(empty($errors)){
+                $lastName = strip_tags($_POST['lastName']);
+                $firstName = strip_tags($_POST['firstName']);
+                $email = strip_tags($_POST['email']);
+                $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+                $user = $this->userManager->create($lastName, $firstName, $email, $password);
+
+                $_SESSION['flash']['success'] = "Votre compte a bien été créé.";
+                $this->render('user/login', []);
+            }
+        }
+        $this->render('user/register', []);
+    }
+
+    /**
      * Connexion des utilisateurs
      *
      * @param [type] $email
@@ -26,67 +69,17 @@ class UserController extends Controller
      */
     public function login() 
     {
-        if(Form::validate($_POST, ['email', 'password'])){
+        if(!empty($_POST) && !empty($_POST['username']) && !empty($_POST['password'])){
             $user = $this->userManager->login(strip_tags($_POST['email']), strip_tags($_POST['password']));
             if (!$user) {
-                //Functions::flash('Identifiant / mot de passe incorrect !', 'error');
+                $_SESSION['flash']['danger'] = "Identifiant / mot de passe incorrect.";
                 $this->render('user/login', []);
             } else {
-                $this->render('dashboard', []);
+                $_SESSION['flash']['success'] = "Vous êtes bien connecté.";
+                $this->render('dashboard/index', []);
             }
         }
         $this->render('user/login', []);
-
-
-/*      if(Form::validate($_POST, ['email', 'password'])){   
-        //$users = new Users;
-        $userArray = $this->userManager->findUserByEmail(strip_tags($_POST['email']));
-
-        if(!$userArray){
-            $_SESSION['error'] = "Identifiant et/ou mot de passe incorrect !";
-            header('Location: /user/login');
-            exit;
-        }
-
-        $user = $this->userManager->hydrate($userArray);
-
-        if(password_verify($_POST['password'], $user->getPassword())){
-            $user->setSession();
-            header('location: /user/profil');
-            exit;
-        } else {
-            $_SESSION['error'] = "Identifiant et/ou mot de passe incorrect !";
-            header('Location: /user/login');
-            exit;
-        } */
-    }
-
-    /**
-     * Inscription des utilisateurs
-     * 
-     *  @return void
-     */
-    public function register()
-    {
-        if(Form::validate($_POST, ['email', 'password'])){
-            $email = strip_tags($_POST['email']);
-            $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-
-            $user = $this->userManager->createUser($email, $password);
-            $this->render('user/login', []);
-        }
-        
-        $form = new Form;
-
-        $form->startForm()
-            ->addLabelFor('email', 'E-mail :')
-            ->addInput('email', 'email', ['id' => 'email', 'class' => 'form-control'])
-            ->addLabelFor('password', 'Mot de passe :')
-            ->addInput('password', 'password', ['id' => 'password', 'class' => 'form-control'])
-            ->addButton('S\'inscrire', ['class' => 'btn btn-primary'])
-            ->endForm();
-    
-        $this->render('user/register', ['registerForm' => $form->create()]);
     }
 
     /**
@@ -97,10 +90,26 @@ class UserController extends Controller
     public function logout()
     {
         unset($_SESSION['user']);
+        $_SESSION['flash']['success'] = "Vous avez été déconnecté.";
         $this->render('main/index', []);
     }
 
     
+
+    public function updatePassword()
+    {
+        if(empty($_POST['password']) || $_POST['password'] != $_POST['passwordConfirm']){
+            $_SESSION['flash']['danger'] = "Les mots de passe ne correspondent pas.";
+        } else {
+            $userId = $_SESSION['user']->id;
+            $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+            $stmt = $this->userManager->updatePassword($userId, $password);
+            $_SESSION['flash']['success'] = "Votre mot de passe a bien été modifié";
+            $this->render('dashbord/index', []);
+        }
+    }
+
+
     public function forgotPassword()
     {
         $this->render('user/forgotPassword', []);

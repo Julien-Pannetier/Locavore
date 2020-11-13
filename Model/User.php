@@ -6,8 +6,8 @@ class User extends Model
 {
     protected $id;
     protected $role;
+    protected $lastName;    
     protected $firstName;
-    protected $lastName;
     protected $phone;    
     protected $email;
     protected $password;
@@ -67,26 +67,6 @@ class User extends Model
     }
 
     /**
-     * Get the value of firstName
-     */ 
-    public function getFirstName()
-    {
-        return $this->firstName;
-    }
-
-    /**
-     * Set the value of firstName
-     *
-     * @return  self
-     */ 
-    public function setFirstName($firstName)
-    {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    /**
      * Get the value of lastName
      */ 
     public function getLastName()
@@ -102,6 +82,26 @@ class User extends Model
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of firstName
+     */ 
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * Set the value of firstName
+     *
+     * @return  self
+     */ 
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
 
         return $this;
     }
