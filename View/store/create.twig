@@ -37,9 +37,9 @@
                         {{ form.text('lat', 'Latitude :', 'Veuillez entrer les coordonnées géographiques.') }}
                         {{ form.text('lng', 'Longitude :', 'Veuillez entrer les coordonnées géographiques.') }}
 
-                        {# {{ form.checkbox('Alcool', 'Alcool, cidre, bière') }}
-                        {{ form.checkbox('Jus', 'Jus / Boissons sans alcool') }}
-                        {{ form.checkbox('Lait', 'Lait, beurre, glace') }} #}
+                        {{ form.checkbox('Alcool', 'checkbox[]', 'Alcool, cidre, bière', '1') }}
+                        {{ form.checkbox('Jus', 'checkbox[]', 'Jus / Boissons sans alcool', '2') }}
+                        {{ form.checkbox('Infusion', 'checkbox[]', 'Thé / infusion', '3') }}
 
                         <br>
                         <div id="success"></div>

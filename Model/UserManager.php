@@ -138,6 +138,8 @@ class UserManager extends Database
         if($user AND password_verify($password, $user->password)) {
             $_SESSION['user'] = [
                         'id' => $user->id,
+                        'lastName' => $user->last_name,
+                        'firstName' => $user->first_name,
                         'role' => $user->role,
                         'email' => $user->email
                     ];

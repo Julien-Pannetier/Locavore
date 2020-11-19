@@ -58,7 +58,8 @@ class StoreManager extends Database
 
     public function create($name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat)
     {
-        $query = "INSERT INTO stores(name, description, type, address, postal_code, city, country, lng_lat, creation_at) VALUES (:name, :description, :type, :address, :postalCode, :city, :country, POINT(:lng, :lat), NOW())";
+        $wkt = "POINT(".$lng." ".$lat.")";
+        $query = "INSERT INTO stores(name, description, type, address, postal_code, city, country, lng_lat, creation_at) VALUES (:name, :description, :type, :address, :postalCode, :city, :country, ST_GeomFromText(:wkt), NOW())";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam("name", $name, PDO::PARAM_STR);
         $stmt->bindParam("description", $description, PDO::PARAM_STR);
@@ -67,8 +68,7 @@ class StoreManager extends Database
         $stmt->bindParam("postalCode", $postalCode, PDO::PARAM_STR);
         $stmt->bindParam("city", $city, PDO::PARAM_STR);
         $stmt->bindParam("country", $country, PDO::PARAM_STR);
-        $stmt->bindParam("lng", $lngLat, PDO::PARAM_STR);
-        $stmt->bindParam("lat", $lat, PDO::PARAM_STR);
+        $stmt->bindParam("wkt", $wkt, PDO::PARAM_STR);
         $stmt->execute();
         return $stmt;
     }
@@ -91,5 +91,11 @@ class StoreManager extends Database
         $stmt->bindParam("id", $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt;
+    }
+
+    public function lastInsertId($name = null)
+    {
+        $id = $this->db->lastInsertId();
+        return $id;
     }
 }

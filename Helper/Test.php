@@ -2,7 +2,8 @@
 
 namespace Helpers;
 
-class Helpers {
+class Helper
+{
 
     public static function isConnected() 
     {

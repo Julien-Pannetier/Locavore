@@ -2,9 +2,9 @@
 
 namespace Controller;
 
-use App\Form;
-use Model\UserManager;
 use Controller\Controller;
+use Model\UserManager;
+use Helper\Validator;
 
 class UserController extends Controller
 {
@@ -15,6 +15,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->userManager = new UserManager;
+        $this->validator = new Validator($_POST);
     }
 
     /**
@@ -23,30 +24,19 @@ class UserController extends Controller
      *  @return void
      */
     public function register()
-    {
+    { 
+        $errors = array();
         if(!empty($_POST)){
-            $errors = array();
+            $this->validator->isText('lastName', "Veuillez entrer votre nom.");
+            $this->validator->isText('firstName', "Veuillez entrer votre prénom.");
+            $this->validator->isEmail('email', "Veuillez entrer une adresse de messagerie valide.");
+            if($this->validator->isValid()){
+                $user = $this->userManager->findByEmail(strip_tags($_POST['email']));
+                $this->validator->isUniq('email', $user,"Cette adresse de messagerie est déjà utilisée.");           
+            }
+            $this->validator->isPassword('password', "Veuillez entrer un mot de passe valide.");
 
-            if(empty($_POST['lastName'])){
-                $errors['lastName'] = "Veuillez entrer votre nom.";
-            }
-            if(empty($_POST['firstName'])){
-                $errors['firstName'] = "Veuillez entrer votre prénom.";
-            }
-            if(empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
-                $errors['email'] = "Veuillez entrer une adresse de messagerie valide.";
-            } else {
-                $email = strip_tags($_POST['email']);
-                $user = $this->userManager->findByEmail($email);
-                if($user){
-                    $errors['email'] = "Cette adresse de messagerie est déjà utilisée.";
-                }
-            }
-            if(empty($_POST['password']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
-                $errors['password'] = "Veuillez entrer un mot de passe valide.";
-            }
-
-            if(empty($errors)){
+            if($this->validator->isValid()){
                 $lastName = strip_tags($_POST['lastName']);
                 $firstName = strip_tags($_POST['firstName']);
                 $email = strip_tags($_POST['email']);
@@ -55,9 +45,11 @@ class UserController extends Controller
 
                 $_SESSION['flash']['success'] = "Votre compte a bien été créé.";
                 $this->render('user/login', []);
+            } else {
+                $errors = $this->validator->getErrors();
             }
         }
-        $this->render('user/register', []);
+        $this->render('user/register', compact('errors'));
     }
 
     /**
@@ -69,14 +61,14 @@ class UserController extends Controller
      */
     public function login() 
     {
-        if(!empty($_POST) && !empty($_POST['username']) && !empty($_POST['password'])){
+        if(!empty($_POST) && !empty($_POST['email']) && !empty($_POST['password'])){
             $user = $this->userManager->login(strip_tags($_POST['email']), strip_tags($_POST['password']));
             if (!$user) {
                 $_SESSION['flash']['danger'] = "Identifiant / mot de passe incorrect.";
                 $this->render('user/login', []);
             } else {
                 $_SESSION['flash']['success'] = "Vous êtes bien connecté.";
-                $this->render('dashboard/index', []);
+                $this->render('user/dashboard', []);
             }
         }
         $this->render('user/login', []);
@@ -94,7 +86,6 @@ class UserController extends Controller
         $this->render('main/index', []);
     }
 
-    
 
     public function updatePassword()
     {
@@ -105,7 +96,7 @@ class UserController extends Controller
             $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
             $stmt = $this->userManager->updatePassword($userId, $password);
             $_SESSION['flash']['success'] = "Votre mot de passe a bien été modifié";
-            $this->render('dashbord/index', []);
+            $this->render('dashbord', []);
         }
     }
 
@@ -113,5 +104,12 @@ class UserController extends Controller
     public function forgotPassword()
     {
         $this->render('user/forgotPassword', []);
+    }
+
+
+    public function dashboard()
+    {
+        
+        $this->render('user/dashboard', []);
     }
 }

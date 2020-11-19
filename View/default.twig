@@ -52,31 +52,22 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav">
-{#                         <?php if (isset($_SESSION['user']) AND !empty($_SESSION['user']['id'])): ?>
+                        {% if session.user %}
                             <li>
                                 <a class="btn btn-outline-primary" href="/user/logout">Se déconnecter</a>
                             </li>
-                        <?php else: ?> #}
+                        {% else %}
                             <li>
                                 <a class="btn btn-outline-primary" href="/user/register">S'inscrire</a>
                             </li>
                             <li>
                                 <a class="btn btn-outline-primary" href="/user/login">Se connecter</a>
                             </li>
-{#                         <?php endif; ?>
- #}                    </ul>
+                        {% endif %}
+                    </ul>
                 </div>
             </div>
         </nav><!-- End Navigation -->
-
-{#         <?php if(isset($_SESSION['flash'])): ?>
-            <?php foreach($_SESSION['flash'] as $type => $message): ?>
-                <div class="alert alert-<?= $type; ?>">
-                    <?= $message; ?>
-                </div>                    
-            <?php endforeach; ?>
-            <?php unset($_SESSION['flash']); ?>
-        <?php endif; ?>  #}           
 
         {% block content %}{% endblock %}
 

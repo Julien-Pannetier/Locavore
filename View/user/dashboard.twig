@@ -1,0 +1,76 @@
+{% extends 'dashboard.twig' %}
+{% import 'form.twig' as form %}
+
+{% block description %}
+    Description
+{% endblock %}
+{% block author %}
+    Auteur
+{% endblock %}
+{% block title %}
+    Title
+{% endblock %}
+
+{% block content %}
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Mon profil</h1>
+    </div>
+
+    <!-- ======= Profil Section ======= -->
+    <section id="profil" class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto contact-form">
+                    <form name="profilForm" id="profilForm" action="" method="POST" novalidate>
+                        {{ form.text('lastName', 'Nom :', 'Veuillez entrer votre nom.') }}
+                        {{ form.text('firstName', 'Prénom :', 'Veuillez entrer votre prénom.') }}
+                        {{ form.email('email', 'Adresse de messagerie :', 'Veuillez entrer votre adresse de messagerie.') }}
+                        {{ form.text('phone', 'Téléphone :', 'Veuillez entrer votre numéro de téléphone.') }}
+                        <br>
+                        <div id="success"></div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary" id="profilButton">Modifier</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section><!-- End Profil Section -->
+
+    <!-- ======= Profil Section ======= -->
+    <section id="profil" class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto contact-form">
+                    <form name="profilForm" id="profilForm" action="" method="POST" novalidate>
+                        <h2 class="section__title text-center">Changer de mot de passe</h2>
+                        {{ form.password('password', 'Nouveau mot de passe :', 'Veuillez entrer un mot de passe.') }}
+                        {{ form.password('passwordConfirm', 'Confirmer le mot de passe :', 'Veuillez confirmer votre mot de passe.') }}
+                        <br>
+                        <div id="success"></div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary" id="profilButton">Changer de mot de passse</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section><!-- End Profil Section -->
+
+    <!-- ======= Profil Section ======= -->
+    <section id="profil" class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto contact-form">
+                    <h2 class="section__title text-center">Supprimer le compte</h2>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-danger" id="profilButton">Supprimer mon compte</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- End Profil Section -->
+
+{% endblock %}

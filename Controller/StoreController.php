@@ -4,6 +4,7 @@ namespace Controller;
 
 use Model\StoreManager;
 use Controller\Controller;
+use Model\StoresProductsFamilyManager;
 
 class StoreController extends Controller
 {
@@ -14,6 +15,7 @@ class StoreController extends Controller
     public function __construct()
     {
         $this->storeManager = new StoreManager();
+        $this->storesProductsFamilyManager = new StoresProductsFamilyManager();
     }
 
 
@@ -61,25 +63,36 @@ class StoreController extends Controller
      */
     public function create()
     {
-        $name = $_POST['name'];
-        $description = $_POST['description'];
-        $type = $_POST['type'];
-        $address = $_POST['address'];
-        $postalCode = $_POST['postalCode'];
-        $city = $_POST['city'];
-        $country = $_POST['country'];
-        $lat = $_POST['lat'];
-        $lng = $_POST['lng'];
-        if (isset($name) && isset($description) && isset($type) && isset($address) && isset($postalCode) && isset($city) && isset($country) && isset($lat) && isset($lng)) {
-            $stmt = $this->storeManager->create($name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat);
-            if ($stmt === false) {
-                $this->render('store/create', []);
+        if(!empty($_POST)){
+            $name = $_POST['name'];
+            $description = $_POST['description'];
+            $type = $_POST['type'];
+            $address = $_POST['address'];
+            $postalCode = $_POST['postalCode'];
+            $city = $_POST['city'];
+            $country = $_POST['country'];
+            $lat = $_POST['lat'];
+            $lng = $_POST['lng'];
+            if (isset($name) && isset($description) && isset($type) && isset($address) && isset($postalCode) && isset($city) && isset($country) && isset($lat) && isset($lng)) {
+                $stmt = $this->storeManager->create($name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat);
+                $storeId = $this->storeManager->lastInsertId();
+                $products = $_POST['checkbox'];
+                foreach($products as $productId){
+                    var_dump($productId);
+                    var_dump($storeId);
+                    //$this->storesProductsFamilyManager->create($productId, $storeId);
+                }
+                die();
+                if ($stmt === false) {
+                    $this->render('store/create', []);
+                } else {
+                    $this->render('dashboard', []);
+                }
             } else {
-                $this->render('dashboard', []);
+                $this->render('store/create', []);
             }
-        } else {
-            $this->render('store/create', []);
         }
+        $this->render('store/create', []);
     }
 
     /* 
@@ -114,7 +127,6 @@ class StoreController extends Controller
             $this->render('user/login', []);
         }
     } */
-}
 
     /**
      * Modifie un point de vente
@@ -187,5 +199,5 @@ class StoreController extends Controller
             header('Location: /users/login');
             exit;
         }
-    }
-} */
+    }*/
+} 

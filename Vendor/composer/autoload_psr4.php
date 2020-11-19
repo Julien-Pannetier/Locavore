@@ -10,6 +10,7 @@ return array(
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Polyfill\\Ctype\\' => array($vendorDir . '/symfony/polyfill-ctype'),
     'Model\\' => array($baseDir . '/Model'),
+    'Helper\\' => array($baseDir . '/Helper'),
     'Controller\\' => array($baseDir . '/Controller'),
     'App\\' => array($baseDir . '/App'),
 );

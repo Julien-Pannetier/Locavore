@@ -26,6 +26,25 @@
 
     <body>
 
+        
+{#         {% if session.flash %}
+            <div class="alert alert-danger" role="alert">
+                This is a danger alert—check it out!
+            </div>
+        {% endif %} #}
+
+        {% if errors %}
+            <div class="alert alert-danger">
+                <p>Vous n'avez pas rempli le formulaire correctement :</p>
+                <ul>        
+                    {% for error in errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+
         {% block content %}{% endblock %}
 
         <!-- Bootstrap core JavaScript -->
