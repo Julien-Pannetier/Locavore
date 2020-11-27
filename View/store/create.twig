@@ -37,9 +37,30 @@
                         {{ form.text('lat', 'Latitude :', 'Veuillez entrer les coordonnées géographiques.') }}
                         {{ form.text('lng', 'Longitude :', 'Veuillez entrer les coordonnées géographiques.') }}
 
-                        {{ form.checkbox('Alcool', 'checkbox[]', 'Alcool, cidre, bière', '1') }}
+                        {{ form.checkbox('Alcool', 'checkbox[]', 'Alcool / cidre / bière', '1') }}
                         {{ form.checkbox('Jus', 'checkbox[]', 'Jus / Boissons sans alcool', '2') }}
                         {{ form.checkbox('Infusion', 'checkbox[]', 'Thé / infusion', '3') }}
+                        {{ form.checkbox('Lait', 'checkbox[]', 'Lait / beurre / glace', '4') }}
+                        {{ form.checkbox('Fromage', 'checkbox[]', 'Fromage', '5') }}
+                        {{ form.checkbox('Œufs', 'checkbox[]', 'Œufs', '6') }}
+                        {{ form.checkbox('Farine', 'checkbox[]', 'Farine', '7') }}
+                        {{ form.checkbox('Légumes', 'checkbox[]', 'Légumes', '8') }}
+                        {{ form.checkbox('Fruits', 'checkbox[]', 'Fruits', '9') }}
+                        {{ form.checkbox('Bœuf', 'checkbox[]', 'Viande de bœuf / veau', '10') }}
+                        {{ form.checkbox('Mouton', 'checkbox[]', 'Viande d\'agneau / mouton / chèvre', '11') }}
+                        {{ form.checkbox('Volaille', 'checkbox[]', 'Viande de volaille / lapin', '12') }}
+                        {{ form.checkbox('Porc', 'checkbox[]', 'Viande de porc / charcuterie', '13') }}
+                        {{ form.checkbox('Miel', 'checkbox[]', 'Miel', '14') }}
+                        {{ form.checkbox('Escargots', 'checkbox[]', 'Escargots', '15') }}
+                        {{ form.checkbox('Poisson', 'checkbox[]', 'Poisson / fruit de mer / algues', '16') }}
+                        {{ form.checkbox('Aromates', 'checkbox[]', 'Aromates / épices', '17') }}
+
+                        {{ form.text('phone', 'Téléphone :') }}
+                        {{ form.text('email', 'Adresse électronique :') }}
+                        {{ form.text('website', 'Site internet :') }}
+                        {{ form.text('facebook', 'Page Facebook :') }}
+                        {{ form.text('twitter', 'Page Twitter :') }}
+                        {{ form.text('instagram', 'Page Instagram :') }}
 
                         <br>
                         <div id="success"></div>

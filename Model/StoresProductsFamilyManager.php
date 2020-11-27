@@ -31,4 +31,19 @@ class StoresProductsFamilyManager extends Database
         $stmt->execute();
         return $stmt;
     }
+
+    /**
+     * Supprime les liaisons entre la table stores et la table products_family en fonction de l'id du point de vente 
+     *
+     * @param [type] $storeId
+     * @return void
+     */
+    public function delete($storeId)
+    {
+        $query = 'DELETE FROM stores_products_family WHERE store_id = :storeId';
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam("storeId", $storeId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt;
+    }
 }

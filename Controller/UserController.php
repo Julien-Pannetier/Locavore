@@ -31,7 +31,7 @@ class UserController extends Controller
             $this->validator->isText('firstName', "Veuillez entrer votre prénom.");
             $this->validator->isEmail('email', "Veuillez entrer une adresse de messagerie valide.");
             if($this->validator->isValid()){
-                $user = $this->userManager->findByEmail(strip_tags($_POST['email']));
+                $user = $this->userManager->findOneByEmail(strip_tags($_POST['email']));
                 $this->validator->isUniq('email', $user,"Cette adresse de messagerie est déjà utilisée.");           
             }
             $this->validator->isPassword('password', "Veuillez entrer un mot de passe valide.");

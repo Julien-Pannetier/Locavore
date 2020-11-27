@@ -2,6 +2,7 @@
 
 namespace Controller;
 
+use Helper\Validator;
 use Model\StoreManager;
 use Controller\Controller;
 use Model\StoresProductsFamilyManager;
@@ -16,8 +17,59 @@ class StoreController extends Controller
     {
         $this->storeManager = new StoreManager();
         $this->storesProductsFamilyManager = new StoresProductsFamilyManager();
+        $this->validator = new Validator($_POST);
     }
 
+    /**
+     * Affiche un point de vente
+     *
+     * @param integer $id Id du point de vente
+     * @return void
+     */
+    public function findOneById(int $id)
+    {
+        $store = $this->storeManager->findOneById($id);
+
+        $this->render('store/findOneById', compact('store'));
+    }
+
+    /**
+     * Affiche la liste de tous les points de vente
+     *
+     * @return void
+     */
+    public function findAll()
+    {
+        if($this->validator->isAdmin()){
+            $allStores = $this->storeManager->findAll(0, 1000000);
+            
+            $this->render('store/findAll', compact('allStores'));
+
+        } else {
+            $_SESSION['flash']['danger'] = "Vous n'avez pas les droits nécessaires pour effectuer cette opération.";
+
+            $this->render('main/index', []);
+        }
+    }
+
+    /**
+     * Affiche la liste de tous les points de vente d'un utilisateur
+     *
+     * @return void
+     */
+    public function findAllByUserId(int $userId)
+    {
+        if($this->validator->isConnected()){
+            $allStores = $this->storeManager->findAllByUserId($userId, 0, 1000000);
+            
+            $this->render('store/findAllByUserId', compact('allStores'));
+
+        } else {
+            $_SESSION['flash']['danger'] = "";
+
+            $this->render('user/login', []);
+        }
+    }
 
     /**
      * Affiche tous les points de vente
@@ -30,19 +82,6 @@ class StoreController extends Controller
         $this->render('store/index', compact('stores'));
     }
 
-    /**
-     * Affiche un point de vente
-     *
-     * @param integer $id Id du point de vente
-     * @return void
-     */
-    public function read(int $id)
-    {
-        $store = $this->storeManager->findById($id);
-
-        $this->render('store/read', compact('store'));
-    }
-     
     /**
      * Supprime un point de vente
      *
@@ -63,6 +102,7 @@ class StoreController extends Controller
      */
     public function create()
     {
+        $userId = $_GET['id'];
         if(!empty($_POST)){
             $name = $_POST['name'];
             $description = $_POST['description'];
@@ -73,16 +113,19 @@ class StoreController extends Controller
             $country = $_POST['country'];
             $lat = $_POST['lat'];
             $lng = $_POST['lng'];
+            $phone = $_POST['phone'];
+            $email = $_POST['email']; 
+            $website = $_POST['website'];
+            $facebook = $_POST['facebook']; 
+            $twitter = $_POST['twitter'];
+            $instagram = $_POST['instagram'];
             if (isset($name) && isset($description) && isset($type) && isset($address) && isset($postalCode) && isset($city) && isset($country) && isset($lat) && isset($lng)) {
-                $stmt = $this->storeManager->create($name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat);
+                $stmt = $this->storeManager->create($userId, $name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat, $phone, $email, $website, $facebook, $twitter, $instagram);
                 $storeId = $this->storeManager->lastInsertId();
                 $products = $_POST['checkbox'];
                 foreach($products as $productId){
-                    var_dump($productId);
-                    var_dump($storeId);
-                    //$this->storesProductsFamilyManager->create($productId, $storeId);
+                    $this->storesProductsFamilyManager->create( $storeId, $productId);
                 }
-                die();
                 if ($stmt === false) {
                     $this->render('store/create', []);
                 } else {
@@ -200,4 +243,4 @@ class StoreController extends Controller
             exit;
         }
     }*/
-} 
+}

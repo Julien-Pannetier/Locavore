@@ -20,6 +20,24 @@ class Validator
         }
         return $this->data[$field];
     }
+
+    public function isConnected()
+    {
+        if(isset($_SESSION['user'])){
+            return true;
+        } /* else {
+            
+        } */
+    }
+
+    public function isAdmin()
+    {
+        if(isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin'){
+            return true;
+        } /* else {
+            
+        } */
+    }
     
     public function isText($field, $errorMsg)
     {

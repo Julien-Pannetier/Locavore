@@ -21,16 +21,15 @@ class UserManager extends Database
      * @param [type] $email
      * @return void
      */
-    public function findByEmail($email)
+    public function findOneByEmail($email)
     {
         $query = 'SELECT * FROM users WHERE email = :email';
         $req = $this->db->prepare($query);
         $req->bindParam("email", $email, PDO::PARAM_STR);
         $req->execute();
-/*         while ($data = $req->fetch()) {
+        while ($data = $req->fetch()) {
             $user = new User($data);
-        } */
-        $user = $req->fetch();        
+        }       
         return $user;
     }
 
@@ -127,21 +126,23 @@ class UserManager extends Database
         return $stmt;
     }
 
-
+    /**
+     * Connecte un utilisateur
+     *
+     * @param [type] $email
+     * @param [type] $password
+     * @return void
+     */
     public function login($email, $password) 
     {
-        $query = 'SELECT * FROM users WHERE email = :email';
-        $req = $this->db->prepare($query);
-        $req->bindParam("email", $email, PDO::PARAM_STR);
-        $req->execute();
-        $user = $req->fetch();
-        if($user AND password_verify($password, $user->password)) {
+        $user = $this->findOneByEmail($email);
+        if($user AND password_verify($password, $user->getPassword())) {
             $_SESSION['user'] = [
-                        'id' => $user->id,
-                        'lastName' => $user->last_name,
-                        'firstName' => $user->first_name,
-                        'role' => $user->role,
-                        'email' => $user->email
+                        'id' => $user->getId(),
+                        'lastName' => $user->getLastName(),
+                        'firstName' => $user->getFirstName(),
+                        'role' => $user->getRole(),
+                        'email' => $user->getEmail()
                     ];
             return $user;
         } else {

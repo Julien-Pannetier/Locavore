@@ -27,7 +27,7 @@ class Store
 				self.map.addMarkers(lat, lng, {icon: icons});
 
 				// Ajout de popups aux marqueurs
-				self.map.addPopups('<p>'+ store.name +'</p><br><a href="/store/read/'+ store.id +'">Pour plus d\'informations...</a>');
+				self.map.addPopups('<p>'+ store.name +'</p><br><a href="store/findOneById/'+ store.id +'">Accéder à la fiche complète</a>');
 			})
         })
 	}

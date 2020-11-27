@@ -1,0 +1,77 @@
+{% extends 'default.twig' %}
+
+{% block description %}
+    Description
+{% endblock %}
+{% block author %}
+    Auteur
+{% endblock %}
+{% block title %}
+    Title
+{% endblock %}
+
+{% block content %}
+
+    <!-- ======= Store Section ======= -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section__title">{{ store.name }}</h2>
+            <div class="row">
+                <div>
+                    <p>{{ store.description }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 d-flex align-items-stretch">
+                    <div class="information">
+                        <div>
+                            <i class="information__icon fas fa-map-marker-alt"></i>
+                            <h4 class="information__title">Adresse :</h4>
+                            <p class="information__text">{{ store.address }}, {{ store.postalCode }} {{ store.city }}</p>
+                        </div>
+                        <div>
+                            <i class="information__icon fas fa-phone"></i>
+                            <h4 class="information__title">Téléphone :</h4>
+                            <p class="information__text">{{ store.phone }}</p>
+                        </div>
+                        <div>
+                            <i class="information__icon fas fa-at"></i>
+                            <h4 class="information__title">Adresse électronique :</h4>
+                            <p class="information__text">{{ store.email }}</p>
+                        </div>
+                        <div>
+                            <i class="information__icon fas fa-globe"></i>
+                            <h4 class="information__title">Site internet :</h4>
+                            <p class="information__text"><a href="{{ store.website }}">{{ store.website }}</a></p>
+                        </div>
+                        <div class="social">
+                            {% if store.twitter %}
+                                <a class="social__link" href="{{ store.twitter }}"><i class="social__icon fab fa-twitter"></i></a>
+                            {% endif %}
+                            {% if store.facebook %}
+                                <a class="social__link" href="{{ store.facebook }}"><i class="social__icon fab fa-facebook-f"></i></a>
+                            {% endif %}
+                            {% if store.instagram %}
+                                <a class="social__link" href="{{ store.instagram }}"><i class="social__icon fab fa-instagram"></i></a>
+                            {% endif %} 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mt-5 mt-lg-0 d-flex align-items-stretch">
+                    <div class="information">
+                        <div>
+                            <p class="information__text">Lundi : {{ timetable.monday }}</p>
+                            <p class="information__text">Mardi : {{ timetable.tuesday }}</p>
+                            <p class="information__text">Mercredi : {{ timetable.wednesday }}</p>
+                            <p class="information__text">Jeudi : {{ timetable.thursday }}</p>
+                            <p class="information__text">Vendredi : {{ timetable.friday }}</p>
+                            <p class="information__text">Samedi : {{ timetable.saturday }}</p>
+                            <p class="information__text">Dimanche : {{ timetable.sunday }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- End Store Section -->
+
+{% endblock %}

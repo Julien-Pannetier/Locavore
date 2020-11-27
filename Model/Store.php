@@ -16,7 +16,6 @@ class Store extends Model
     protected $lngLat;
     protected $phone;
     protected $email;
-    protected $timetable;
     protected $website;
     protected $facebook;
     protected $twitter;
@@ -270,26 +269,6 @@ class Store extends Model
     public function setEmail($email)
     {
         $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of timetable
-     */ 
-    public function getTimetable()
-    {
-        return $this->timetable;
-    }
-
-    /**
-     * Set the value of timetable
-     *
-     * @return  self
-     */ 
-    public function setTimetable($timetable)
-    {
-        $this->timetable = $timetable;
 
         return $this;
     }

@@ -48,11 +48,14 @@ blockquote {
 
 .section {
   padding-top: 150px;
-  text-align: center;
   padding-bottom: 30px;
+  &__background {
+    background: #f8fcf9;
+  }
   &__title {
     font-size: 32px;
     font-weight: bold;
+    text-align: center;
     text-transform: uppercase;
     margin-bottom: 20px;
     padding-bottom: 20px;
@@ -77,6 +80,9 @@ blockquote {
       bottom: 0;
       left: calc(50% - 20px);
     }
+  }
+  &__subtitle {
+    text-align: center;
   }
 }
 
@@ -154,6 +160,61 @@ blockquote {
   text-align: center;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
+}
+
+.information {
+  border-top: 3px solid $primary;
+  border-bottom: 3px solid $primary;
+  padding: 30px;
+  background: #fff;
+  width: 100%;
+  box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
+  &__icon {
+    font-size: 20px;
+    color: $primary;
+    float: left;
+    width: 44px;
+    height: 44px;
+    background: #eaf6ed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    transition: all 0.3s ease-in-out;
+    &:hover {
+      background: $primary;
+      color: #fff;
+    }
+  }
+&__title {
+  padding: 0 0 0 60px;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #222222;
+  }
+&__text {
+  padding: 0 0 10px 60px;
+  margin: 0 0 20px 0;
+  font-size: 14px;
+  color: #555555;
+  }
+}
+
+.social {
+  text-align: center;
+  margin-top: 30px;
+  &__link {
+    color: #919191;
+    transition: 0.3s;
+    &:hover {
+      color: $primary;
+    }
+  }
+  &__icon {
+    font-size: 1.33333em;
+    margin: 0 10px;
+  }
 }
 
 /* ::-moz-selection {
