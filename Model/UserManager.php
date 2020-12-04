@@ -18,8 +18,8 @@ class UserManager extends Database
     /**
      * Récupère un utilisateur à partir de son email
      *
-     * @param [type] $email
-     * @return void
+     * @param [string] $email
+     * @return object
      */
     public function findOneByEmail($email)
     {
@@ -36,9 +36,9 @@ class UserManager extends Database
     /**
      * Récupère tous les utilisateurs
      *
-     * @param [type] $offset
-     * @param [type] $limit
-     * @return void
+     * @param [int] $offset
+     * @param [int] $limit
+     * @return object
      */
     public function findAll($offset, $limit) 
     {
@@ -57,10 +57,10 @@ class UserManager extends Database
     /**
      * Crée un nouvel utilisateur
      *
-     * @param [type] $lastName
-     * @param [type] $firstName
-     * @param [type] $email
-     * @param [type] $password
+     * @param [string] $lastName
+     * @param [string] $firstName
+     * @param [string] $email
+     * @param [string] $password
      * @return void
      */
     public function create($lastName, $firstName, $email, $password) 
@@ -78,9 +78,9 @@ class UserManager extends Database
     /**
      * Modifie un utilisateur
      *
-     * @param [type] $id
-     * @param [type] $email
-     * @param [type] $password
+     * @param [int] $id
+     * @param [string] $email
+     * @param [string] $password
      * @return void
      */
     public function update($id, $email, $password) 
@@ -129,9 +129,9 @@ class UserManager extends Database
     /**
      * Connecte un utilisateur
      *
-     * @param [type] $email
-     * @param [type] $password
-     * @return void
+     * @param [string] $email
+     * @param [string] $password
+     * @return object
      */
     public function login($email, $password) 
     {

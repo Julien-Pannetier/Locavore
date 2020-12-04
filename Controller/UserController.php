@@ -44,19 +44,19 @@ class UserController extends Controller
                 $user = $this->userManager->create($lastName, $firstName, $email, $password);
 
                 $_SESSION['flash']['success'] = "Votre compte a bien été créé.";
-                $this->render('user/login', []);
+                $this->render('/user/login', []);
             } else {
                 $errors = $this->validator->getErrors();
             }
         }
-        $this->render('user/register', compact('errors'));
+        $this->render('/user/register', compact('errors'));
     }
 
     /**
      * Connexion des utilisateurs
      *
-     * @param [type] $email
-     * @param [type] $password
+     * @param [string] $email
+     * @param [string] $password
      * @return void
      */
     public function login() 
@@ -65,13 +65,13 @@ class UserController extends Controller
             $user = $this->userManager->login(strip_tags($_POST['email']), strip_tags($_POST['password']));
             if (!$user) {
                 $_SESSION['flash']['danger'] = "Identifiant / mot de passe incorrect.";
-                $this->render('user/login', []);
+                $this->render('/user/login', []);
             } else {
                 $_SESSION['flash']['success'] = "Vous êtes bien connecté.";
-                $this->render('user/dashboard', []);
+                $this->render('/user/dashboard', []);
             }
         }
-        $this->render('user/login', []);
+        $this->render('/user/login', []);
     }
 
     /**
@@ -83,7 +83,7 @@ class UserController extends Controller
     {
         unset($_SESSION['user']);
         $_SESSION['flash']['success'] = "Vous avez été déconnecté.";
-        $this->render('main/index', []);
+        header('Location: /');
     }
 
 
@@ -96,20 +96,20 @@ class UserController extends Controller
             $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
             $stmt = $this->userManager->updatePassword($userId, $password);
             $_SESSION['flash']['success'] = "Votre mot de passe a bien été modifié";
-            $this->render('dashbord', []);
+            $this->render('/user/dashbord', []);
         }
     }
 
 
     public function forgotPassword()
     {
-        $this->render('user/forgotPassword', []);
+        $this->render('/user/forgotPassword', []);
     }
 
 
     public function dashboard()
     {
         
-        $this->render('user/dashboard', []);
+        $this->render('/user/dashboard', []);
     }
 }

@@ -23,6 +23,7 @@
         <!-- Custom styles for this template-->
         <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
         <link href="/public/css/dashboard.min.css" rel="stylesheet">
+        <link href="/public/css/custom.min.css" rel="stylesheet">
 
     </head>
 
@@ -55,23 +56,20 @@
                     </a>
                     <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Login Screens:</h6>
-                            <a class="collapse-item" href="login.html">Login</a>
-                            <a class="collapse-item" href="register.html">Register</a>
-                            <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                            <div class="collapse-divider"></div>
-                            <h6 class="collapse-header">Other Pages:</h6>
-                            <a class="collapse-item" href="404.html">404 Page</a>
-                            <a class="collapse-item" href="blank.html">Blank Page</a>
+                            <a class="collapse-item" href="/store/findAllByUserId/">Tous les points de vente</a>
+                            <a class="collapse-item" href="/store/findApprouvedByuserId/">Approuvé</a>
+                            <a class="collapse-item" href="/store/findPendingByUserId/">En attente</a>
+                            <a class="collapse-item" href="/store/findRejectedByUserId/">Rejeté</a>
                         </div>
                     </div>
                 </li>
 
                 <!-- Nav Item -->
                 <li class="nav-item">
-                    <a class="nav-link" href="store/create">
-                    <i class="fas fa-fw fa-map-marked-alt"></i>
-                    <span>Ajouter un point de vente</span></a>
+                    <a class="nav-link" href="/store/create/">
+                        <i class="fas fa-fw fa-map-marked-alt"></i>
+                        <span>Ajouter un point de vente</span>
+                    </a>
                 </li>
 
                 <!-- Divider -->
@@ -110,7 +108,7 @@
 
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item" href="/user/dashboard/">
                                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Mon profil
                                     </a>
@@ -140,21 +138,21 @@
         </a>
 
         <!-- Logout Modal-->
-        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Êtes vous sûr ?</h5>
+                        <h5 class="modal-title" id="logoutModalLabel">Confirmation de déconnexion</h5>
                         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        Ceci mettra fin à votre session.
+                        Etes-vous sûr de vouloir vous déconnecter ?
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
-                        <a class="btn btn-primary" href="user/logout">Oui, déconnectez-moi</a>
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Non</button>
+                        <a class="btn btn-primary" href="/user/logout">Oui</a>
                     </div>
                 </div>
             </div>
@@ -176,7 +174,7 @@
         <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
         <!-- Page level custom scripts -->
-        <script src="/public/js/dashboard/datatables-demo.js"></script>
+        <script src="/public/js/dashboard/datatables.js"></script>
 
         <!-- Custom scripts for Dashboard-->
         <script src="/public/js/dashboard/dashboard.min.js"></script>

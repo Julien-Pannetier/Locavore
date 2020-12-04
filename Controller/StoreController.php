@@ -30,7 +30,7 @@ class StoreController extends Controller
     {
         $store = $this->storeManager->findOneById($id);
 
-        $this->render('store/findOneById', compact('store'));
+        $this->render('/store/findOneById', compact('store'));
     }
 
     /**
@@ -43,12 +43,12 @@ class StoreController extends Controller
         if($this->validator->isAdmin()){
             $allStores = $this->storeManager->findAll(0, 1000000);
             
-            $this->render('store/findAll', compact('allStores'));
+            $this->render('/store/findAll', compact('allStores'));
 
         } else {
             $_SESSION['flash']['danger'] = "Vous n'avez pas les droits nécessaires pour effectuer cette opération.";
 
-            $this->render('main/index', []);
+            $this->render('/main/index', []);
         }
     }
 
@@ -57,17 +57,18 @@ class StoreController extends Controller
      *
      * @return void
      */
-    public function findAllByUserId(int $userId)
+    public function findAllByUserId()
     {
         if($this->validator->isConnected()){
+            $userId = $_SESSION['user']['id'];
             $allStores = $this->storeManager->findAllByUserId($userId, 0, 1000000);
             
-            $this->render('store/findAllByUserId', compact('allStores'));
+            $this->render('/store/findAllByUserId', compact('allStores'));
 
         } else {
             $_SESSION['flash']['danger'] = "";
 
-            $this->render('user/login', []);
+            $this->render('/user/login', []);
         }
     }
 
@@ -79,7 +80,7 @@ class StoreController extends Controller
     public function index()
     {
         $stores =  $this->storeManager->findAll(0, 1000000);
-        $this->render('store/index', compact('stores'));
+        $this->render('/store/index', compact('stores'));
     }
 
     /**
@@ -102,7 +103,6 @@ class StoreController extends Controller
      */
     public function create()
     {
-        $userId = $_GET['id'];
         if(!empty($_POST)){
             $name = $_POST['name'];
             $description = $_POST['description'];
@@ -119,23 +119,32 @@ class StoreController extends Controller
             $facebook = $_POST['facebook']; 
             $twitter = $_POST['twitter'];
             $instagram = $_POST['instagram'];
+            $userId = $_SESSION['user']['id'];
+            $monday = $_POST['monday'];
+            $tuesday = $_POST['tuesday'];
+            $wednesday = $_POST['wednesday'];
+            $thursday = $_POST['thursday'];
+            $friday = $_POST['friday'];
+            $saturday = $_POST['saturday'];
+            $sunday = $_POST['sunday'];
+
             if (isset($name) && isset($description) && isset($type) && isset($address) && isset($postalCode) && isset($city) && isset($country) && isset($lat) && isset($lng)) {
-                $stmt = $this->storeManager->create($userId, $name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat, $phone, $email, $website, $facebook, $twitter, $instagram);
+                $stmt = $this->storeManager->create($userId, $name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat, $phone, $email, $website, $facebook, $twitter, $instagram, $monday, $tuesday, $wednesday, $thursday, $friday, $saturday, $sunday);
                 $storeId = $this->storeManager->lastInsertId();
                 $products = $_POST['checkbox'];
                 foreach($products as $productId){
                     $this->storesProductsFamilyManager->create( $storeId, $productId);
                 }
                 if ($stmt === false) {
-                    $this->render('store/create', []);
+                    $this->render('/store/create', []);
                 } else {
-                    $this->render('dashboard', []);
+                    $this->render('/user/dashboard', []);
                 }
             } else {
-                $this->render('store/create', []);
+                $this->render('/store/create', []);
             }
         }
-        $this->render('store/create', []);
+        $this->render('/store/create', []);
     }
 
     /* 

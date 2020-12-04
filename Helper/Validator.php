@@ -43,11 +43,6 @@ class Validator
     {
         if(!preg_match("/([ \u00c0-\u01ffa-zA-Z'\-])/", $this->getField($field))){
             $this->errors[$field] = $errorMsg;
-
-            //^([a-zA-Z'àâéèêôùûçÀÂÉÈÔÙÛÇ[:blank:]-]{1,30})+$
-            //^([ \u00c0-\u01ffa-zA-Z'\-])+$
-            //([ \u00c0-\u01ffa-zA-Z'\-])
-            //^[a-zA-Z0-9_]+$
         }
     }
 

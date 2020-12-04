@@ -71,10 +71,10 @@ class StoreManager extends Database
         return $stores;
     }
 
-    public function create($userId, $name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat, $phone, $email, $website, $facebook, $twitter, $instagram)
+    public function create($userId, $name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat, $phone, $email, $website, $facebook, $twitter, $instagram, $monday, $tuesday, $wednesday, $thursday, $friday, $saturday, $sunday)
     {
         $wkt = "POINT(".$lng." ".$lat.")";
-        $query = "INSERT INTO stores(user_id, name, description, type, address, postal_code, city, country, lng_lat, phone, email, website, facebook, twitter, instagram, creation_at) VALUES (:userId, :name, :description, :type, :address, :postalCode, :city, :country, ST_GeomFromText(:wkt), :phone, :email, :website, :facebook, :twitter, :instagram, NOW())";
+        $query = "INSERT INTO stores(user_id, name, description, type, address, postal_code, city, country, lng_lat, phone, email, website, facebook, twitter, instagram, monday, tuesday, wednesday, thursday, friday, saturday, sunday, creation_at) VALUES (:userId, :name, :description, :type, :address, :postalCode, :city, :country, ST_GeomFromText(:wkt), :phone, :email, :website, :facebook, :twitter, :instagram, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday, NOW())";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam("userId", $userId, PDO::PARAM_INT);
         $stmt->bindParam("name", $name, PDO::PARAM_STR);
@@ -91,14 +91,21 @@ class StoreManager extends Database
         $stmt->bindParam("facebook", $facebook, PDO::PARAM_STR);
         $stmt->bindParam("twitter", $twitter, PDO::PARAM_STR);
         $stmt->bindParam("instagram", $instagram, PDO::PARAM_STR);
+        $stmt->bindParam("monday", $monday, PDO::PARAM_STR);
+        $stmt->bindParam("tuesday", $tuesday, PDO::PARAM_STR);
+        $stmt->bindParam("wednesday", $wednesday, PDO::PARAM_STR);
+        $stmt->bindParam("thursday", $thursday, PDO::PARAM_STR);
+        $stmt->bindParam("friday", $friday, PDO::PARAM_STR);
+        $stmt->bindParam("saturday", $saturday, PDO::PARAM_STR);
+        $stmt->bindParam("sunday", $sunday, PDO::PARAM_STR);
         $stmt->execute();
         return $stmt;
     }
 
-    public function update($id, $name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat, $phone, $email, $website, $facebook, $twitter, $instagram) 
+    public function update($id, $name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat, $phone, $email, $website, $facebook, $twitter, $instagram, $monday, $tuesday, $wednesday, $thursday, $friday, $saturday, $sunday) 
     {
         $wkt = "POINT(".$lng." ".$lat.")";
-        $query = "UPDATE stores SET name = :name, description = :description, type = :type, address = :address, postal_code = :postalCode, city = :city, country = :country, lng_lat = ST_GeomFromText(:wkt), phone = :phone, email = :email, website = :website, facebook = :facebook, twitter = :twitter, instagram = :instagram, update_at = NOW() WHERE id = :id";
+        $query = "UPDATE stores SET name = :name, description = :description, type = :type, address = :address, postal_code = :postalCode, city = :city, country = :country, lng_lat = ST_GeomFromText(:wkt), phone = :phone, email = :email, website = :website, facebook = :facebook, twitter = :twitter, instagram = :instagram, monday = :monday, tuesday = :tuesday, wednesday = :wednesday, thursday = :thursday, friday = :friday, saturday = :saturday, sunday = :sunday, update_at = NOW() WHERE id = :id";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam("name", $name, PDO::PARAM_STR);
         $stmt->bindParam("description", $description, PDO::PARAM_STR);
@@ -114,6 +121,13 @@ class StoreManager extends Database
         $stmt->bindParam("facebook", $facebook, PDO::PARAM_STR);
         $stmt->bindParam("twitter", $twitter, PDO::PARAM_STR);
         $stmt->bindParam("instagram", $instagram, PDO::PARAM_STR);
+        $stmt->bindParam("monday", $monday, PDO::PARAM_STR);
+        $stmt->bindParam("tuesday", $tuesday, PDO::PARAM_STR);
+        $stmt->bindParam("wednesday", $wednesday, PDO::PARAM_STR);
+        $stmt->bindParam("thursday", $thursday, PDO::PARAM_STR);
+        $stmt->bindParam("friday", $friday, PDO::PARAM_STR);
+        $stmt->bindParam("saturday", $saturday, PDO::PARAM_STR);
+        $stmt->bindParam("sunday", $sunday, PDO::PARAM_STR);
         $stmt->bindParam("id", $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt;
