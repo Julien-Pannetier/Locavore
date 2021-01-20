@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- H√¥te : 127.0.0.1:3306
--- G√©n√©r√© le :  ven. 06 nov. 2020 √† 12:35
+-- G√©n√©r√© le :  ven. 04 d√©c. 2020 √† 12:42
 -- Version du serveur :  5.7.24
 -- Version de PHP :  7.3.15
 
@@ -75,28 +75,33 @@ CREATE TABLE IF NOT EXISTS `stores` (
   `postal_code` int(11) NOT NULL,
   `city` varchar(255) NOT NULL,
   `country` varchar(255) NOT NULL,
-  `lng_lat` geometry DEFAULT NULL,
+  `lng_lat` geometry NOT NULL,
   `phone` varchar(60) DEFAULT NULL,
   `email` text,
-  `timetable` text,
   `website` varchar(255) DEFAULT NULL,
   `facebook` varchar(255) DEFAULT NULL,
   `twitter` varchar(255) DEFAULT NULL,
   `instagram` varchar(255) DEFAULT NULL,
-  `status` enum('valid') DEFAULT NULL,
+  `monday` text,
+  `tuesday` text,
+  `wednesday` text,
+  `thursday` text,
+  `friday` text,
+  `saturday` text,
+  `sunday` text,
+  `status` enum('En attente','Approuv√©','Rejet√©') DEFAULT 'En attente',
   `creation_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `update_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_users_stores` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 --
 -- D√©chargement des donn√©es de la table `stores`
 --
 
-INSERT INTO `stores` (`id`, `user_id`, `name`, `description`, `type`, `address`, `postal_code`, `city`, `country`, `lng_lat`, `phone`, `email`, `timetable`, `website`, `facebook`, `twitter`, `instagram`, `status`, `creation_at`, `update_at`) VALUES
-(3, 1, 'Drive fermier locavor Ussel', 'Dans notre catalogue, vous trouverez uniquement des produits fermiers et artisanaux en fonction de la saison et de la production locale : l√©gumes, fruits, viandes, volailles, fromages, boissons, farines, miel, confitures, tisanes, ...', 'drive', '23 avenue Carnot', 19200, 'USSEL', 'FRANCE', '\0\0\0\0\0\0\0õ:èäˇ{@~…∆É-∆F@', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2020-09-30 11:56:27', NULL),
-(4, 1, 'Drive fermier locavor Merlines', 'Dans notre catalogue, vous trouverez uniquement des produits fermiers et artisanaux en fonction de la saison et de la production locale : l√©gumes, fruits, viandes, volailles, fromages, boissons, farines, miel, confitures, tisanes, ‚Ä¶', 'Drive fermier', '28 avenue Pierre S√©mard ', 19340, 'Merlines', 'France', '\0\0\0\0\0\0\0{h+¯≠@uF^÷“F@', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2020-11-03 15:13:52', NULL);
+INSERT INTO `stores` (`id`, `user_id`, `name`, `description`, `type`, `address`, `postal_code`, `city`, `country`, `lng_lat`, `phone`, `email`, `website`, `facebook`, `twitter`, `instagram`, `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`, `sunday`, `status`, `creation_at`, `update_at`) VALUES
+(22, 9, 'Drive fermier locavor La Courtine', 'Dans notre catalogue, vous trouverez uniquement des produits fermiers et artisanaux en fonction de la saison et de la production locale : l√©gumes, fruits, viandes, volailles, fromages, boissons, farines, miel, confitures, tisanes, ‚Ä¶', 'Drive fermier', '8 avenue de la gare', 23100, 'La Courtine', 'France', '\0\0\0\0\0\0\0)¬ó”@˝!Ï ⁄F@', '', '', 'https://locavor.fr/103-locavor-la-courtine', 'https://www.facebook.com/profile.php?id=100050534340436', '', '', '', '', '', '', '17h30 √† 19h30', '', '', 'En attente', '2020-12-04 09:35:53', NULL);
 
 -- --------------------------------------------------------
 
@@ -107,12 +112,27 @@ INSERT INTO `stores` (`id`, `user_id`, `name`, `description`, `type`, `address`,
 DROP TABLE IF EXISTS `stores_products_family`;
 CREATE TABLE IF NOT EXISTS `stores_products_family` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `stores_id` int(11) NOT NULL,
-  `products_family_id` int(11) NOT NULL,
+  `store_id` int(11) NOT NULL,
+  `product_family_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_stores_stores_products_family` (`stores_id`),
-  KEY `fk_products_family_stores_products_family` (`products_family_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `fk_stores_stores_products_family` (`store_id`),
+  KEY `fk_products_family_stores_products_family` (`product_family_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+
+--
+-- D√©chargement des donn√©es de la table `stores_products_family`
+--
+
+INSERT INTO `stores_products_family` (`id`, `store_id`, `product_family_id`) VALUES
+(9, 22, 5),
+(10, 22, 6),
+(11, 22, 8),
+(12, 22, 9),
+(13, 22, 10),
+(14, 22, 11),
+(15, 22, 12),
+(16, 22, 13),
+(17, 22, 14);
 
 -- --------------------------------------------------------
 
@@ -124,8 +144,8 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `role` enum('admin','user') NOT NULL DEFAULT 'user',
-  `first_name` varchar(255) DEFAULT NULL,
-  `last_name` varchar(255) DEFAULT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `first_name` varchar(255) NOT NULL,
   `phone` varchar(60) DEFAULT NULL,
   `email` varchar(320) NOT NULL,
   `password` varchar(60) NOT NULL,
@@ -141,9 +161,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- D√©chargement des donn√©es de la table `users`
 --
 
-INSERT INTO `users` (`id`, `role`, `first_name`, `last_name`, `phone`, `email`, `password`, `registration_at`, `confirmation_token`, `confirmation_at`, `update_token`, `update_at`) VALUES
-(1, 'admin', NULL, NULL, NULL, 'pannetier.j@hotmail.fr', '$2y$10$J/s.HB56i4GvUoTtsg95cOPV2lwMfrlvEwoI2LYPZYAxcXdv.pIeC', '2020-09-30 11:53:56', NULL, NULL, NULL, NULL),
-(8, 'user', NULL, NULL, NULL, 'user@demo.fr', '$2y$10$me4ZdT82/9IHHxd38Gas2umcUDLOLvRd1gmD0wr9g72iKmYXnVcM6', '2020-10-01 13:52:43', NULL, NULL, NULL, NULL);
+INSERT INTO `users` (`id`, `role`, `last_name`, `first_name`, `phone`, `email`, `password`, `registration_at`, `confirmation_token`, `confirmation_at`, `update_token`, `update_at`) VALUES
+(9, 'admin', 'Pannetier', 'Julien', NULL, 'pannetier.j@hotmail.fr', '$2y$10$vUDrD5Hf03Cpro3vSk5Ktuj3kbuIvkhC3v6PhTdTk1irbCyT2doF2', '2020-11-12 14:04:06', NULL, NULL, NULL, NULL),
+(10, 'user', 'Pannetier', 'Julien', NULL, 'user@demo.fr', '$2y$10$/zmZyopmN.ntoHWNx/BRkekD0WkNVd7okQ/S/2YGFrUmtSMSAytN.', '2020-12-04 09:48:04', NULL, NULL, NULL, NULL);
 
 --
 -- Contraintes pour les tables d√©charg√©es
@@ -159,8 +179,8 @@ ALTER TABLE `stores`
 -- Contraintes pour la table `stores_products_family`
 --
 ALTER TABLE `stores_products_family`
-  ADD CONSTRAINT `fk_products_family_stores_products_family` FOREIGN KEY (`products_family_id`) REFERENCES `products_family` (`id`),
-  ADD CONSTRAINT `fk_stores_stores_products_family` FOREIGN KEY (`stores_id`) REFERENCES `stores` (`id`);
+  ADD CONSTRAINT `fk_products_family_stores_products_family` FOREIGN KEY (`product_family_id`) REFERENCES `products_family` (`id`),
+  ADD CONSTRAINT `fk_stores_stores_products_family` FOREIGN KEY (`store_id`) REFERENCES `stores` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
