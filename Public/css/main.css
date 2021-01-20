@@ -96,6 +96,11 @@ blockquote {
   display: none;
 }
 
+.section__input:checked + label {
+  color: #fff;
+  background: #5cb874;
+}
+
 .section__label {
   cursor: pointer;
   padding: 8px 15px 10px 15px;
@@ -110,7 +115,7 @@ blockquote {
   border-radius: 4px;
 }
 
-.section__label:hover, .section__label:focus, .section__label--active, .section__label:active {
+.section__label:hover, .section__label:focus, .section__label:active {
   color: #fff;
   background: #5cb874;
 }

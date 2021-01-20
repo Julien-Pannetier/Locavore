@@ -18,9 +18,9 @@ class StoresProductsFamilyManager extends Database
     /**
      * Crée une nouvelle liaison entre la table stores et la table products_family
      *
-     * @param [type] $storeId
-     * @param [type] $productFamilyId
-     * @return void
+     * @param [int] $storeId
+     * @param [int] $productFamilyId
+     * @return boolean
      */
     public function create($storeId, $productFamilyId)
     {
@@ -28,22 +28,22 @@ class StoresProductsFamilyManager extends Database
         $stmt = $this->db->prepare($query);
         $stmt->bindParam("storeId", $storeId, PDO::PARAM_INT);
         $stmt->bindParam("productFamilyId", $productFamilyId, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt;
+        $isSuccess = $stmt->execute();
+        return $isSuccess;
     }
 
     /**
      * Supprime les liaisons entre la table stores et la table products_family en fonction de l'id du point de vente 
      *
-     * @param [type] $storeId
-     * @return void
+     * @param [int] $storeId
+     * @return boolean
      */
     public function delete($storeId)
     {
         $query = 'DELETE FROM stores_products_family WHERE store_id = :storeId';
         $stmt = $this->db->prepare($query);
         $stmt->bindParam("storeId", $storeId, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt;
+        $isSuccess = $stmt->execute();
+        return $isSuccess;
     }
 }

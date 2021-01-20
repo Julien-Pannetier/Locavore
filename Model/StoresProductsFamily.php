@@ -11,7 +11,7 @@ class StoresProductsFamily extends Model
     /**
      * Constructor
      *
-     * @param [type] $user
+     * @param [object] $user
      */
     public function __construct($StoresProductsFamily) {
         $this->hydrate($StoresProductsFamily);

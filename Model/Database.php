@@ -21,7 +21,6 @@ class Database extends PDO
         try {
             parent::__construct($dsn, self::DB_USER, self::DB_PASSWORD);
 
-            //$this->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES utf8');
             $this->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
             $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $e) {
@@ -36,8 +35,4 @@ class Database extends PDO
         }
         return self::$instance;
     }
-
-/*     public function lastInsertId(){
-        return self::$instance->lastInsertId();
-    } */
 }

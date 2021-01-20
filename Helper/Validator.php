@@ -2,6 +2,8 @@
 
 namespace Helper;
 
+use Helper\Redirect;
+
 class Validator
 {
     
@@ -11,6 +13,7 @@ class Validator
     public function __construct($data)
     {
         $this->data = $data;
+        $this->redirect = new Redirect();
     }
 
     private function getField($field)
@@ -23,20 +26,19 @@ class Validator
 
     public function isConnected()
     {
-        if(isset($_SESSION['user'])){
-            return true;
-        } /* else {
-            
-        } */
+        if(!isset($_SESSION['user'])){
+            $this->redirect->notConnected();
+        }
+        return true;
     }
 
     public function isAdmin()
     {
-        if(isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin'){
-            return true;
-        } /* else {
-            
-        } */
+        $isAdmin = true;
+        if(!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin'){
+            $isAdmin = false;
+        }
+        return $isAdmin;
     }
     
     public function isText($field, $errorMsg)
@@ -49,6 +51,13 @@ class Validator
     public function isEmail($field, $errorMsg)
     {
         if(!filter_var($this->getField($field), FILTER_VALIDATE_EMAIL)){
+            $this->errors[$field] = $errorMsg;
+        }
+    }
+
+    public function isUrl($field, $errorMsg)
+    {
+        if(!filter_var($this->getField($field), FILTER_VALIDATE_URL)){
             $this->errors[$field] = $errorMsg;
         }
     }

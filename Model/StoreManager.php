@@ -16,8 +16,15 @@ class StoreManager extends Database
         $this->db = Database::getInstance();
     }
 
+    /**
+     * Récupère un point de vente en fonction de son identifiant
+     *
+     * @param [int] $id
+     * @return object
+     */
     public function findOneById($id)
     {
+        $store = null;
         $query = 'SELECT * FROM stores WHERE id = :id';
         $req = $this->db->prepare($query);
         $req->bindParam("id", $id, PDO::PARAM_INT);
@@ -28,6 +35,13 @@ class StoreManager extends Database
         return $store;
     }
 
+    /**
+     * Récupère tous les points de vente
+     *
+     * @param [int] $offset
+     * @param [int] $limit
+     * @return object
+     */
     public function findAll($offset, $limit) 
     {
         $stores = [];
@@ -42,6 +56,14 @@ class StoreManager extends Database
         return $stores;
     }
 
+    /**
+     * Récupère tous les points de vente d'un utilisateur
+     *
+     * @param [int] $userId
+     * @param [int] $offset
+     * @param [int] $limit
+     * @return object
+     */
     public function findAllByUserId($userId, $offset, $limit)
     {
         $stores = [];
@@ -57,10 +79,74 @@ class StoreManager extends Database
         return $stores;
     }
 
-    public function findAllAjax($offset, $limit) 
+    /**
+     * Récupère tous les points de vente en fonction du statut du point de vente
+     *
+     * @param [string] $status
+     * @param [int] $offset
+     * @param [int] $limit
+     * @return object
+     */
+    public function findAllByStatus($status, $offset, $limit)
     {
         $stores = [];
-        $query = 'SELECT id, user_id, name, description, type, address, postal_code, city, country, ST_AsText(lng_lat) as wkt, phone, email, website, facebook, twitter, instagram FROM stores ORDER BY creation_at DESC LIMIT :offset, :limit';
+        $query = 'SELECT * FROM stores WHERE status = :status ORDER BY creation_at DESC LIMIT :offset, :limit';
+        $req = $this->db->prepare($query);
+        $req->bindParam("status", $status, PDO::PARAM_STR);
+        $req->bindParam("offset", $offset, PDO::PARAM_INT);
+        $req->bindParam("limit", $limit, PDO::PARAM_INT);
+        $req->execute();
+        while ($data = $req->fetch()) {
+            $stores[] = new Store($data);
+        }
+        return $stores;
+    }
+
+    /**
+     * Récupère tous les points de vente d'un utilisateur en fonction du statut du point de vente
+     *
+     * @param [int] $userId
+     * @param [string] $status
+     * @param [int] $offset
+     * @param [int] $limit
+     * @return object
+     */
+    public function findAllByUserIdAndStatus($userId, $status, $offset, $limit)
+    {
+        $stores = [];
+        $query = 'SELECT * FROM stores WHERE user_id = :userId AND status = :status ORDER BY creation_at DESC LIMIT :offset, :limit';
+        $req = $this->db->prepare($query);
+        $req->bindParam("userId", $userId, PDO::PARAM_INT);
+        $req->bindParam("status", $status, PDO::PARAM_STR);
+        $req->bindParam("offset", $offset, PDO::PARAM_INT);
+        $req->bindParam("limit", $limit, PDO::PARAM_INT);
+        $req->execute();
+        while ($data = $req->fetch()) {
+            $stores[] = new Store($data);
+        }
+        return $stores;
+    }
+
+    /**
+     * Récupère les points de vente approuvés par un administrateur
+     *
+     * @param [int] $offset
+     * @param [int] $limit
+     * @return object
+     */
+    public function findAllAjax($offset, $limit)
+    {
+        $stores = [];
+        $query = "SELECT s.id, s.user_id, s.name, s.description, s.type, s.address, s.postal_code, s.city, s.country, ST_AsText(s.lng_lat) as wkt, s.phone, s.email, s.website, s.facebook, s.twitter, s.instagram, s.monday, s.tuesday, s.wednesday, s.thursday, s.friday, s.saturday, s.sunday,
+                    (SELECT GROUP_CONCAT(pf.family_name SEPARATOR ', ') AS fn
+                    FROM products_family pf
+                    INNER JOIN stores_products_family spf ON spf.product_family_id = pf.id
+                    WHERE spf.store_id = s.id
+                    GROUP BY spf.store_id) AS family_name 
+                FROM stores s
+                WHERE status = 'approuvé'
+                ORDER BY s.creation_at DESC 
+                LIMIT :offset, :limit";
         $req = $this->db->prepare($query);
         $req->bindParam("offset", $offset, PDO::PARAM_INT);
         $req->bindParam("limit", $limit, PDO::PARAM_INT);
@@ -71,6 +157,34 @@ class StoreManager extends Database
         return $stores;
     }
 
+    /**
+     * Crée un nouveau point de vente
+     *
+     * @param [id] $userId
+     * @param [string] $name
+     * @param [string] $description
+     * @param [string] $type
+     * @param [string] $address
+     * @param [string] $postalCode
+     * @param [string] $city
+     * @param [string] $country
+     * @param [string] $lng
+     * @param [string] $lat
+     * @param [string] $phone
+     * @param [string] $email
+     * @param [string] $website
+     * @param [string] $facebook
+     * @param [string] $twitter
+     * @param [string] $instagram
+     * @param [string] $monday
+     * @param [string] $tuesday
+     * @param [string] $wednesday
+     * @param [string] $thursday
+     * @param [string] $friday
+     * @param [string] $saturday
+     * @param [string] $sunday
+     * @return boolean
+     */
     public function create($userId, $name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat, $phone, $email, $website, $facebook, $twitter, $instagram, $monday, $tuesday, $wednesday, $thursday, $friday, $saturday, $sunday)
     {
         $wkt = "POINT(".$lng." ".$lat.")";
@@ -98,10 +212,38 @@ class StoreManager extends Database
         $stmt->bindParam("friday", $friday, PDO::PARAM_STR);
         $stmt->bindParam("saturday", $saturday, PDO::PARAM_STR);
         $stmt->bindParam("sunday", $sunday, PDO::PARAM_STR);
-        $stmt->execute();
-        return $stmt;
+        $isSuccess = $stmt->execute();
+        return $isSuccess;
     }
 
+    /**
+     * Modifie un point de vente
+     *
+     * @param [int] $id
+     * @param [string] $name
+     * @param [string] $description
+     * @param [string] $type
+     * @param [string] $address
+     * @param [string] $postalCode
+     * @param [string] $city
+     * @param [string] $country
+     * @param [string] $lng
+     * @param [string] $lat
+     * @param [string] $phone
+     * @param [string] $email
+     * @param [string] $website
+     * @param [string] $facebook
+     * @param [string] $twitter
+     * @param [string] $instagram
+     * @param [string] $monday
+     * @param [string] $tuesday
+     * @param [string] $wednesday
+     * @param [string] $thursday
+     * @param [string] $friday
+     * @param [string] $saturday
+     * @param [string] $sunday
+     * @return boolean
+     */
     public function update($id, $name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat, $phone, $email, $website, $facebook, $twitter, $instagram, $monday, $tuesday, $wednesday, $thursday, $friday, $saturday, $sunday) 
     {
         $wkt = "POINT(".$lng." ".$lat.")";
@@ -129,20 +271,44 @@ class StoreManager extends Database
         $stmt->bindParam("saturday", $saturday, PDO::PARAM_STR);
         $stmt->bindParam("sunday", $sunday, PDO::PARAM_STR);
         $stmt->bindParam("id", $id, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt;
+        $isSuccess = $stmt->execute();
+        return $isSuccess;
     }
 
-    public function delete($id) 
+    /**
+     * Supprime un point de vente
+     *
+     * @param [int] $id
+     * @param [int] $userId
+     * @return boolean
+     */
+    public function delete($id, $userId) 
     {
-        $query = 'DELETE FROM stores WHERE id = :id';
+        $query = 'DELETE s.*
+                FROM stores s
+                WHERE id = :id 
+                AND (
+                    s.user_id = :userId
+                    OR (
+                        SELECT COUNT(*)
+                        FROM users u
+                        WHERE u.id = :userId
+                        AND u.role = "admin"
+                    ) > 0
+                )';
         $stmt = $this->db->prepare($query);
         $stmt->bindParam("id", $id, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt;
+        $stmt->bindParam("userId", $userId, PDO::PARAM_INT);
+        $isSuccess = $stmt->execute();
+        return $isSuccess;
     }
 
-    public function lastInsertId($name = null)
+    /**
+     * Retourne l'identifiant de la dernière ligne insérée
+     *
+     * @return int
+     */
+    public function lastId()
     {
         $id = $this->db->lastInsertId();
         return $id;

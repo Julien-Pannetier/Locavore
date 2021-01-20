@@ -13,6 +13,20 @@ class Store
 	{
 		const self = this;
         $.getJSON('./ajax/getStores', function(stores) {
+
+			let radios = $('#storesFilter input');
+    		radios.change(function() {
+				let checked = radios.filter(':checked');
+				console.log(checked.val());
+				
+				if(checked.val() == ""){
+					return stores;
+				} else {
+					let filteredStores = stores.filter(store => store.type === checked.val());
+					console.log(filteredStores);
+				}
+			})
+
             stores.forEach(store => {
 				// Personnalisation des icônes des marqueurs
 				let icons = L.icon({
@@ -27,7 +41,7 @@ class Store
 				self.map.addMarkers(lat, lng, {icon: icons});
 
 				// Ajout de popups aux marqueurs
-				self.map.addPopups('<p>'+ store.name +'</p><br><a href="store/findOneById/'+ store.id +'">Accéder à la fiche complète</a>');
+				self.map.addPopups('<p>'+ store.name +'</p><br><a href="store/findOne/'+ store.id +'">Accéder à la fiche complète</a>');
 			})
         })
 	}

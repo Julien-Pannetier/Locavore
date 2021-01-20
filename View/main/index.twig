@@ -20,15 +20,15 @@
                 <p class="section__subtitle">Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
             </div>
             <div class="row">
-                <div class="col-lg-12 d-flex justify-content-center">
-                    <input class="section__input" type="radio" id="select-all" name="button" />
-                    <label for="select-all" class="section__label section__label--active">Tous les points de vente</label>
-                    <input class="section__input" type="radio" id="select-farm" name="button" />
-                    <label for="select-farm" class="section__label">A la ferme</label>
-                    <input class="section__input" type="radio" id="select-market" name="button" />
-                    <label for="select-market" class="section__label">Marchés</label>
-                    <input class="section__input" type="radio" id="select-drive" name="button" />
-                    <label for="select-drive" class="section__label">Drive fermier</label>
+                <div id="storesFilter" class="col-lg-12 d-flex justify-content-center">
+                    <input class="section__input" type="radio" id="allStore" name="storeType" value="" checked/>
+                    <label for="allStore" class="section__label">Tous les points de vente</label>
+                    <input class="section__input" type="radio" id="Farm" name="storeType" value="Vente à la ferme" />
+                    <label for="Farm" class="section__label">A la ferme</label>
+                    <input class="section__input" type="radio" id="Market" name="storeType" value="Marchés" />
+                    <label for="Market" class="section__label">Marchés</label>
+                    <input class="section__input" type="radio" id="Drive" name="storeType" value="Drive fermier" />
+                    <label for="Drive" class="section__label">Drive fermier</label>
                 </div>
             </div>
             <div id="map"></div>

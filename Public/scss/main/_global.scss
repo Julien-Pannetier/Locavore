@@ -89,6 +89,10 @@ blockquote {
 .section {
   &__input {
     display: none;
+    &:checked + label {
+      color: $white;
+      background: $primary;
+    }
   }
   &__label {
     cursor: pointer;
@@ -103,12 +107,10 @@ blockquote {
     border-radius: 4px;
     &:hover,
     &:focus,
-    &--active,
     &:active {
       color: $white;
       background: $primary;
     }
-    
   }
 }
 

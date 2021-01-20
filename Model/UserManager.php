@@ -23,13 +23,14 @@ class UserManager extends Database
      */
     public function findOneByEmail($email)
     {
+        $user = null;
         $query = 'SELECT * FROM users WHERE email = :email';
         $req = $this->db->prepare($query);
         $req->bindParam("email", $email, PDO::PARAM_STR);
         $req->execute();
         while ($data = $req->fetch()) {
             $user = new User($data);
-        }       
+        }
         return $user;
     }
 
@@ -61,7 +62,7 @@ class UserManager extends Database
      * @param [string] $firstName
      * @param [string] $email
      * @param [string] $password
-     * @return void
+     * @return boolean
      */
     public function create($lastName, $firstName, $email, $password) 
     {
@@ -71,8 +72,8 @@ class UserManager extends Database
         $stmt->bindParam("firstName", $firstName, PDO::PARAM_STR);
         $stmt->bindParam("email", $email, PDO::PARAM_STR);
         $stmt->bindParam("password", $password, PDO::PARAM_STR);
-        $stmt->execute();
-        return $stmt;
+        $isSuccess = $stmt->execute();
+        return $isSuccess;
     }
 
     /**
@@ -81,7 +82,7 @@ class UserManager extends Database
      * @param [int] $id
      * @param [string] $email
      * @param [string] $password
-     * @return void
+     * @return boolean
      */
     public function update($id, $email, $password) 
     {
@@ -90,16 +91,16 @@ class UserManager extends Database
         $stmt->bindParam("email", $email, PDO::PARAM_STR);
         $stmt->bindParam("password", $password, PDO::PARAM_STR);
         $stmt->bindParam("id", $id, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt;
+        $isSuccess = $stmt->execute();
+        return $isSuccess;
     }
 
     /**
      * Modifie le mot de passe d'un utilisateur
      *
-     * @param [type] $id
-     * @param [type] $password
-     * @return void
+     * @param [int] $id
+     * @param [string] $password
+     * @return boolean
      */
     public function updatePassword($id, $password) 
     {
@@ -107,46 +108,22 @@ class UserManager extends Database
         $stmt = $this->db->prepare($query);
         $stmt->bindParam("password", $password, PDO::PARAM_STR);
         $stmt->bindParam("id", $id, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt;
+        $isSuccess = $stmt->execute();
+        return $isSuccess;
     }
 
     /**
      * Supprime un utilisateur
      *
-     * @param [type] $id
-     * @return void
+     * @param [int] $id
+     * @return boolean
      */
     public function delete($id) 
     {
         $query = 'DELETE FROM users WHERE id = :id';
         $stmt = $this->db->prepare($query);
         $stmt->bindParam("id", $id, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt;
-    }
-
-    /**
-     * Connecte un utilisateur
-     *
-     * @param [string] $email
-     * @param [string] $password
-     * @return object
-     */
-    public function login($email, $password) 
-    {
-        $user = $this->findOneByEmail($email);
-        if($user AND password_verify($password, $user->getPassword())) {
-            $_SESSION['user'] = [
-                        'id' => $user->getId(),
-                        'lastName' => $user->getLastName(),
-                        'firstName' => $user->getFirstName(),
-                        'role' => $user->getRole(),
-                        'email' => $user->getEmail()
-                    ];
-            return $user;
-        } else {
-            return false;
-        }
+        $isSuccess = $stmt->execute();
+        return $isSuccess;
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Controller;
 
+use Helper\Session;
+use Helper\Redirect;
 use Helper\Validator;
 use Model\StoreManager;
 use Controller\Controller;
@@ -18,6 +20,8 @@ class StoreController extends Controller
         $this->storeManager = new StoreManager();
         $this->storesProductsFamilyManager = new StoresProductsFamilyManager();
         $this->validator = new Validator($_POST);
+        $this->redirect = new Redirect();
+        $this->session = new Session();
     }
 
     /**
@@ -26,15 +30,19 @@ class StoreController extends Controller
      * @param integer $id Id du point de vente
      * @return void
      */
-    public function findOneById(int $id)
+    public function findOne(int $id)
     {
         $store = $this->storeManager->findOneById($id);
-
-        $this->render('/store/findOneById', compact('store'));
+        if(isset($store)){
+            $this->render('/store/findOneById', compact('store'));
+        } else {
+            $this->redirect->notFound();
+        }
     }
 
     /**
      * Affiche la liste de tous les points de vente
+     * Affiche la liste de tous les points de vente d'un utilisateur
      *
      * @return void
      */
@@ -42,45 +50,158 @@ class StoreController extends Controller
     {
         if($this->validator->isAdmin()){
             $allStores = $this->storeManager->findAll(0, 1000000);
-            
-            $this->render('/store/findAll', compact('allStores'));
-
-        } else {
-            $_SESSION['flash']['danger'] = "Vous n'avez pas les droits nécessaires pour effectuer cette opération.";
-
-            $this->render('/main/index', []);
-        }
-    }
-
-    /**
-     * Affiche la liste de tous les points de vente d'un utilisateur
-     *
-     * @return void
-     */
-    public function findAllByUserId()
-    {
-        if($this->validator->isConnected()){
+            $this->render('/store/findAll', [
+                'head' => [
+                    'description' => 'Description',
+                    'author' => 'Auteur',
+                    'title' => 'Titre',
+                ], 
+                'content' => [
+                    'title' => 'Tous les points de vente',
+                ],
+                'allStores' => $allStores
+            ]);
+        } else if ($this->validator->isConnected()){
             $userId = $_SESSION['user']['id'];
             $allStores = $this->storeManager->findAllByUserId($userId, 0, 1000000);
-            
-            $this->render('/store/findAllByUserId', compact('allStores'));
-
+            $this->render('/store/findAll', [
+                'head' => [
+                    'description' => 'Description',
+                    'author' => 'Auteur',
+                    'title' => 'Titre',
+                ],
+                'content' => [
+                    'title' => 'Tous mes points de vente',
+                ],
+                'allStores' => $allStores
+            ]);
         } else {
-            $_SESSION['flash']['danger'] = "";
+            $this->redirect->notConnected();
+        }
+    }
 
-            $this->render('/user/login', []);
+   
+    /**
+     * Affiche la liste de tous les points de vente approuvés
+     * Affiche la liste des points de vente approuvés d'un utilisateur
+     *
+     * @return void
+     */
+    public function findAllApproved()
+    {
+        $status = 'Approuvé';
+        if($this->validator->isAdmin()){
+            $allStores = $this->storeManager->findAllByStatus($status, 0, 1000000);
+            $this->render('/store/findAll', [
+                'head' => [
+                    'description' => 'Description',
+                    'author' => 'Auteur',
+                    'title' => 'Titre',
+                ],
+                'content' => [
+                    'title' => 'Tous les points de vente approuvés',
+                ],
+                'allStores' => $allStores
+            ]);
+        } else if ($this->validator->isConnected()){
+            $userId = $_SESSION['user']['id'];
+            $allStores = $this->storeManager->findAllByUserIdAndStatus($userId, $status, 0, 1000000);
+            $this->render('/store/findAll', [
+                'head' => [
+                    'description' => 'Description',
+                    'author' => 'Auteur',
+                    'title' => 'Titre',
+                ],
+                'content' => [
+                    'title' => 'Tous mes points de vente approuvés',
+                ],
+                'allStores' => $allStores
+            ]);
+        } else {
+            $this->redirect->notConnected();
         }
     }
 
     /**
-     * Affiche tous les points de vente
+     * Affiche la liste de tous les points de vente en attente de validation
+     * Affiche la liste des points de vente en attente de validation d'un utilisateur
      *
      * @return void
      */
-    public function index()
+    public function findAllPending()
     {
-        $stores =  $this->storeManager->findAll(0, 1000000);
-        $this->render('/store/index', compact('stores'));
+        $status = 'En attente';
+        if($this->validator->isAdmin()){
+            $allStores = $this->storeManager->findAllByStatus($status, 0, 1000000);
+            $this->render('/store/findAll', [
+                'head' => [
+                    'description' => 'Description',
+                    'author' => 'Auteur',
+                    'title' => 'Titre',
+                ],
+                'content' => [
+                    'title' => 'Tous les points de vente en attente de validation',
+                ],
+                'allStores' => $allStores
+            ]);
+        } else if ($this->validator->isConnected()){
+            $userId = $_SESSION['user']['id'];
+            $allStores = $this->storeManager->findAllByUserIdAndStatus($userId, $status, 0, 1000000);
+            $this->render('/store/findAll', [
+                'head' => [
+                    'description' => 'Description',
+                    'author' => 'Auteur',
+                    'title' => 'Titre',
+                ],
+                'content' => [
+                    'title' => 'Tous mes points de vente en attente de validation',
+                ],
+                'allStores' => $allStores
+            ]);
+        } else {
+            $this->redirect->notConnected();
+        }
+    }
+
+    /**
+     * Affiche la liste de tous les points de vente rejetés
+     * Affiche la liste des points de vente rejetés d'un utilisateur
+     *
+     * @return void
+     */
+    public function findAllRejected()
+    {
+        $status = 'Rejeté';
+        if($this->validator->isAdmin()){
+            $allStores = $this->storeManager->findAllByStatus($status, 0, 1000000);
+            $this->render('/store/findAll', [
+                'head' => [
+                    'description' => 'Description',
+                    'author' => 'Auteur',
+                    'title' => 'Titre',
+                ],
+                'content' => [
+                    'title' => 'Tous les points de vente rejetés',
+                ],
+                'allStores' => $allStores
+            ]);
+        } else if ($this->validator->isConnected()){
+            $userId = $_SESSION['user']['id'];
+            $allStores = $this->storeManager->findAllByUserIdAndStatus($userId, $status, 0, 1000000);
+            $this->render('/store/findAll', [
+                'head' => [
+                    'description' => 'Description',
+                    'author' => 'Auteur',
+                    'title' => 'Titre',
+                ],
+                'content' => [
+                    'title' => 'Tous mes points de vente rejetés',
+                ],
+                'allStores' => $allStores
+            ]);
+        } else {
+            $this->redirect->notConnected();
+        }
     }
 
     /**
@@ -90,10 +211,16 @@ class StoreController extends Controller
      * @return void
      */
     public function delete(int $id)
-    {
-        $this->storeManager->delete($id);
+    {       
+        $userId = $_SESSION['user']['id'];
+        $this->storesProductsFamilyManager->delete($id);
+        $this->storeManager->delete($id, $userId);
+
+        $this->session->setFlash("success", "Le point de vente a bien été supprimé.");
         
-        header('Location: '.$_SERVER['HTTP_REFERER']);
+        $allStores = $this->storeManager->findAllByUserId($userId, 0, 1000000);
+
+        $this->render('/store/findAllByUserId', compact('allStores'));
     }
 
     /**
@@ -130,21 +257,45 @@ class StoreController extends Controller
 
             if (isset($name) && isset($description) && isset($type) && isset($address) && isset($postalCode) && isset($city) && isset($country) && isset($lat) && isset($lng)) {
                 $stmt = $this->storeManager->create($userId, $name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat, $phone, $email, $website, $facebook, $twitter, $instagram, $monday, $tuesday, $wednesday, $thursday, $friday, $saturday, $sunday);
-                $storeId = $this->storeManager->lastInsertId();
+                $storeId = $this->storeManager->lastId();
                 $products = $_POST['checkbox'];
                 foreach($products as $productId){
                     $this->storesProductsFamilyManager->create( $storeId, $productId);
                 }
                 if ($stmt === false) {
-                    $this->render('/store/create', []);
+                    $this->render('/store/create', [
+                        'head' => [
+                            'description' => 'Description',
+                            'author' => 'Auteur',
+                            'title' => 'Titre',
+                        ]
+                    ]);
                 } else {
-                    $this->render('/user/dashboard', []);
+                    $this->render('/user/dashboard', [
+                        'head' => [
+                            'description' => 'Description',
+                            'author' => 'Auteur',
+                            'title' => 'Titre',
+                        ]
+                    ]);
                 }
             } else {
-                $this->render('/store/create', []);
+                $this->render('/store/create', [
+                    'head' => [
+                        'description' => 'Description',
+                        'author' => 'Auteur',
+                        'title' => 'Titre',
+                    ]
+                ]);
             }
         }
-        $this->render('/store/create', []);
+        $this->render('/store/create', [
+            'head' => [
+                'description' => 'Description',
+                'author' => 'Auteur',
+                'title' => 'Titre',
+            ]
+        ]);
     }
 
     /* 

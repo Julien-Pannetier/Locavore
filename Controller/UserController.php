@@ -2,9 +2,11 @@
 
 namespace Controller;
 
-use Controller\Controller;
-use Model\UserManager;
+use Helper\Session;
+use Helper\Redirect;
 use Helper\Validator;
+use Model\UserManager;
+use Controller\Controller;
 
 class UserController extends Controller
 {
@@ -16,6 +18,8 @@ class UserController extends Controller
     {
         $this->userManager = new UserManager;
         $this->validator = new Validator($_POST);
+        $this->redirect = new Redirect();
+        $this->session = new Session();
     }
 
     /**
@@ -31,20 +35,20 @@ class UserController extends Controller
             $this->validator->isText('firstName', "Veuillez entrer votre prénom.");
             $this->validator->isEmail('email', "Veuillez entrer une adresse de messagerie valide.");
             if($this->validator->isValid()){
-                $user = $this->userManager->findOneByEmail(strip_tags($_POST['email']));
-                $this->validator->isUniq('email', $user,"Cette adresse de messagerie est déjà utilisée.");           
+                $user = $this->userManager->findOneByEmail(htmlspecialchars($_POST['email']));
+                $this->validator->isUniq('email', $user, "Cette adresse de messagerie est déjà utilisée.");           
             }
             $this->validator->isPassword('password', "Veuillez entrer un mot de passe valide.");
 
             if($this->validator->isValid()){
-                $lastName = strip_tags($_POST['lastName']);
-                $firstName = strip_tags($_POST['firstName']);
-                $email = strip_tags($_POST['email']);
+                $lastName = htmlspecialchars($_POST['lastName']);
+                $firstName = htmlspecialchars($_POST['firstName']);
+                $email = htmlspecialchars($_POST['email']);
                 $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
                 $user = $this->userManager->create($lastName, $firstName, $email, $password);
-
-                $_SESSION['flash']['success'] = "Votre compte a bien été créé.";
-                $this->render('/user/login', []);
+                $this->session->setFlash("success", "Votre compte a bien été créé.");
+                header('Location: /user/login');
+                exit;
             } else {
                 $errors = $this->validator->getErrors();
             }
@@ -61,17 +65,26 @@ class UserController extends Controller
      */
     public function login() 
     {
-        if(!empty($_POST) && !empty($_POST['email']) && !empty($_POST['password'])){
-            $user = $this->userManager->login(strip_tags($_POST['email']), strip_tags($_POST['password']));
-            if (!$user) {
-                $_SESSION['flash']['danger'] = "Identifiant / mot de passe incorrect.";
-                $this->render('/user/login', []);
+        $errors = array();
+        if(!empty($_POST)){
+            $this->validator->isEmail('email', "Veuillez entrer une adresse de messagerie valide.");
+            $this->validator->isPassword('password', "Veuillez entrer un mot de passe valide.");
+            if($this->validator->isValid()){
+                $user = $this->userManager->findOneByEmail(htmlspecialchars($_POST['email']));
+                if($user AND password_verify(htmlspecialchars($_POST['password']), $user->getPassword())) {
+                    $this->session->setUser($user);
+                    header('Location: /user/dashboard');
+                    exit();
+                } else {
+                    $this->session->setFlash("error", "Identifiant / mot de passe incorrect.");
+                    header('Location: /user/login');
+                    exit();
+                }
             } else {
-                $_SESSION['flash']['success'] = "Vous êtes bien connecté.";
-                $this->render('/user/dashboard', []);
+                $errors = $this->validator->getErrors();
             }
         }
-        $this->render('/user/login', []);
+        $this->render('/user/login', compact('errors'));
     }
 
     /**
@@ -81,9 +94,8 @@ class UserController extends Controller
      */
     public function logout()
     {
-        unset($_SESSION['user']);
-        $_SESSION['flash']['success'] = "Vous avez été déconnecté.";
-        header('Location: /');
+        $this->session->unsetUser();
+        $this->redirect->logout();
     }
 
 
@@ -100,16 +112,20 @@ class UserController extends Controller
         }
     }
 
-
     public function forgotPassword()
     {
         $this->render('/user/forgotPassword', []);
     }
 
-
     public function dashboard()
     {
-        
-        $this->render('/user/dashboard', []);
+        if($this->validator->isAdmin()){
+            // Ecrire le code et corriger le chemin du render
+            $this->render('/user/dashboard', []);
+        } else if ($this->validator->isConnected()){
+            $this->render('/user/dashboard', []);
+        } else {
+            $this->redirect->notConnected();
+        }
     }
 }

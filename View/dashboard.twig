@@ -6,15 +6,16 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="{% block description %}{% endblock %}">
-        <meta name="author" content="{% block author %}{% endblock %}">
-
-        <title>{% block title %}{% endblock %}</title>
+        
+        {% block head %}{% endblock %}
 
         <!-- Custom fonts for this template-->
         <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
+        <!-- Toastr CSS -->
+        <link href="/vendor/toastr/toastr.min.css" rel="stylesheet">
+        
         <!-- Leaflet CSS -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css">
 		<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css">
@@ -56,10 +57,10 @@
                     </a>
                     <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="/store/findAllByUserId/">Tous les points de vente</a>
-                            <a class="collapse-item" href="/store/findApprouvedByuserId/">Approuvé</a>
-                            <a class="collapse-item" href="/store/findPendingByUserId/">En attente</a>
-                            <a class="collapse-item" href="/store/findRejectedByUserId/">Rejeté</a>
+                            <a class="collapse-item" href="/store/findAll">Tous mes points de vente</a>
+                            <a class="collapse-item" href="/store/findAllApproved">Approuvé</a>
+                            <a class="collapse-item" href="/store/findAllPending">En attente</a>
+                            <a class="collapse-item" href="/store/findAllRejected">Rejeté</a>
                         </div>
                     </div>
                 </li>
@@ -169,6 +170,9 @@
         <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
         <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
 
+        <!-- Toastr JavaScript -->
+        <script src="/vendor/toastr/toastr.min.js"></script>
+
         <!-- Page level plugins -->
         <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
         <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
@@ -181,6 +185,7 @@
 
         <script src="/public/js/map.js"></script>
         <script src="/public/js/marker.js"></script>
+        <script src="/public/js/flash.js"></script>
         <script src="/public/js/createStore.js"></script>
 
     </body>

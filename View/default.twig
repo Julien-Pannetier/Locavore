@@ -14,6 +14,9 @@
         <!-- Bootstrap core CSS -->
         <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
+        <!-- Toastr CSS -->
+        <link href="/vendor/toastr/toastr.min.css" rel="stylesheet">
+
         <!-- Custom fonts for this template -->
         <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
         <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
@@ -50,18 +53,33 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/main/contact">Contact</a>
                         </li>
-                    </ul>
-                    <ul class="navbar-nav">
-                        {% if session.user %}
-                            <li>
-                                <a class="btn btn-outline-primary" href="/user/logout">Se déconnecter</a>
+                       {% if session.user %}
+                            <!-- Nav Item -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link " href="#" id="mainNavigationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="mr-2 d-lg-inline">{{ session.user.firstName }} {{ session.user.lastName }}</span>
+                                    <i class="fas fa-caret-down"></i>
+                                </a>
+
+                                <!-- Dropdown -->
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="mainNavigationDropdown">
+                                    <a class="dropdown-item" href="/user/dashboard/">
+                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Mon compte
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Déconnexion
+                                    </a>
+                                </div>
                             </li>
                         {% else %}
                             <li>
-                                <a class="btn btn-outline-primary" href="/user/register">S'inscrire</a>
+                                <a class="btn btn-outline-primary" href="/user/register/">S'inscrire</a>
                             </li>
                             <li>
-                                <a class="btn btn-outline-primary" href="/user/login">Se connecter</a>
+                                <a class="btn btn-outline-primary" href="/user/login/">Se connecter</a>
                             </li>
                         {% endif %}
                     </ul>
@@ -108,6 +126,27 @@
             </div>
         </footer>
 
+        <!-- Logout Modal-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="logoutModalLabel">Confirmation de déconnexion</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Etes-vous sûr de vouloir vous déconnecter ?
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Non</button>
+                        <a class="btn btn-primary" href="/user/logout">Oui</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Bootstrap core JavaScript -->
         <script src="/vendor/jquery/jquery.min.js"></script>
         <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -116,11 +155,16 @@
         <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
         <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
 
+        <!-- Toastr JavaScript -->
+        <script src="/vendor/toastr/toastr.min.js"></script>
+
         <!-- Custom scripts -->
         <script src="/public/js/clean-blog.min.js"></script>
 
         <script src="/public/js/map.js"></script>
         <script src="/public/js/store.js"></script>
+        <script src="/public/js/flash.js"></script>
+        <script src="/public/js/filter.js"></script>
         <script src="/public/js/main.js"></script>
 
     </body>

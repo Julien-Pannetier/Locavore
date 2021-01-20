@@ -1,6 +1,13 @@
-{% extends 'admin.twig' %}
+{% extends 'dashboard.twig' %}
+
+{% block head %}
+        <meta name="description" content="{{ head.description }}">
+        <meta name="author" content="{{ head.author }}">
+
+        <title>{{ head.title }}</title>
+{% endblock %}
 
 {% block content %}
-    <h1>Modifier un point de vente</h1>
-    {{ form }}
+
+
 {% endblock %}

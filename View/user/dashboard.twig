@@ -1,14 +1,11 @@
 {% extends 'dashboard.twig' %}
 {% import 'form.twig' as form %}
 
-{% block description %}
-    Description
-{% endblock %}
-{% block author %}
-    Auteur
-{% endblock %}
-{% block title %}
-    Title
+{% block head %}
+        <meta name="description" content="{{ head.description }}">
+        <meta name="author" content="{{ head.author }}">
+
+        <title>{{ head.title }}</title>
 {% endblock %}
 
 {% block content %}
