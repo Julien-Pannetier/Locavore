@@ -4,7 +4,7 @@ class Marker
 	constructor(map)
 	{
         this.map = map; // Objet carte
-        this.marker;
+        this.marker; // Marqueur
 
         this.eventListener();
 	}
@@ -15,7 +15,7 @@ class Marker
         document.querySelector('#city').addEventListener("blur", this.addMarkerByAddress.bind(this));
     }
 
-    // Ajout d'un marker au clic sur la carte
+    // Ajout d'un marqueur au clic sur la carte
 	addMarkerOnMapClick(e)
 	{
         // Récupération des coordonnées du clic

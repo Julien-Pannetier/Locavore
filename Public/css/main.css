@@ -148,20 +148,6 @@ blockquote {
   border-color: #fff;
 }
 
-@media (min-width: 992px) {
-  .cta__btn-container {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    -webkit-box-pack: end;
-        -ms-flex-pack: end;
-            justify-content: flex-end;
-  }
-}
-
 .section-heading {
   font-size: 36px;
   font-weight: 700;
@@ -250,28 +236,6 @@ blockquote {
   margin: 0 10px;
 }
 
-/* ::-moz-selection {
-  color: $white;
-  background: $primary;
-  text-shadow: none;
-}
-
-::selection {
-  color: $white;
-  background: $primary;
-  text-shadow: none;
-}
-
-img::selection {
-  color: $white;
-  background: transparent;
-}
-
-img::-moz-selection {
-  color: $white;
-  background: transparent;
-}
- */
 #mainNav {
   background: #fff;
   padding: 20px 0;
