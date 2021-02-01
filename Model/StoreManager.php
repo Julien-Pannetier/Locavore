@@ -25,7 +25,14 @@ class StoreManager extends Database
     public function findOneById($id)
     {
         $store = null;
-        $query = 'SELECT * FROM stores WHERE id = :id';
+        $query = "SELECT s.id, s.user_id, s.name, s.description, s.type, s.address, s.postal_code, s.city, s.country, ST_AsText(s.lng_lat) as wkt, s.phone, s.email, s.website, s.facebook, s.twitter, s.instagram, s.monday, s.tuesday, s.wednesday, s.thursday, s.friday, s.saturday, s.sunday,
+                    (SELECT GROUP_CONCAT(pf.family_name SEPARATOR ', ') AS fn
+                    FROM products_family pf
+                    INNER JOIN stores_products_family spf ON spf.product_family_id = pf.id
+                    WHERE spf.store_id = s.id
+                    GROUP BY spf.store_id) AS family_name 
+                FROM stores s
+                WHERE id = :id";
         $req = $this->db->prepare($query);
         $req->bindParam("id", $id, PDO::PARAM_INT);
         $req->execute();

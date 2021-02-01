@@ -63,11 +63,13 @@ class Store
 
 
 		// Suppression des marqueurs
-		if(this.map.marker != undefined){
+ 		if(this.map.marker != undefined){
 			console.log("4");
 			this.map.removeMarkers();
 			self.marker = null;
 		}
+
+
 		console.log("marker", self.marker);
 		console.log("markerCluster2", this.map.marker);
 

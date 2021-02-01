@@ -298,6 +298,90 @@ class StoreController extends Controller
         ]);
     }
 
+    /**
+     * Modifie un point de vente
+     *
+     * @param integer $id Id du point de vente
+     * @return void
+     */
+    public function update(int $id)
+    {
+        $store = $this->storeManager->findOneById($id);
+        var_dump($store);
+        if(isset($store)){
+            if(!empty($_POST)){
+                $name = $_POST['name'];
+                $description = $_POST['description'];
+                $type = $_POST['type'];
+                $address = $_POST['address'];
+                $postalCode = $_POST['postalCode'];
+                $city = $_POST['city'];
+                $country = $_POST['country'];
+                $lat = $_POST['lat'];
+                $lng = $_POST['lng'];
+                $phone = $_POST['phone'];
+                $email = $_POST['email']; 
+                $website = $_POST['website'];
+                $facebook = $_POST['facebook']; 
+                $twitter = $_POST['twitter'];
+                $instagram = $_POST['instagram'];
+                $userId = $_SESSION['user']['id'];
+                $monday = $_POST['monday'];
+                $tuesday = $_POST['tuesday'];
+                $wednesday = $_POST['wednesday'];
+                $thursday = $_POST['thursday'];
+                $friday = $_POST['friday'];
+                $saturday = $_POST['saturday'];
+                $sunday = $_POST['sunday'];
+    
+                if (isset($name) && isset($description) && isset($type) && isset($address) && isset($postalCode) && isset($city) && isset($country) && isset($lat) && isset($lng)) {
+                    $stmt = $this->storeManager->create($userId, $name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat, $phone, $email, $website, $facebook, $twitter, $instagram, $monday, $tuesday, $wednesday, $thursday, $friday, $saturday, $sunday);
+                    $storeId = $this->storeManager->lastId();
+                    $products = $_POST['checkbox'];
+                    foreach($products as $productId){
+                        $this->storesProductsFamilyManager->create( $storeId, $productId);
+                    }
+                    if ($stmt === false) {
+                        $this->render('/store/update', [
+                            'head' => [
+                                'description' => 'Description',
+                                'author' => 'Auteur',
+                                'title' => 'Titre',
+                            ]
+                        ]);
+                    } else {
+                        $this->session->setFlash("success", "Votre point de vente a été modifié avec succès");
+                        $this->render('/user/dashboard', [
+                            'head' => [
+                                'description' => 'Description',
+                                'author' => 'Auteur',
+                                'title' => 'Titre',
+                            ]
+                        ]);
+                    }
+                } else {
+                    $this->render('/store/update', [
+                        'head' => [
+                            'description' => 'Description',
+                            'author' => 'Auteur',
+                            'title' => 'Titre',
+                        ]
+                    ]);
+                }
+            }
+            $this->render('/store/update', [
+                'head' => [
+                    'description' => 'Description',
+                    'author' => 'Auteur',
+                    'title' => 'Titre',
+                ],
+                'store' => $store
+            ]);
+        } else {
+            $this->redirect->notFound();
+        }
+    }
+
     /* 
         if(isset($_SESSION['user']) && !empty($_SESSION['user']['id'])){
 

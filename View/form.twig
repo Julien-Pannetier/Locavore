@@ -1,28 +1,28 @@
-{% macro text(name, label, message) %}
+{% macro text(name, label, message, placeholder = null, value = null) %}
     <div class="control-group">
         <div class="form-group controls">
             <label for="{{ name }}">{{ label }}</label>
-            <input type="text" id="{{ name }}" name="{{ name }}" class="form-control" required data-validation-required-message="{{ message }}">
+            <input type="text" id="{{ name }}" name="{{ name }}" class="form-control" required data-validation-required-message="{{ message }}" placeholder="{{ placeholder }}" value="{{ value }}">
             <p class="help-block text-danger"></p>
         </div>
     </div>
 {% endmacro %}
 
-{% macro email(name, label, message) %}
+{% macro email(name, label, message, placeholder, value) %}
     <div class="control-group">
         <div class="form-group controls">
             <label for="{{ name }}">{{ label }}</label>
-            <input type="email" id="{{ name }}" name="{{ name }}" class="form-control" required data-validation-required-message="{{ message }}">
+            <input type="email" id="{{ name }}" name="{{ name }}" class="form-control" required data-validation-required-message="{{ message }}" placeholder="{{ placeholder }}" value="{{ value }}">
             <p class="help-block text-danger"></p>
         </div>
     </div>
 {% endmacro %}
 
-{% macro textarea(name, label, message) %}
+{% macro textarea(name, label, message, placeholder, value) %}
     <div class="control-group">
         <div class="form-group controls">
             <label for="{{ name }}">{{ label }}</label>
-            <textarea rows="5" id="{{ name }}" name="{{ name }}" class="form-control" required data-validation-required-message="{{ message }}"></textarea>
+            <textarea rows="5" id="{{ name }}" name="{{ name }}" class="form-control" required data-validation-required-message="{{ message }}" placeholder="{{ placeholder }}">{{ value }}</textarea>
             <p class="help-block text-danger"></p>
         </div>
     </div>
@@ -57,10 +57,10 @@
     </div>
 {% endmacro %}
 
-{% macro checkbox(id, name, label, value) %}
+{% macro checkbox(id, name, label, value, checked) %}
     <div class="control-group">
         <div class="form-group controls checkbox">
-            <input type="checkbox" id="{{ id }}" name="{{ name }}" class="form-control" value="{{ value }}" />
+            <input type="checkbox" id="{{ id }}" name="{{ name }}" class="form-control" value="{{ value }}" {{ checked }}/>
             <label for="{{ id }}">{{ label }}</label>
         </div>
     </div>
