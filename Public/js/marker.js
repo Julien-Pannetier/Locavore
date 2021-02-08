@@ -6,13 +6,18 @@ class Marker
         this.map = map; // Objet carte
         this.marker; // Marqueur
 
+        this.lat = document.querySelector("#lat");
+        this.lng = document.querySelector("#lng");
+        this.city = document.querySelector('#city');
+
         this.eventListener();
 	}
 
     eventListener()
     {
         this.map.addCustomEvent(this.map.map, 'click', this.addMarkerOnMapClick.bind(this));
-        document.querySelector('#city').addEventListener("blur", this.addMarkerByAddress.bind(this));
+        this.city.addEventListener("blur", this.addMarkerByAddress.bind(this));
+        this.lat.addEventListener("input", this.addMarker(this.lat.value, this.lng.value).bind(this))
     }
 
     // Ajout d'un marqueur au clic sur la carte
@@ -85,8 +90,8 @@ class Marker
     // Affichage des coordonnées dans le formulaire
     getCurrentPosition(lat, lng)
     {
-        document.querySelector("#lat").value = lat;
-        document.querySelector("#lng").value = lng;
+        this.lat.value = lat;
+        this.lng.value = lng;
     }
 
     // Correction des coordonnées au déplacement du marqueur

@@ -307,7 +307,6 @@ class StoreController extends Controller
     public function update(int $id)
     {
         $store = $this->storeManager->findOneById($id);
-        var_dump($store);
         if(isset($store)){
             if(!empty($_POST)){
                 $name = $_POST['name'];

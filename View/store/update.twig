@@ -12,7 +12,7 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Modifier le point de vente {{store.name}}</h1>
+        <h1 class="h3 mb-0 text-gray-800">Modifier le point de vente</h1>
     </div>
 
     <!-- ======= Update Store Section ======= -->
@@ -23,18 +23,22 @@
  #}            <div class="row">
                 <div class="col-lg-8 col-md-10 mx-auto">
                     <form name="updateStoreForm" id="updateStoreForm" action="" method="POST" novalidate>
-                        {{ form.text('name', 'Nom du point de vente:', 'Veuillez entrer le nom du point de vente.', '', store.name) }}
-                        {{ form.textarea('description', 'Description :', 'Veuillez entrer une description.') }}
-                        {{ form.select('type', 'Type :', [{"value": "Vente à la ferme"}, {"value": "Marchés"}, {"value": "Drive fermier"}], 'Veuillez entrer un type de point de vente.') }}
-                        {{ form.text('address', 'Adresse :', 'Veuillez entrer l\'adresse du point de vente.') }}
-                        {{ form.text('postalCode', 'Code postal :', 'Veuillez entrer le code postal.') }}
-                        {{ form.text('city', 'Ville :', 'Veuillez entrer la ville.') }}
-                        {{ form.text('country', 'Pays :', 'Veuillez entrer le pays.') }}
-                        <div id="updateStoreMap"></div>
-                        {{ form.text('lat', 'Latitude :', 'Veuillez entrer les coordonnées géographiques.') }}
-                        {{ form.text('lng', 'Longitude :', 'Veuillez entrer les coordonnées géographiques.') }}
 
-                        {{ dump(store) }}
+                        {{ form.text('name', 'Nom du point de vente:', 'Veuillez entrer le nom du point de vente.', '', store.name) }}
+                        {{ form.textarea('description', 'Description :', 'Veuillez entrer une description.', '', store.description) }}
+
+						{{ store.type }}
+
+                        {{ form.select('type', 'Type :', [{"value": "Vente à la ferme"}, {"value": "Marchés"}, {"value": "Drive fermier"}], 'Veuillez entrer un type de point de vente.', store.type) }}
+                        {{ form.text('address', 'Adresse :', 'Veuillez entrer l\'adresse du point de vente.', '', store.address) }}
+                        {{ form.text('postalCode', 'Code postal :', 'Veuillez entrer le code postal.', '', store.postal_code) }}
+                        {{ form.text('city', 'Ville :', 'Veuillez entrer la ville.', '', store.city) }}
+                        {{ form.text('country', 'Pays :', 'Veuillez entrer le pays.', '', store.country) }}
+                        <div id="updateStoreMap"></div>								 
+                        {{ form.text('lat', 'Latitude :', 'Veuillez entrer les coordonnées géographiques.', '', store.wkt | latitude) }}
+                        {{ form.text('lng', 'Longitude :', 'Veuillez entrer les coordonnées géographiques.', '', store.wkt | longitude) }}
+
+						{{ store.family_name | products }}
 
                         {{ form.checkbox('Alcool', 'checkbox[]', 'Alcool / cidre / bière', '1') }}
                         {{ form.checkbox('Jus', 'checkbox[]', 'Jus / Boissons sans alcool', '2') }}
@@ -54,24 +58,24 @@
                         {{ form.checkbox('Poisson', 'checkbox[]', 'Poisson / fruit de mer / algues', '16') }}
                         {{ form.checkbox('Aromates', 'checkbox[]', 'Aromates / épices', '17') }}
 
-                        {{ form.text('phone', 'Téléphone :') }}
-                        {{ form.text('email', 'Adresse électronique :') }}
-                        {{ form.text('website', 'Site internet :') }}
-                        {{ form.text('facebook', 'Page Facebook :') }}
-                        {{ form.text('twitter', 'Page Twitter :') }}
-                        {{ form.text('instagram', 'Page Instagram :') }}                                              
-                        {{ form.text('monday', 'Lundi :') }}
-                        {{ form.text('tuesday', 'Mardi :') }}
-                        {{ form.text('wednesday', 'Mercredi :') }}
-                        {{ form.text('thursday', 'Jeudi :') }}
-                        {{ form.text('friday', 'Vendredi :') }}
-                        {{ form.text('saturday', 'samedi :') }}
-                        {{ form.text('sunday', 'Dimanche :') }}
+                        {{ form.text('phone', 'Téléphone :', '', store.phone) }}
+                        {{ form.text('email', 'Adresse électronique :', '', store.email) }}
+                        {{ form.text('website', 'Site internet :', '', store.website) }}
+                        {{ form.text('facebook', 'Page Facebook :', '', store.facebook) }}
+                        {{ form.text('twitter', 'Page Twitter :', '', store.twitter) }}
+                        {{ form.text('instagram', 'Page Instagram :', '', store.instagram) }}                                              
+                        {{ form.text('monday', 'Lundi :', '', store.monday) }}
+                        {{ form.text('tuesday', 'Mardi :', '', store.tuesday) }}
+                        {{ form.text('wednesday', 'Mercredi :', '', store.wednesday) }}
+                        {{ form.text('thursday', 'Jeudi :', '', store.thursday) }}
+                        {{ form.text('friday', 'Vendredi :', '', store.friday) }}
+                        {{ form.text('saturday', 'Samedi :', '', store.saturday) }}
+                        {{ form.text('sunday', 'Dimanche :', '', store.sunday) }}
 
                         <br>
                         <div id="success"></div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary " id="updateStoreButton">Modifier le point de vente</button>
+                            <button type="submit" class="btn btn-primary" id="updateStoreButton">Modifier le point de vente</button>
                         </div>
                     </form>
                 </div>
@@ -79,4 +83,30 @@
         </div>
     </section><!-- End Update Store Section -->
     
+{% endblock %}
+
+{% block script %}
+
+	<!-- Bootstrap core JavaScript-->
+	<script src="/vendor/jquery/jquery.min.js"></script>
+	<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Core plugin JavaScript-->
+	<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+	<!-- Leaflet JavaScript -->
+	<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+	<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+
+	<!-- Toastr JavaScript -->
+	<script src="/vendor/toastr/toastr.min.js"></script>
+
+	<!-- Custom scripts for Dashboard-->
+	<script src="/public/js/dashboard/dashboard.min.js"></script>
+
+	<script src="/public/js/map.js"></script>
+	<script src="/public/js/marker.js"></script>
+	<script src="/public/js/flash.js"></script>
+	<script src="/public/js/updateStore.js"></script>
+
 {% endblock %}

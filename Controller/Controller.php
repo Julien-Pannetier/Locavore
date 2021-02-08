@@ -2,6 +2,8 @@
 
 namespace Controller;
 
+use Helper\TwigExtension;
+
 abstract class Controller
 {
 
@@ -13,6 +15,7 @@ abstract class Controller
             'debug' => true
         ]);
         $twig->addExtension(new \Twig\Extension\DebugExtension());
+        $twig->addExtension(new TwigExtension);        
         $twig->addGlobal('session', $_SESSION);
         
         echo $twig->render($file.'.twig', $data);

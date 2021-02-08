@@ -159,34 +159,7 @@
             </div>
         </div>
 
-        <!-- Bootstrap core JavaScript-->
-        <script src="/vendor/jquery/jquery.min.js"></script>
-        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-        <!-- Core plugin JavaScript-->
-        <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-        <!-- Leaflet JavaScript -->
-        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
-        <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
-
-        <!-- Toastr JavaScript -->
-        <script src="/vendor/toastr/toastr.min.js"></script>
-
-        <!-- Page level plugins -->
-        <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
-        <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-        <!-- Page level custom scripts -->
-        <script src="/public/js/dashboard/datatables.js"></script>
-
-        <!-- Custom scripts for Dashboard-->
-        <script src="/public/js/dashboard/dashboard.min.js"></script>
-
-        <script src="/public/js/map.js"></script>
-        <script src="/public/js/marker.js"></script>
-        <script src="/public/js/flash.js"></script>
-        <script src="/public/js/createStore.js"></script>
+        {% block script %}{% endblock %}
 
     </body>
 </html>

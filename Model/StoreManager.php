@@ -22,22 +22,23 @@ class StoreManager extends Database
      * @param [int] $id
      * @return object
      */
-    public function findOneById($id)
+    public function findOneById(int $id)
     {
         $store = null;
         $query = "SELECT s.id, s.user_id, s.name, s.description, s.type, s.address, s.postal_code, s.city, s.country, ST_AsText(s.lng_lat) as wkt, s.phone, s.email, s.website, s.facebook, s.twitter, s.instagram, s.monday, s.tuesday, s.wednesday, s.thursday, s.friday, s.saturday, s.sunday,
-                    (SELECT GROUP_CONCAT(pf.family_name SEPARATOR ', ') AS fn
-                    FROM products_family pf
-                    INNER JOIN stores_products_family spf ON spf.product_family_id = pf.id
-                    WHERE spf.store_id = s.id
-                    GROUP BY spf.store_id) AS family_name 
-                FROM stores s
-                WHERE id = :id";
+            (SELECT GROUP_CONCAT(pf.family_name SEPARATOR ', ') AS fn
+            FROM products_family pf
+            INNER JOIN stores_products_family spf ON spf.product_family_id = pf.id
+            WHERE spf.store_id = s.id
+            GROUP BY spf.store_id) AS family_name 
+        FROM stores s
+        WHERE s.id = :id";
         $req = $this->db->prepare($query);
         $req->bindParam("id", $id, PDO::PARAM_INT);
         $req->execute();
         while ($data = $req->fetch()) {
-            $store = new Store($data);
+            //$store = new Store($data);
+            $store = $data;
         }
         return $store;
     }
@@ -251,7 +252,7 @@ class StoreManager extends Database
      * @param [string] $sunday
      * @return boolean
      */
-    public function update($id, $name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat, $phone, $email, $website, $facebook, $twitter, $instagram, $monday, $tuesday, $wednesday, $thursday, $friday, $saturday, $sunday) 
+    public function update($name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat, $phone, $email, $website, $facebook, $twitter, $instagram, $monday, $tuesday, $wednesday, $thursday, $friday, $saturday, $sunday) 
     {
         $wkt = "POINT(".$lng." ".$lat.")";
         $query = "UPDATE stores SET name = :name, description = :description, type = :type, address = :address, postal_code = :postalCode, city = :city, country = :country, lng_lat = ST_GeomFromText(:wkt), phone = :phone, email = :email, website = :website, facebook = :facebook, twitter = :twitter, instagram = :instagram, monday = :monday, tuesday = :tuesday, wednesday = :wednesday, thursday = :thursday, friday = :friday, saturday = :saturday, sunday = :sunday, update_at = NOW() WHERE id = :id";
