@@ -29,7 +29,6 @@ class Validator
         if(!isset($_SESSION['user'])){
             $this->redirect->notConnected();
         }
-        return true;
     }
 
     public function isAdmin()

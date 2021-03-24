@@ -38,7 +38,7 @@
     </div>
 {% endmacro %}
 
-{% macro select(name, label, options, message) %}
+{% macro select(name, label, options, message, selected = null) %}
     <div class="control-group">
         <div class="form-group controls">
             <label for="{{ name }}">{{ label }}</label>
@@ -57,10 +57,10 @@
     </div>
 {% endmacro %}
 
-{% macro checkbox(id, name, label, value, checked) %}
+{% macro checkbox(id, name, label, value, checked = null) %}
     <div class="control-group">
         <div class="form-group controls checkbox">
-            <input type="checkbox" id="{{ id }}" name="{{ name }}" class="form-control" value="{{ value }}" {{ checked }}/>
+            <input type="checkbox" id="{{ id }}" name="{{ name }}" class="form-control" value="{{ value }}" {% if checked %} checked="checked"{% endif %}/>
             <label for="{{ id }}">{{ label }}</label>
         </div>
     </div>

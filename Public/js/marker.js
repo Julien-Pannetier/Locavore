@@ -4,7 +4,6 @@ class Marker
 	constructor(map)
 	{
         this.map = map; // Objet carte
-        this.marker; // Marqueur
 
         this.lat = document.querySelector("#lat");
         this.lng = document.querySelector("#lng");
@@ -13,11 +12,12 @@ class Marker
         this.eventListener();
 	}
 
+    // Ecoute les évènements
     eventListener()
     {
         this.map.addCustomEvent(this.map.map, 'click', this.addMarkerOnMapClick.bind(this));
         this.city.addEventListener("blur", this.addMarkerByAddress.bind(this));
-        this.lat.addEventListener("input", this.addMarker(this.lat.value, this.lng.value).bind(this))
+        this.lat.addEventListener("input", this.addMarker(this.lat.value, this.lng.value));
     }
 
     // Ajout d'un marqueur au clic sur la carte

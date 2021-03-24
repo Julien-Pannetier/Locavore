@@ -27,9 +27,8 @@
                         {{ form.text('name', 'Nom du point de vente:', 'Veuillez entrer le nom du point de vente.', '', store.name) }}
                         {{ form.textarea('description', 'Description :', 'Veuillez entrer une description.', '', store.description) }}
 
-						{{ store.type }}
-
                         {{ form.select('type', 'Type :', [{"value": "Vente à la ferme"}, {"value": "Marchés"}, {"value": "Drive fermier"}], 'Veuillez entrer un type de point de vente.', store.type) }}
+                        
                         {{ form.text('address', 'Adresse :', 'Veuillez entrer l\'adresse du point de vente.', '', store.address) }}
                         {{ form.text('postalCode', 'Code postal :', 'Veuillez entrer le code postal.', '', store.postal_code) }}
                         {{ form.text('city', 'Ville :', 'Veuillez entrer la ville.', '', store.city) }}
@@ -38,25 +37,23 @@
                         {{ form.text('lat', 'Latitude :', 'Veuillez entrer les coordonnées géographiques.', '', store.wkt | latitude) }}
                         {{ form.text('lng', 'Longitude :', 'Veuillez entrer les coordonnées géographiques.', '', store.wkt | longitude) }}
 
-						{{ store.family_name | products }}
-
-                        {{ form.checkbox('Alcool', 'checkbox[]', 'Alcool / cidre / bière', '1') }}
-                        {{ form.checkbox('Jus', 'checkbox[]', 'Jus / Boissons sans alcool', '2') }}
-                        {{ form.checkbox('Infusion', 'checkbox[]', 'Thé / infusion', '3') }}
-                        {{ form.checkbox('Lait', 'checkbox[]', 'Lait / beurre / glace', '4') }}
-                        {{ form.checkbox('Fromage', 'checkbox[]', 'Fromage', '5') }}
-                        {{ form.checkbox('Œufs', 'checkbox[]', 'Œufs', '6') }}
-                        {{ form.checkbox('Farine', 'checkbox[]', 'Farine', '7') }}
-                        {{ form.checkbox('Légumes', 'checkbox[]', 'Légumes', '8') }}
-                        {{ form.checkbox('Fruits', 'checkbox[]', 'Fruits', '9') }}
-                        {{ form.checkbox('Bœuf', 'checkbox[]', 'Viande de bœuf / veau', '10') }}
-                        {{ form.checkbox('Mouton', 'checkbox[]', 'Viande d\'agneau / mouton / chèvre', '11') }}
-                        {{ form.checkbox('Volaille', 'checkbox[]', 'Viande de volaille / lapin', '12') }}
-                        {{ form.checkbox('Porc', 'checkbox[]', 'Viande de porc / charcuterie', '13') }}
-                        {{ form.checkbox('Miel', 'checkbox[]', 'Miel', '14') }}
-                        {{ form.checkbox('Escargots', 'checkbox[]', 'Escargots', '15') }}
-                        {{ form.checkbox('Poisson', 'checkbox[]', 'Poisson / fruit de mer / algues', '16') }}
-                        {{ form.checkbox('Aromates', 'checkbox[]', 'Aromates / épices', '17') }}
+                        {{ 'Alcool / cidre / bière' in store.family_name|products ? form.checkbox('Alcool', 'checkbox[]', 'Alcool / cidre / bière', '1', 'checked') : form.checkbox('Alcool', 'checkbox[]', 'Alcool / cidre / bière', '1') }}
+                        {{ 'Jus / Boissons sans alcool' in store.family_name|products ? form.checkbox('Jus', 'checkbox[]', 'Jus / Boissons sans alcool', '2', 'checked') : form.checkbox('Jus', 'checkbox[]', 'Jus / Boissons sans alcool', '2') }}
+                        {{ 'Thé / infusion' in store.family_name|products ? form.checkbox('Infusion', 'checkbox[]', 'Thé / infusion', '3', 'checked') : form.checkbox('Infusion', 'checkbox[]', 'Thé / infusion', '3') }}
+                        {{ 'Lait / beurre / glace' in store.family_name|products ? form.checkbox('Lait', 'checkbox[]', 'Lait / beurre / glace', '4', 'checked') : form.checkbox('Lait', 'checkbox[]', 'Lait / beurre / glace', '4') }}
+                        {{ 'Fromage' in store.family_name|products ? form.checkbox('Fromage', 'checkbox[]', 'Fromage', '5', 'checked') : form.checkbox('Fromage', 'checkbox[]', 'Fromage', '5') }}
+                        {{ 'Œufs' in store.family_name|products ? form.checkbox('Œufs', 'checkbox[]', 'Œufs', '6', 'checked') : form.checkbox('Œufs', 'checkbox[]', 'Œufs', '6') }}
+                        {{ 'Farine' in store.family_name|products ? form.checkbox('Farine', 'checkbox[]', 'Farine', '7', 'checked') : form.checkbox('Farine', 'checkbox[]', 'Farine', '7') }}
+                        {{ 'Légumes' in store.family_name|products ? form.checkbox('Légumes', 'checkbox[]', 'Légumes', '8', 'checked') : form.checkbox('Légumes', 'checkbox[]', 'Légumes', '8') }}
+                        {{ 'Fruits' in store.family_name|products ? form.checkbox('Fruits', 'checkbox[]', 'Fruits', '9', 'checked') : form.checkbox('Fruits', 'checkbox[]', 'Fruits', '9') }}
+                        {{ 'Viande de bœuf / veau' in store.family_name|products ? form.checkbox('Bœuf', 'checkbox[]', 'Viande de bœuf / veau', '10', 'checked') : form.checkbox('Bœuf', 'checkbox[]', 'Viande de bœuf / veau', '10') }}
+                        {{ 'Viande d\'agneau / mouton / chèvre' in store.family_name|products ? form.checkbox('Mouton', 'checkbox[]', 'Viande d\'agneau / mouton / chèvre', '11', 'checked') : form.checkbox('Mouton', 'checkbox[]', 'Viande d\'agneau / mouton / chèvre', '11') }}
+                        {{ 'Viande de volaille / lapin' in store.family_name|products ? form.checkbox('Volaille', 'checkbox[]', 'Viande de volaille / lapin', '12', 'checked') : form.checkbox('Volaille', 'checkbox[]', 'Viande de volaille / lapin', '12') }}
+                        {{ 'Viande de porc / charcuterie' in store.family_name|products ? form.checkbox('Porc', 'checkbox[]', 'Viande de porc / charcuterie', '13', 'checked') : form.checkbox('Porc', 'checkbox[]', 'Viande de porc / charcuterie', '13') }}
+                        {{ 'Miel' in store.family_name|products ? form.checkbox('Miel', 'checkbox[]', 'Miel', '14', 'checked') : form.checkbox('Miel', 'checkbox[]', 'Miel', '14') }}
+                        {{ 'Escargots' in store.family_name|products ? form.checkbox('Escargots', 'checkbox[]', 'Escargots', '15', 'checked') : form.checkbox('Escargots', 'checkbox[]', 'Escargots', '15') }}
+                        {{ 'Poisson / fruit de mer / algues' in store.family_name|products ? form.checkbox('Poisson', 'checkbox[]', 'Poisson / fruit de mer / algues', '16', 'checked') : form.checkbox('Poisson', 'checkbox[]', 'Poisson / fruit de mer / algues', '16') }}
+                        {{ 'Aromates / épices' in store.family_name|products ? form.checkbox('Aromates', 'checkbox[]', 'Aromates / épices', '17', 'checked') : form.checkbox('Aromates', 'checkbox[]', 'Aromates / épices', '17') }}
 
                         {{ form.text('phone', 'Téléphone :', '', store.phone) }}
                         {{ form.text('email', 'Adresse électronique :', '', store.email) }}

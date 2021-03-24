@@ -34,6 +34,6 @@ class TwigExtension extends AbstractExtension
     public function products($value)
     {
         $products = explode(", ", $value);
-        return var_dump($products);
+        return $products;
     }
 }

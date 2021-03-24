@@ -8,7 +8,7 @@ class Map
 		this.zoom = zoom; // Niveau de zoom de la carte
 
 		this.addMap();
-		this.markerCluster();
+		this.addMarkerCluster();
 	}
 
 	// Ajout de la carte
@@ -33,7 +33,7 @@ class Map
 	}
 
 	// Regroupement des marqueurs
-	markerCluster()
+	addMarkerCluster()
 	{
 		this.markerCluster = L.markerClusterGroup();
 		this.map.addLayer(this.markerCluster);
@@ -48,8 +48,11 @@ class Map
 	// Suppression des marqueurs
 	removeMarkers()
 	{
-		this.markerCluster.removeLayer(this.marker);
-		this.marker = null;
+		this.map.removeLayer(this.markerCluster);
+		this.addMarkerCluster();
+		//this.markerCluster.removeLayer();
+		//this.markerCluster.removeLayer(this.marker);
+		//this.marker = null;
 	}
 
 	// Création d'un événement personnalisé
