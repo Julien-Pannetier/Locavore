@@ -1,98 +1,42 @@
-// css checkbox mixin
-@mixin css-checkbox(
-        $size: '16px',
-        $selectedColor: #444,
-        $checkColor: #FFF,
-        $valign: 'middle',
-        $rounded: rounded
-    ) {
-	display: none;
+//Variables
+$primary: #5cb874;
 
-	&:checked + i {
-		background: #{$selectedColor};
-		border-color: #{$selectedColor};
+.checkbox {
+	&__input {
+		opacity: 0;
+		width: 1em;
+		height: 1em;
+		display: grid;
+  		grid-template-areas: "checkbox";
 
-		&:hover:after { opacity: 1; }
+		> * {
+			grid-area: checkbox;
+		}
 
-		&:after {
-			opacity: 1;
-      border-color: #{$checkColor};
+		&:checked + label:before {
+			background-color: $primary;
+			color: white;
+		}
+
+		+ label:active:before {
+			transform: scale(0);
 		}
 	}
 
-  + i {
-    box-sizing: border-box;
-    &:before, &:after {
-       box-sizing: border-box;
-    }
-  }
-	+ i {
-		position: relative;
-		display: inline-block;
-		top: -1px;
-		width: #{$size};
-		height: #{$size};
-		margin: 0;
-        vertical-align: #{$valign};
-		border: 1px solid #999;
-        transition: background 200ms ease;
-
-    @if $rounded == "circle" {
-      border-radius: 10em; 
-    } @else if $rounded == "rounded" {
-      border-radius: .2em; 
-    } @else {
-      border-radius: 0; 
-    }    
-     
-		background: #F9F9F9;
-		font-size: #{$size};
+	&__label {
 		cursor: pointer;
-
-		&:hover:after { opacity: .2; }
-
-		&:after {
-			content: '';
-			opacity: 0;
-			transform: translateZ(1px) rotate(-45deg);
-            outline: 1px solid transparent; // hack to prevent antialias atrifacts in firefox
-			position: absolute;
-			top: 22%;
-			left: 15%;
-			width: .68em;
-			height: .4em;
-			border: .15em solid #222;
-			border-top: none;
-			border-right: none;
-			background: rgba(0, 0, 0, 0);
+	
+		&:before {
+			content: "\2713";
+			display: inline-block;
+			width: 1.6em;
+			height: 1.6em;
+			border-radius: 0.35em;
+			border: 0.1em solid $primary;
+			padding-left: 0.35em;
+			margin-right: 1em;
+			color: transparent;
+			transition: 0.2s;
 		}
 	}
-}
-
-
-// css checkbox
-label {
-  .checkbox {
-    @include css-checkbox(18px, $selectedColor: #5cb874);
-  }
-  
-  &:nth-of-type(2) .css-checkbox {
-    @include css-checkbox(40px, $selectedColor: #2980b9, $checkColor: papayawhip, $rounded: circle);
-  }
-  
-  &:nth-of-type(3) .css-checkbox {
-    @include css-checkbox(100px, $selectedColor: black, $checkColor: #e67e22);
-  }
-  
-  &:nth-of-type(4) .css-checkbox {
-    @include css-checkbox(180px, $selectedColor: #f1c40f, $checkColor: #c0392b, $valign: bottom);
-  }  
-
-  &:nth-of-type(5) .css-checkbox {
-    @include css-checkbox(230px, $checkColor: green, $valign: top, $rounded: none);
-  }  
-  
-  &:nth-of-type(6) .css-checkbox {
-    @include css-checkbox(330px, $checkColor: yellow, $selectedColor: #2c3e50, $valign: bottom, $rounded: circle);
-  }  
 }

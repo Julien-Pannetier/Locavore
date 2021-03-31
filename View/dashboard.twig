@@ -126,6 +126,20 @@
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
 
+                        <!-- ======= Begin Alert Message ======= -->
+                        <div class="container">
+                            {% if errors %}
+                                <div class="alert alert-danger alert-dismissible fade show m-3" role="alert">
+                                    {% for error in errors %}
+                                        {{ error }}<br>
+                                    {% endfor %}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endif %}
+                        </div><!-- End Alert Message -->
+
                         {% block content %}{% endblock %}
 
                     </div><!-- End of Page Content -->

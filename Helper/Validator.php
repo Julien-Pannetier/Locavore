@@ -47,6 +47,27 @@ class Validator
         }
     }
 
+    public function isNumeric($field, $errorMsg)
+    {
+        if(!is_numeric($this->getField($field))){
+            $this->errors[$field] = $errorMsg;
+        }
+    }
+
+    public function isAlphaNumeric($field, $errorMsg)
+    {
+        if(!ctype_alnum($this->getField($field))){
+            $this->errors[$field] = $errorMsg;
+        }
+    }
+
+    public function isPostalCode($field, $errorMsg)
+    {
+        if(!preg_match("~^[0-9]{5}$~", $this->getField($field))){
+            $this->errors[$field] = $errorMsg;
+        }
+    }
+
     public function isEmail($field, $errorMsg)
     {
         if(!filter_var($this->getField($field), FILTER_VALIDATE_EMAIL)){
@@ -57,6 +78,13 @@ class Validator
     public function isUrl($field, $errorMsg)
     {
         if(!filter_var($this->getField($field), FILTER_VALIDATE_URL)){
+            $this->errors[$field] = $errorMsg;
+        }
+    }
+
+    public function isPhoneNumber($field, $errorMsg)
+    {
+        if(!preg_match("#^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$#", $this->getField($field))){
             $this->errors[$field] = $errorMsg;
         }
     }

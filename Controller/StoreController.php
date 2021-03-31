@@ -79,7 +79,6 @@ class StoreController extends Controller
             $this->redirect->notConnected();
         }
     }
-
    
     /**
      * Affiche la liste de tous les points de vente approuvés
@@ -230,32 +229,57 @@ class StoreController extends Controller
      */
     public function create()
     {
+        $errors = array();
         if(!empty($_POST)){
-            $name = $_POST['name'];
-            $description = $_POST['description'];
-            $type = $_POST['type'];
-            $address = $_POST['address'];
-            $postalCode = $_POST['postalCode'];
-            $city = $_POST['city'];
-            $country = $_POST['country'];
-            $lat = $_POST['lat'];
-            $lng = $_POST['lng'];
-            $phone = $_POST['phone'];
-            $email = $_POST['email']; 
-            $website = $_POST['website'];
-            $facebook = $_POST['facebook']; 
-            $twitter = $_POST['twitter'];
-            $instagram = $_POST['instagram'];
-            $userId = $_SESSION['user']['id'];
-            $monday = $_POST['monday'];
-            $tuesday = $_POST['tuesday'];
-            $wednesday = $_POST['wednesday'];
-            $thursday = $_POST['thursday'];
-            $friday = $_POST['friday'];
-            $saturday = $_POST['saturday'];
-            $sunday = $_POST['sunday'];
+            $this->validator->isAlphaNumeric('name', "Veuillez entrer un nom de point vente valide.");
+            $this->validator->isAlphaNumeric('description', "Veuillez entrer une description valide.");
+            $this->validator->isText('type', "Veuillez entrer un type de point de vente valide.");
+            $this->validator->isAlphaNumeric('address', "Veuillez entrer une adresse postale valide.");
+            $this->validator->isPostalCode('postalCode', "Veuillez entrer un code postal valide.");
+            $this->validator->isText('city', "Veuillez entrer un nom de ville valide.");
+            $this->validator->isText('country', "Veuillez entrer un nom de pays valide.");
+            $this->validator->isNumeric('lat', "Veuillez entrer une latitude valide.");
+            $this->validator->isNumeric('lng', "Veuillez entrer une longitude valide.");
+            $this->validator->isPhoneNumber('phone', "Veuillez entrer un numéro de téléphone valide.");
+            $this->validator->isEmail('email', "Veuillez entrer une adresse de messagerie valide.");
+            $this->validator->isUrl('website', "Veuillez entrer une URL valide.");
+            $this->validator->isUrl('facebook', "Veuillez entrer une URL valide.");
+            $this->validator->isUrl('twitter', "Veuillez entrer une URL valide.");
+            $this->validator->isUrl('instagram', "Veuillez entrer une URL valide.");
+            $this->validator->isAlphaNumeric('monday', "Veuillez entrer un champ valide.");
+            $this->validator->isAlphaNumeric('tuesday', "Veuillez entrer un champ valide.");
+            $this->validator->isAlphaNumeric('wednesday', "Veuillez entrer un champ valide.");
+            $this->validator->isAlphaNumeric('thursday', "Veuillez entrer un champ valide.");
+            $this->validator->isAlphaNumeric('friday', "Veuillez entrer un champ valide.");
+            $this->validator->isAlphaNumeric('saturday', "Veuillez entrer un champ valide.");
+            $this->validator->isAlphaNumeric('sunday', "Veuillez entrer un champ valide.");
 
-            if (isset($name) && isset($description) && isset($type) && isset($address) && isset($postalCode) && isset($city) && isset($country) && isset($lat) && isset($lng)) {
+            if($this->validator->isValid()){
+                $name = htmlspecialchars($_POST['name']);
+                $description = htmlspecialchars($_POST['description']);
+                $type = htmlspecialchars($_POST['type']);
+                $address = htmlspecialchars($_POST['address']);
+                $postalCode = htmlspecialchars($_POST['postalCode']);
+                $city = htmlspecialchars($_POST['city']);
+                $country = htmlspecialchars($_POST['country']);
+                $lat = htmlspecialchars($_POST['lat']);
+                $lng = htmlspecialchars($_POST['lng']);
+                $phone = htmlspecialchars($_POST['phone']);
+                $email = htmlspecialchars($_POST['email']); 
+                $website = htmlspecialchars($_POST['website']);
+                $facebook = htmlspecialchars($_POST['facebook']); 
+                $twitter = htmlspecialchars($_POST['twitter']);
+                $instagram = htmlspecialchars($_POST['instagram']);
+                $userId = htmlspecialchars($_SESSION['user']['id']);
+                $monday = htmlspecialchars($_POST['monday']);
+                $tuesday = htmlspecialchars($_POST['tuesday']);
+                $wednesday = htmlspecialchars($_POST['wednesday']);
+                $thursday = htmlspecialchars($_POST['thursday']);
+                $friday = htmlspecialchars($_POST['friday']);
+                $saturday = htmlspecialchars($_POST['saturday']);
+                $sunday = htmlspecialchars($_POST['sunday']);
+
+            //if (isset($name) && isset($description) && isset($type) && isset($address) && isset($postalCode) && isset($city) && isset($country) && isset($lat) && isset($lng)) {
                 $stmt = $this->storeManager->create($userId, $name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat, $phone, $email, $website, $facebook, $twitter, $instagram, $monday, $tuesday, $wednesday, $thursday, $friday, $saturday, $sunday);
                 $storeId = $this->storeManager->lastId();
                 $products = $_POST['checkbox'];
@@ -280,13 +304,7 @@ class StoreController extends Controller
                     ]);
                 }
             } else {
-                $this->render('/store/create', [
-                    'head' => [
-                        'description' => 'Description',
-                        'author' => 'Auteur',
-                        'title' => 'Titre',
-                    ]
-                ]);
+                $errors = $this->validator->getErrors();
             }
         }
         $this->render('/store/create', [
@@ -294,7 +312,8 @@ class StoreController extends Controller
                 'description' => 'Description',
                 'author' => 'Auteur',
                 'title' => 'Titre',
-            ]
+            ],
+            'errors' => $errors
         ]);
     }
 

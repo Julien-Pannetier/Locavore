@@ -10,17 +10,14 @@
 
 {% block content %}
 
-    <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Ajouter un point de vente</h1>
-    </div>
-
     <!-- ======= Create Store Section ======= -->
     <section id="createStore" class="section">
         <div class="container">
-{#             <h2 class="section__title">Description du point de vente</h2>
-            <p class="section__subtitle">Est dolorum ut non facere possimus quibusdam eligendi voluptatem. Quia id aut similique quia voluptas sit quaerat debitis. Rerum omnis ipsam aperiam consequatur laboriosam nemo harum praesentium. </p>
- #}            <div class="row">
+            <h1 class="section__title">Description du point de vente</h1>
+            <p class="section__subtitle">
+                Est dolorum ut non facere possimus quibusdam eligendi voluptatem. Quia id aut similique quia voluptas sit quaerat debitis. Rerum omnis ipsam aperiam consequatur laboriosam nemo harum praesentium.
+            </p>
+            <div class="row">
                 <div class="col-lg-8 col-md-10 mx-auto">
                     <form name="createStoreForm" id="createStoreForm" action="" method="POST" novalidate>
                         {{ form.text('name', 'Nom du point de vente:', 'Veuillez entrer le nom du point de vente.') }}
@@ -30,10 +27,11 @@
                         {{ form.text('postalCode', 'Code postal :', 'Veuillez entrer le code postal.') }}
                         {{ form.text('city', 'Ville :', 'Veuillez entrer la ville.') }}
                         {{ form.text('country', 'Pays :', 'Veuillez entrer le pays.') }}
+
                         <div id="createStoreMap"></div>
+
                         {{ form.text('lat', 'Latitude :', 'Veuillez entrer les coordonnées géographiques.') }}
                         {{ form.text('lng', 'Longitude :', 'Veuillez entrer les coordonnées géographiques.') }}
-
                         {{ form.checkbox('Alcool', 'checkbox[]', 'Alcool / cidre / bière', '1') }}
                         {{ form.checkbox('Jus', 'checkbox[]', 'Jus / Boissons sans alcool', '2') }}
                         {{ form.checkbox('Infusion', 'checkbox[]', 'Thé / infusion', '3') }}
@@ -51,7 +49,6 @@
                         {{ form.checkbox('Escargots', 'checkbox[]', 'Escargots', '15') }}
                         {{ form.checkbox('Poisson', 'checkbox[]', 'Poisson / fruit de mer / algues', '16') }}
                         {{ form.checkbox('Aromates', 'checkbox[]', 'Aromates / épices', '17') }}
-
                         {{ form.text('phone', 'Téléphone :') }}
                         {{ form.text('email', 'Adresse électronique :') }}
                         {{ form.text('website', 'Site internet :') }}
@@ -82,32 +79,25 @@
 {% block script %}
 
     <!-- Bootstrap core JavaScript-->
-        <script src="/vendor/jquery/jquery.min.js"></script>
-        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-        <!-- Core plugin JavaScript-->
-        <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-        <!-- Leaflet JavaScript -->
-        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
-        <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
 
-        <!-- Toastr JavaScript -->
-        <script src="/vendor/toastr/toastr.min.js"></script>
+    <!-- Toastr JavaScript -->
+    <script src="/vendor/toastr/toastr.min.js"></script>
 
-        <!-- Page level plugins -->
-        <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
-        <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <!-- Custom scripts for Dashboard-->
+    <script src="/public/js/dashboard/dashboard.min.js"></script>
 
-        <!-- Page level custom scripts -->
-        <script src="/public/js/dashboard/datatables.js"></script>
-
-        <!-- Custom scripts for Dashboard-->
-        <script src="/public/js/dashboard/dashboard.min.js"></script>
-
-        <script src="/public/js/map.js"></script>
-        <script src="/public/js/marker.js"></script>
-        <script src="/public/js/flash.js"></script>
-        <script src="/public/js/createStore.js"></script>
+    <script src="/public/js/map.js"></script>
+    <script src="/public/js/marker.js"></script>
+    <script src="/public/js/flash.js"></script>
+    <script src="/public/js/createStore.js"></script>
 
 {% endblock %}

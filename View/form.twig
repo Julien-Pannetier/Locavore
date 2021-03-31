@@ -58,10 +58,10 @@
 {% endmacro %}
 
 {% macro checkbox(id, name, label, value, checked = null) %}
-    <div class="control-group">
-        <div class="form-group controls checkbox">
-            <input type="checkbox" id="{{ id }}" name="{{ name }}" class="form-control" value="{{ value }}" {% if checked %} checked="checked"{% endif %}/>
-            <label for="{{ id }}">{{ label }}</label>
-        </div>
+    <div class="checkbox">
+        <input class="checkbox__input" type="checkbox" id="{{ id }}" name="{{ name }}" value="{{ value }}" {% if checked %} checked="checked"{% endif %}/>
+        <label class="checkbox__label" for="{{ id }}">
+            {{ label }}
+        </label>
     </div>
 {% endmacro %}
