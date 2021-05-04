@@ -1,42 +1,207 @@
-//Variables
+/*--------------------------------------------------------------
+Variables
+--------------------------------------------------------------*/
+$white: #fff !default;
+
 $primary: #5cb874;
+$secondary:#444444;
 
-.checkbox {
-	&__input {
-		opacity: 0;
-		width: 1em;
-		height: 1em;
-		display: grid;
-  		grid-template-areas: "checkbox";
+/*--------------------------------------------------------------
+General
+--------------------------------------------------------------*/
+body {
+	font-family: "Open Sans", sans-serif;
+	color: $secondary;
+}
 
-		> * {
-			grid-area: checkbox;
+a {
+	color: $primary;
+}
+
+a:hover {
+	color: lighten($primary, 5);
+	text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: "Raleway", sans-serif;
+}
+
+/*--------------------------------------------------------------
+Map
+--------------------------------------------------------------*/
+.map {
+	height: 500px;
+	width: 100%;
+	border-top: 3px solid $primary;
+	border-bottom: 3px solid $primary;
+	padding: 30px;
+	margin: 25px auto;
+	background: $white;
+	box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
+}
+
+/*--------------------------------------------------------------
+Section
+--------------------------------------------------------------*/
+.section {
+	padding-top: 150px;
+	padding-bottom: 30px;
+	
+	&-heading {
+		text-align: center;
+		padding-bottom: 30px;
+
+		& h1 {
+			font-size: 32px;
+			font-weight: bold;
+			text-transform: uppercase;
+			margin-bottom: 20px;
+			padding-bottom: 20px;
+			position: relative;
+
+			&::before {
+				content: '';
+				position: absolute;
+				display: block;
+				width: 120px;
+				height: 1px;
+				background: #ddd;
+				bottom: 1px;
+				left: calc(50% - 60px);
+			}
+
+			&::after {
+				content: '';
+				position: absolute;
+				display: block;
+				width: 40px;
+				height: 3px;
+				background: $primary;
+				bottom: 0;
+				left: calc(50% - 20px);
+			}
 		}
 
-		&:checked + label:before {
-			background-color: $primary;
-			color: white;
+		& p {
+			margin-bottom: 0;
+			font-size: 14px;
+			color: lighten($secondary, 5);
 		}
+	}
+}
 
-		+ label:active:before {
-			transform: scale(0);
+/*--------------------------------------------------------------
+Form
+--------------------------------------------------------------*/
+.form {
+	width: 100%;
+	border-top: 3px solid $primary;
+	border-bottom: 3px solid $primary;
+	padding: 30px;
+	background: $white;
+	box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
+
+	&-group {
+		padding-bottom: 10px;
+	}
+
+	input,
+	textarea,
+	select {
+		font-size: 14px;
+		border-radius: 4px;
+		&:focus {
+			border-color: $primary;
+			box-shadow: none;
 		}
 	}
 
-	&__label {
+	label {
+		margin-bottom: 0;
+	}
+
+	input {
+		height: 44px;
+		color: lighten($secondary, 5);
+	}
+
+	textarea {
+		padding: 10px 12px;
+	}
+}
+
+// Styling for the button
+.btn {
+	font-weight: 400;
+	padding: 10px 24px;
+	border: 2px solid;
+	border-radius: 4px;
+	transition: 0.4s;
+
+	&-primary {
+		background-color: $primary;
+		border-color: $primary;
+
+		&:hover,
+		&:focus,
+		&:active {
+			color: $white;
+			background-color: lighten($primary, 5) !important;
+			border-color: lighten($primary, 5) !important;
+		}
+	}
+
+	&-danger {
+		background-color: #dc3545;
+		border-color: #dc3545;
+
+		&:hover,
+		&:focus,
+		&:active {
+			color: $white;
+			background-color: lighten(#dc3545, 5) !important;
+			border-color: lighten(#dc3545, 5) !important;
+		}
+	}
+}
+
+// Styling for the checkbox
+[type="checkbox"] {
+	opacity: 0;
+	width: 1em;
+	height: 1em;
+	display: grid;
+	grid-template-areas: "checkbox";
+
+	> * {
+		grid-area: checkbox;
+	}
+
+	&:checked + label:before {
+		color: $white;			
+		background-color: $primary;
+		border-color: $primary;
+	}
+
+	+ label {
 		cursor: pointer;
-	
+
 		&:before {
 			content: "\2713";
 			display: inline-block;
 			width: 1.6em;
 			height: 1.6em;
 			border-radius: 0.35em;
-			border: 0.1em solid $primary;
+			border: 1px solid #d1d3e2;
 			padding-left: 0.35em;
 			margin-right: 1em;
 			color: transparent;
 			transition: 0.2s;
+		}
+
+		&:active:before {
+			transform: scale(0);
 		}
 	}
 }

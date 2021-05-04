@@ -26,9 +26,11 @@ class Validator
 
     public function isConnected()
     {
+        $isConnected = true;
         if(!isset($_SESSION['user'])){
-            $this->redirect->notConnected();
+            $isConnected = false;
         }
+        return $isConnected;
     }
 
     public function isAdmin()
@@ -38,6 +40,13 @@ class Validator
             $isAdmin = false;
         }
         return $isAdmin;
+    }
+
+    public function isNotNul($field, $errorMsg)
+    {
+        if(empty($this->getField($field))) {
+            $this->errors[$field] = $errorMsg;
+        }
     }
     
     public function isText($field, $errorMsg)
@@ -50,13 +59,6 @@ class Validator
     public function isNumeric($field, $errorMsg)
     {
         if(!is_numeric($this->getField($field))){
-            $this->errors[$field] = $errorMsg;
-        }
-    }
-
-    public function isAlphaNumeric($field, $errorMsg)
-    {
-        if(!ctype_alnum($this->getField($field))){
             $this->errors[$field] = $errorMsg;
         }
     }

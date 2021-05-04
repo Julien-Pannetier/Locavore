@@ -50,9 +50,6 @@ class Map
 	{
 		this.map.removeLayer(this.markerCluster);
 		this.addMarkerCluster();
-		//this.markerCluster.removeLayer();
-		//this.markerCluster.removeLayer(this.marker);
-		//this.marker = null;
 	}
 
 	// Création d'un événement personnalisé

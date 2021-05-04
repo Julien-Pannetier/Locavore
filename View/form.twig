@@ -1,67 +1,52 @@
-{% macro text(name, label, message, placeholder = null, value = null) %}
-    <div class="control-group">
-        <div class="form-group controls">
-            <label for="{{ name }}">{{ label }}</label>
-            <input type="text" id="{{ name }}" name="{{ name }}" class="form-control" required data-validation-required-message="{{ message }}" placeholder="{{ placeholder }}" value="{{ value }}">
-            <p class="help-block text-danger"></p>
-        </div>
-    </div>
+{% macro text(name, label, required = null, placeholder = null, value = null) %}
+	<div class="form-group">
+		<label for="{{ name }}">{{ label }}</label>
+		<input type="text" id="{{ name }}" name="{{ name }}" class="form-control" {{ required }} placeholder="{{ placeholder }}" value="{{ value }}">
+	</div>
 {% endmacro %}
 
-{% macro email(name, label, message, placeholder, value) %}
-    <div class="control-group">
-        <div class="form-group controls">
-            <label for="{{ name }}">{{ label }}</label>
-            <input type="email" id="{{ name }}" name="{{ name }}" class="form-control" required data-validation-required-message="{{ message }}" placeholder="{{ placeholder }}" value="{{ value }}">
-            <p class="help-block text-danger"></p>
-        </div>
-    </div>
+{% macro email(name, label, required = null, placeholder = null, value = null) %}
+	<div class="form-group">
+		<label for="{{ name }}">{{ label }}</label>
+		<input type="email" id="{{ name }}" name="{{ name }}" class="form-control" {{ required }} placeholder="{{ placeholder }}" value="{{ value }}">
+	</div>
 {% endmacro %}
 
-{% macro textarea(name, label, message, placeholder, value) %}
-    <div class="control-group">
-        <div class="form-group controls">
-            <label for="{{ name }}">{{ label }}</label>
-            <textarea rows="5" id="{{ name }}" name="{{ name }}" class="form-control" required data-validation-required-message="{{ message }}" placeholder="{{ placeholder }}">{{ value }}</textarea>
-            <p class="help-block text-danger"></p>
-        </div>
-    </div>
+{% macro textarea(name, label, required = null, placeholder = null, value = null) %}
+	<div class="form-group">
+		<label for="{{ name }}">{{ label }}</label>
+		<textarea rows="5" id="{{ name }}" name="{{ name }}" class="form-control" {{ required }} placeholder="{{ placeholder }}">{{ value }}</textarea>
+	</div>
 {% endmacro %}
 
-{% macro password(name, label, message) %}
-    <div class="control-group">
-        <div class="form-group controls">
-            <label for="{{ name }}">{{ label }}</label>
-            <input type="password" id="{{ name }}" name="{{ name }}" class="form-control" required data-validation-required-message="{{ message }}">
-            <p class="help-block text-danger"></p>
-        </div>
-    </div>
+{% macro password(name, label, required = null) %}
+	<div class="form-group">
+		<label for="{{ name }}">{{ label }}</label>
+		<input type="password" id="{{ name }}" name="{{ name }}" class="form-control" {{ required }}>
+	</div>
 {% endmacro %}
 
-{% macro select(name, label, options, message, selected = null) %}
-    <div class="control-group">
-        <div class="form-group controls">
-            <label for="{{ name }}">{{ label }}</label>
-            <select id="{{ name }}" name="{{name}}" class="form-control" required data-validation-required-message="{{ message }}">
-                <option value="">Veuillez choisir...</option>
-                {% for option in options %}
-                    {% if option.value == selected %}
-                        <option value="{{option.value}}" selected>{{ option.value }}</option>
-                    {% else %}
-                        <option value="{{option.value}}">{{ option.value }}</option>
-                    {% endif %}
-                {% endfor %}
-            </select>
-            <p class="help-block text-danger"></p>
-        </div>
-    </div>
+{% macro select(name, label, options, required = null, selected = null) %}
+	<div class="form-group">
+		<label for="{{ name }}">{{ label }}</label>
+		<select id="{{ name }}" name="{{name}}" class="form-control" {{ required }}>
+			<option value="">Veuillez choisir...</option>
+			{% for option in options %}
+				{% if option.value == selected %}
+					<option value="{{option.value}}" selected>{{ option.value }}</option>
+				{% else %}
+					<option value="{{option.value}}">{{ option.value }}</option>
+				{% endif %}
+			{% endfor %}
+		</select>
+	</div>
 {% endmacro %}
 
 {% macro checkbox(id, name, label, value, checked = null) %}
-    <div class="checkbox">
-        <input class="checkbox__input" type="checkbox" id="{{ id }}" name="{{ name }}" value="{{ value }}" {% if checked %} checked="checked"{% endif %}/>
-        <label class="checkbox__label" for="{{ id }}">
-            {{ label }}
-        </label>
-    </div>
+	<div>
+		<input type="checkbox" id="{{ id }}" name="{{ name }}" value="{{ value }}" {% if checked %} checked="checked"{% endif %}/>
+		<label for="{{ id }}">
+			{{ label }}
+		</label>
+	</div>
 {% endmacro %}

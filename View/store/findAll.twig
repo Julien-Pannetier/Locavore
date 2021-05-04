@@ -36,7 +36,7 @@
                                         <div class="datatables__content--name">{{ store.status }}</div>
                                     </div>
                                     <div class="col-sm">
-                                        <!-- Dropdown - Actions -->                            
+                                        <!-- Dropdown - Actions -->
                                         <div class="dropdown">
                                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownActionsButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 Actions
@@ -47,7 +47,7 @@
                                                     <span>Modifier</span>
                                                 </a>
                                                 <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteStore{{ store.id }}">
+                                                <a class="dropdown-item" href="/store/delete/{{ store.id }}">
                                                     <i class="fas fa-trash-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                                     <span>Supprimer</span>
                                                 </a>
@@ -62,24 +62,24 @@
             </table>
         </div>
     </div>
-
-    {% for store in allStores %}
-        <!-- Delete Store Modal-->
+    
+    <!-- Delete Store Modal-->
+    {% for store in allStores %}    
         <div class="modal fade" id="deleteStore{{ store.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteStore" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteStore">Confirmation de la suppression</h5>
+                        <h5 class="modal-title" id="deleteStore">Suppression du point de vente</h5>
                         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        Etes-vous sûr de vouloir supprimer cet élément ?
+                        Cette action est irréversible. Êtes-vous sûr de vouloir supprimer ce point de vente ?
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Non</button>
-                        <a class="btn btn-primary" href="/store/delete/{{ store.id }}">Oui</a>
+                        <a class="btn btn-danger" href="/store/delete/{{ store.id }}">Supprimer</a>
+                        <button class="btn btn-primary" type="button" data-dismiss="modal">Annuler</button>
                     </div>
                 </div>
             </div>
@@ -110,7 +110,8 @@
     <!-- Custom scripts for Dashboard-->
     <script src="/public/js/dashboard/dashboard.min.js"></script>
 
+    <!-- Custom scripts -->
     <script src="/public/js/flash.js"></script>
-
+    <script src="/public/js/authentication.js"></script>
 
 {% endblock %}

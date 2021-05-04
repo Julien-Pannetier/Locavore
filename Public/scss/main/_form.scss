@@ -1,0 +1,39 @@
+/*--------------------------------------------------------------
+Form
+--------------------------------------------------------------*/
+.form {
+	width: 100%;
+	border-top: 3px solid $primary;
+	border-bottom: 3px solid $primary;
+	padding: 30px;
+	background: $white;
+	box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
+
+	&-group {
+		padding-bottom: 10px;
+	}
+
+	input,
+	textarea,
+	select {
+		font-size: 14px;
+		border-radius: 4px;
+		&:focus {
+			border-color: $primary;
+			box-shadow: none;
+		}
+	}
+
+	label {
+		margin-bottom: 0;
+	}
+
+	input {
+		height: 44px;
+		color: lighten($secondary, 5);
+	}
+
+	textarea {
+		padding: 10px 12px;
+	}
+}

@@ -31,11 +31,11 @@ class Flash
 			"showEasing": "swing",
 			"hideEasing": "linear",
 			"showMethod": "fadeIn",
-			"hideMethod": "fadeOut"
+			"hideMethod": "fadeOut",
 		}
 
 		// Affichage du message flash
-		toastr[flash.type]( flash.message);
+		toastr[flash.type]( flash.message).css("max-width","500px")
 		})
 	}
 }

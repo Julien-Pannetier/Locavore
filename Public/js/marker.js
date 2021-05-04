@@ -72,7 +72,7 @@ class Marker
 
         // Personnalisation du marqueur
         let icon = L.icon({
-            iconUrl: '/public/assets/img/mapMarkerDarken.png',
+            iconUrl: '/public/assets/img/mapMarker.png',
             iconSize: [50, 50],
             iconAnchor: [25, 50],
         });

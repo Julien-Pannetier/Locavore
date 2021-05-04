@@ -51,7 +51,7 @@ class Store
 
 			// Personnalisation des marqueurs
 			let icons = L.icon({
-				iconUrl: '/public/assets/img/mapMarkerDarken.png',
+				iconUrl: '/public/assets/img/mapMarker.png',
 				iconSize: [60, 60],
 				iconAnchor: [30, 60],
 				popupAnchor: [0, -60]

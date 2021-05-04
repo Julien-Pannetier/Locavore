@@ -13,27 +13,29 @@
     <!-- ======= Create Store Section ======= -->
     <section id="createStore" class="section">
         <div class="container">
-            <h1 class="section__title">Description du point de vente</h1>
-            <p class="section__subtitle">
-                Est dolorum ut non facere possimus quibusdam eligendi voluptatem. Quia id aut similique quia voluptas sit quaerat debitis. Rerum omnis ipsam aperiam consequatur laboriosam nemo harum praesentium.
-            </p>
+            <div class="section__heading">
+                <h1>Description du point de vente</h1>
+                <p>
+                    Est dolorum ut non facere possimus quibusdam eligendi voluptatem. Quia id aut similique quia voluptas sit quaerat debitis. Rerum omnis ipsam aperiam consequatur laboriosam nemo harum praesentium.
+                </p>
+            </div>
             <div class="row">
                 <div class="col-lg-8 col-md-10 mx-auto">
-                    <form name="createStoreForm" id="createStoreForm" action="" method="POST" novalidate>
-                        {{ form.text('name', 'Nom du point de vente:', 'Veuillez entrer le nom du point de vente.') }}
-                        {{ form.textarea('description', 'Description :', 'Veuillez entrer une description.') }}
-                        {{ form.select('type', 'Type :', [{"value": "Vente à la ferme"}, {"value": "Marchés"}, {"value": "Drive fermier"}], 'Veuillez entrer un type de point de vente.') }}
-                        {{ form.text('address', 'Adresse :', 'Veuillez entrer l\'adresse du point de vente.') }}
-                        {{ form.text('postalCode', 'Code postal :', 'Veuillez entrer le code postal.') }}
-                        {{ form.text('city', 'Ville :', 'Veuillez entrer la ville.') }}
-                        {{ form.text('country', 'Pays :', 'Veuillez entrer le pays.') }}
+                    <form name="createStoreForm" id="createStoreForm" class="form" action="/store/create" method="POST">
+                        {{ form.text('name', 'Nom du point de vente *', 'required') }}
+                        {{ form.textarea('description', 'Description *', 'required') }}
+                        {{ form.select('type', 'Type *', [{"value": "Vente à la ferme"}, {"value": "Marchés"}, {"value": "Drive fermier"}], 'required') }}
+                        {{ form.text('address', 'Adresse *', 'required') }}
+                        {{ form.text('postalCode', 'Code postal *', 'required') }}
+                        {{ form.text('city', 'Ville *', 'required') }}
+                        {{ form.text('country', 'Pays *', 'required') }}
 
-                        <div id="createStoreMap"></div>
+                        <div id="createStoreMap" class="map"></div>
 
-                        {{ form.text('lat', 'Latitude :', 'Veuillez entrer les coordonnées géographiques.') }}
-                        {{ form.text('lng', 'Longitude :', 'Veuillez entrer les coordonnées géographiques.') }}
+                        {{ form.text('lat', 'Latitude *', 'required') }}
+                        {{ form.text('lng', 'Longitude *', 'required') }}
                         {{ form.checkbox('Alcool', 'checkbox[]', 'Alcool / cidre / bière', '1') }}
-                        {{ form.checkbox('Jus', 'checkbox[]', 'Jus / Boissons sans alcool', '2') }}
+                        {{ form.checkbox('Jus', 'checkbox[]', 'Jus / boissons sans alcool', '2') }}
                         {{ form.checkbox('Infusion', 'checkbox[]', 'Thé / infusion', '3') }}
                         {{ form.checkbox('Lait', 'checkbox[]', 'Lait / beurre / glace', '4') }}
                         {{ form.checkbox('Fromage', 'checkbox[]', 'Fromage', '5') }}
@@ -49,24 +51,28 @@
                         {{ form.checkbox('Escargots', 'checkbox[]', 'Escargots', '15') }}
                         {{ form.checkbox('Poisson', 'checkbox[]', 'Poisson / fruit de mer / algues', '16') }}
                         {{ form.checkbox('Aromates', 'checkbox[]', 'Aromates / épices', '17') }}
-                        {{ form.text('phone', 'Téléphone :') }}
-                        {{ form.text('email', 'Adresse électronique :') }}
-                        {{ form.text('website', 'Site internet :') }}
-                        {{ form.text('facebook', 'Page Facebook :') }}
-                        {{ form.text('twitter', 'Page Twitter :') }}
-                        {{ form.text('instagram', 'Page Instagram :') }}                                              
-                        {{ form.text('monday', 'Lundi :') }}
-                        {{ form.text('tuesday', 'Mardi :') }}
-                        {{ form.text('wednesday', 'Mercredi :') }}
-                        {{ form.text('thursday', 'Jeudi :') }}
-                        {{ form.text('friday', 'Vendredi :') }}
-                        {{ form.text('saturday', 'Samedi :') }}
-                        {{ form.text('sunday', 'Dimanche :') }}
+                        {{ form.text('phone', 'Téléphone') }}
+                        {{ form.text('email', 'Adresse électronique') }}
+                        {{ form.text('website', 'Site internet') }}
+                        {{ form.text('facebook', 'Page Facebook') }}
+                        {{ form.text('twitter', 'Page Twitter') }}
+                        {{ form.text('instagram', 'Page Instagram') }}                                              
+                        {{ form.text('monday', 'Lundi') }}
+                        {{ form.text('tuesday', 'Mardi') }}
+                        {{ form.text('wednesday', 'Mercredi') }}
+                        {{ form.text('thursday', 'Jeudi') }}
+                        {{ form.text('friday', 'Vendredi') }}
+                        {{ form.text('saturday', 'Samedi') }}
+                        {{ form.text('sunday', 'Dimanche') }}
+
+                        {% if session.user.role == "admin" %}
+							{{ form.select('status', 'Statut *', [{"value": "En attente"}, {"value": "Approuvé"}, {"value": "Rejeté"}], 'required' , 'En attente') }}
+						{% endif %}
 
                         <br>
                         <div id="success"></div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary " id="createStoreButton">Soumettre le point de vente</button>
+                            <button type="submit" class="btn btn-primary" id="createStoreButton">Soumettre le point de vente</button>
                         </div>
                     </form>
                 </div>

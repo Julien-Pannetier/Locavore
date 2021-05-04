@@ -25,7 +25,7 @@ class StoreManager extends Database
     public function findOneById(int $id)
     {
         $store = null;
-        $query = "SELECT s.id, s.user_id, s.name, s.description, s.type, s.address, s.postal_code, s.city, s.country, ST_AsText(s.lng_lat) as wkt, s.phone, s.email, s.website, s.facebook, s.twitter, s.instagram, s.monday, s.tuesday, s.wednesday, s.thursday, s.friday, s.saturday, s.sunday,
+        $query = "SELECT s.id, s.user_id, s.name, s.description, s.type, s.address, s.postal_code, s.city, s.country, ST_AsText(s.lng_lat) as wkt, s.phone, s.email, s.website, s.facebook, s.twitter, s.instagram, s.monday, s.tuesday, s.wednesday, s.thursday, s.friday, s.saturday, s.sunday, s.status,
             (SELECT GROUP_CONCAT(pf.family_name SEPARATOR ', ') AS fn
             FROM products_family pf
             INNER JOIN stores_products_family spf ON spf.product_family_id = pf.id
@@ -191,12 +191,13 @@ class StoreManager extends Database
      * @param [string] $friday
      * @param [string] $saturday
      * @param [string] $sunday
+     * @param [string] $status
      * @return boolean
      */
-    public function create($userId, $name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat, $phone, $email, $website, $facebook, $twitter, $instagram, $monday, $tuesday, $wednesday, $thursday, $friday, $saturday, $sunday)
+    public function create($userId, $name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat, $phone, $email, $website, $facebook, $twitter, $instagram, $monday, $tuesday, $wednesday, $thursday, $friday, $saturday, $sunday, $status)
     {
         $wkt = "POINT(".$lng." ".$lat.")";
-        $query = "INSERT INTO stores(user_id, name, description, type, address, postal_code, city, country, lng_lat, phone, email, website, facebook, twitter, instagram, monday, tuesday, wednesday, thursday, friday, saturday, sunday, creation_at) VALUES (:userId, :name, :description, :type, :address, :postalCode, :city, :country, ST_GeomFromText(:wkt), :phone, :email, :website, :facebook, :twitter, :instagram, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday, NOW())";
+        $query = "INSERT INTO stores(user_id, name, description, type, address, postal_code, city, country, lng_lat, phone, email, website, facebook, twitter, instagram, monday, tuesday, wednesday, thursday, friday, saturday, sunday, status, creation_at) VALUES (:userId, :name, :description, :type, :address, :postalCode, :city, :country, ST_GeomFromText(:wkt), :phone, :email, :website, :facebook, :twitter, :instagram, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday, :status, NOW())";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam("userId", $userId, PDO::PARAM_INT);
         $stmt->bindParam("name", $name, PDO::PARAM_STR);
@@ -220,6 +221,7 @@ class StoreManager extends Database
         $stmt->bindParam("friday", $friday, PDO::PARAM_STR);
         $stmt->bindParam("saturday", $saturday, PDO::PARAM_STR);
         $stmt->bindParam("sunday", $sunday, PDO::PARAM_STR);
+        $stmt->bindParam("status", $status, PDO::PARAM_STR);
         $isSuccess = $stmt->execute();
         return $isSuccess;
     }
@@ -250,12 +252,13 @@ class StoreManager extends Database
      * @param [string] $friday
      * @param [string] $saturday
      * @param [string] $sunday
+     * @param [string] $status
      * @return boolean
      */
-    public function update($name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat, $phone, $email, $website, $facebook, $twitter, $instagram, $monday, $tuesday, $wednesday, $thursday, $friday, $saturday, $sunday) 
+    public function update($id, $name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat, $phone, $email, $website, $facebook, $twitter, $instagram, $monday, $tuesday, $wednesday, $thursday, $friday, $saturday, $sunday, $status) 
     {
         $wkt = "POINT(".$lng." ".$lat.")";
-        $query = "UPDATE stores SET name = :name, description = :description, type = :type, address = :address, postal_code = :postalCode, city = :city, country = :country, lng_lat = ST_GeomFromText(:wkt), phone = :phone, email = :email, website = :website, facebook = :facebook, twitter = :twitter, instagram = :instagram, monday = :monday, tuesday = :tuesday, wednesday = :wednesday, thursday = :thursday, friday = :friday, saturday = :saturday, sunday = :sunday, update_at = NOW() WHERE id = :id";
+        $query = "UPDATE stores SET name = :name, description = :description, type = :type, address = :address, postal_code = :postalCode, city = :city, country = :country, lng_lat = ST_GeomFromText(:wkt), phone = :phone, email = :email, website = :website, facebook = :facebook, twitter = :twitter, instagram = :instagram, monday = :monday, tuesday = :tuesday, wednesday = :wednesday, thursday = :thursday, friday = :friday, saturday = :saturday, sunday = :sunday, status = :status, update_at = NOW() WHERE id = :id";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam("name", $name, PDO::PARAM_STR);
         $stmt->bindParam("description", $description, PDO::PARAM_STR);
@@ -278,6 +281,7 @@ class StoreManager extends Database
         $stmt->bindParam("friday", $friday, PDO::PARAM_STR);
         $stmt->bindParam("saturday", $saturday, PDO::PARAM_STR);
         $stmt->bindParam("sunday", $sunday, PDO::PARAM_STR);
+        $stmt->bindParam("status", $status, PDO::PARAM_STR);
         $stmt->bindParam("id", $id, PDO::PARAM_INT);
         $isSuccess = $stmt->execute();
         return $isSuccess;
@@ -287,26 +291,13 @@ class StoreManager extends Database
      * Supprime un point de vente
      *
      * @param [int] $id
-     * @param [int] $userId
      * @return boolean
      */
-    public function delete($id, $userId) 
+    public function delete(int $id)
     {
-        $query = 'DELETE s.*
-                FROM stores s
-                WHERE id = :id 
-                AND (
-                    s.user_id = :userId
-                    OR (
-                        SELECT COUNT(*)
-                        FROM users u
-                        WHERE u.id = :userId
-                        AND u.role = "admin"
-                    ) > 0
-                )';
+        $query = 'DELETE FROM stores WHERE id = :id';
         $stmt = $this->db->prepare($query);
         $stmt->bindParam("id", $id, PDO::PARAM_INT);
-        $stmt->bindParam("userId", $userId, PDO::PARAM_INT);
         $isSuccess = $stmt->execute();
         return $isSuccess;
     }

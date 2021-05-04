@@ -16,6 +16,25 @@ class UserManager extends Database
     }
 
     /**
+     * Récupère un utilisateur à partir de son id
+     *
+     * @param [int] $id
+     * @return object
+     */
+    public function findOneById($id)
+    {
+        $user = null;
+        $query = 'SELECT * FROM users WHERE id = :id';
+        $req = $this->db->prepare($query);
+        $req->bindParam("id", $id, PDO::PARAM_INT);
+        $req->execute();
+        while ($data = $req->fetch()) {
+            $user = new User($data);
+        }
+        return $user;
+    }
+
+    /**
      * Récupère un utilisateur à partir de son email
      *
      * @param [string] $email
@@ -80,16 +99,18 @@ class UserManager extends Database
      * Modifie un utilisateur
      *
      * @param [int] $id
+     * @param [string] $lastName
+     * @param [string] $firstName
      * @param [string] $email
-     * @param [string] $password
      * @return boolean
      */
-    public function update($id, $email, $password) 
+    public function update($id, $lastName, $firstName, $email)
     {
-        $query = 'UPDATE users SET email = :email, password = :password WHERE id = :id';
+        $query = 'UPDATE users SET last_name = :lastName, first_name = :firstName, email = :email WHERE id = :id';
         $stmt = $this->db->prepare($query);
+        $stmt->bindParam("lastName", $lastName, PDO::PARAM_STR);
+        $stmt->bindParam("firstName", $firstName, PDO::PARAM_STR);
         $stmt->bindParam("email", $email, PDO::PARAM_STR);
-        $stmt->bindParam("password", $password, PDO::PARAM_STR);
         $stmt->bindParam("id", $id, PDO::PARAM_INT);
         $isSuccess = $stmt->execute();
         return $isSuccess;

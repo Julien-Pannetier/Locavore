@@ -31,14 +31,14 @@ class UserController extends Controller
     { 
         $errors = array();
         if(!empty($_POST)){
-            $this->validator->isText('lastName', "Veuillez entrer votre nom.");
-            $this->validator->isText('firstName', "Veuillez entrer votre prénom.");
-            $this->validator->isEmail('email', "Veuillez entrer une adresse de messagerie valide.");
+            $this->validator->isText('lastName', "Veuillez saisir votre nom.");
+            $this->validator->isText('firstName', "Veuillez saisir votre prénom.");
+            $this->validator->isEmail('email', "Veuillez saisir une adresse électronique valide.");
             if($this->validator->isValid()){
                 $user = $this->userManager->findOneByEmail(htmlspecialchars($_POST['email']));
                 $this->validator->isUniq('email', $user, "Cette adresse de messagerie est déjà utilisée.");           
             }
-            $this->validator->isPassword('password', "Veuillez entrer un mot de passe valide.");
+            $this->validator->isPassword('password', "Veuillez saisir un mot de passe valide.");
 
             if($this->validator->isValid()){
                 $lastName = htmlspecialchars($_POST['lastName']);
@@ -67,8 +67,8 @@ class UserController extends Controller
     {
         $errors = array();
         if(!empty($_POST)){
-            $this->validator->isEmail('email', "Veuillez entrer une adresse de messagerie valide.");
-            $this->validator->isPassword('password', "Veuillez entrer un mot de passe valide.");
+            $this->validator->isEmail('email', "Veuillez saisir une adresse électronique valide.");
+            $this->validator->isPassword('password', "Veuillez saisir un mot de passe valide.");
             if($this->validator->isValid()){
                 $user = $this->userManager->findOneByEmail(htmlspecialchars($_POST['email']));
                 if($user AND password_verify(htmlspecialchars($_POST['password']), $user->getPassword())) {
@@ -82,9 +82,11 @@ class UserController extends Controller
                 }
             } else {
                 $errors = $this->validator->getErrors();
+                $implodeErrors = implode("<br>", $errors);
+                $this->session->setFlash("error", $implodeErrors);
             }
         }
-        $this->render('/user/login', compact('errors'));
+        $this->render('/user/login', []);
     }
 
     /**
@@ -98,34 +100,104 @@ class UserController extends Controller
         $this->redirect->logout();
     }
 
-
-    public function updatePassword()
+    /**
+     * Modification des informations de l'utilisateur
+     *
+     * @return void
+     */
+    public function update()
     {
-        if(empty($_POST['password']) || $_POST['password'] != $_POST['passwordConfirm']){
-            $_SESSION['flash']['danger'] = "Les mots de passe ne correspondent pas.";
-        } else {
-            $userId = $_SESSION['user']->id;
-            $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-            $stmt = $this->userManager->updatePassword($userId, $password);
-            $_SESSION['flash']['success'] = "Votre mot de passe a bien été modifié";
-            $this->render('/user/dashbord', []);
+        $errors = array();
+        if(!empty($_POST)){
+            $this->validator->isText('lastName', "Veuillez saisir votre nom.");
+            $this->validator->isText('firstName', "Veuillez saisir votre prénom.");
+            $this->validator->isEmail('email', "Veuillez saisir une adresse électronique valide.");
+            if($this->validator->isValid()){
+                $user = $this->userManager->findOneByEmail(htmlspecialchars($_POST['email']));
+                $this->validator->isUniq('email', $user, "Cette adresse de messagerie est déjà utilisée.");
+                $this->render('/user/dashboard', []);
+                exit();      
+            }
+
+            if($this->validator->isValid()){
+                $userId = $_SESSION['user']['id'];
+                $lastName = htmlspecialchars($_POST['lastName']);
+                $firstName = htmlspecialchars($_POST['firstName']);
+                $email = htmlspecialchars($_POST['email']);
+                $stmt = $this->userManager->update($userId, $lastName, $firstName, $email);
+                $this->session->setFlash("success", "Votre compte a bien été modifié.");
+                $this->render('/user/dashboard', []);
+                exit();
+            } else {
+                $errors = $this->validator->getErrors();
+                $implodeErrors = implode("<br>", $errors);
+                $this->session->setFlash("error", $implodeErrors);
+                $this->render('/user/dashboard', []);
+                exit();
+            }
         }
     }
 
-    public function forgotPassword()
+    /**
+     * Modification du mot de passe de l'utilisateur
+     *
+     * @return void
+     */
+    public function updatePassword()
     {
-        $this->render('/user/forgotPassword', []);
+        $errors = array();
+        if(!empty($_POST)){
+            $this->validator->isPassword('password', "Veuillez saisir un mot de passe valide.");
+            $this->validator->isPassword('passwordConfirm', "Veuillez saisir un mot de passe valide.");
+            if($this->validator->isValid()){
+                if($_POST['password'] != $_POST['passwordConfirm']) {
+                    $this->session->setFlash("error", "La confirmation du mot de passe ne correspond pas au mot de passe saisi.");
+                    $this->render('/user/dashboard', []);
+                    exit;
+                } else {
+                    $userId = $_SESSION['user']['id'];
+                    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+                    $stmt = $this->userManager->updatePassword($userId, $password);
+                    $this->session->setFlash("success", "Votre mot de passe a bien été modifié");
+                    $this->render('/user/dashboard', []);
+                    exit;
+                }
+            } else {
+                $errors = $this->validator->getErrors();
+                $implodeErrors = implode("<br>", $errors);
+                $this->session->setFlash("error", $implodeErrors);
+                $this->render('/user/dashboard', []);
+                exit;
+            }
+        }
     }
 
+    /**
+     * Tableau de bord
+     *
+     * @return void
+     */
     public function dashboard()
     {
-        if($this->validator->isAdmin()){
-            // Ecrire le code et corriger le chemin du render
-            $this->render('/user/dashboard', []);
-        } else if ($this->validator->isConnected()){
-            $this->render('/user/dashboard', []);
+        if($this->validator->isAdmin()) {
+            header("location: /store/findAllPending");
+            exit;
+        } else if ($this->validator->isConnected()) {
+            $userId = $_SESSION['user']['id'];
+            $user = $this->userManager->findOneById($userId);
+            $this->render('/user/dashboard', compact('user'));
         } else {
             $this->redirect->notConnected();
         }
+    }
+    
+    /**
+     * Réinitialisation du mot de passe de l'utilisateur
+     *
+     * @return void
+     */
+    public function forgotPassword()
+    {
+        $this->render('/user/forgotPassword', []);
     }
 }

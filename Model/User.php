@@ -7,8 +7,7 @@ class User extends Model
     protected $id;
     protected $role;
     protected $lastName;    
-    protected $firstName;
-    protected $phone;    
+    protected $firstName;   
     protected $email;
     protected $password;
     protected $registrationAt;
@@ -102,26 +101,6 @@ class User extends Model
     public function setFirstName($firstName)
     {
         $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of phone
-     */ 
-    public function getPhone()
-    {
-        return $this->phone;
-    }
-
-    /**
-     * Set the value of phone
-     *
-     * @return  self
-     */ 
-    public function setPhone($phone)
-    {
-        $this->phone = $phone;
 
         return $this;
     }

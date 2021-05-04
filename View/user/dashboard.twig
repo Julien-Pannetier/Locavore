@@ -2,105 +2,100 @@
 {% import 'form.twig' as form %}
 
 {% block head %}
-        <meta name="description" content="{{ head.description }}">
-        <meta name="author" content="{{ head.author }}">
+		<meta name="description" content="{{ head.description }}">
+		<meta name="author" content="{{ head.author }}">
 
-        <title>{{ head.title }}</title>
+		<title>{{ head.title }}</title>
 {% endblock %}
 
 {% block content %}
 
-    <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Mon profil</h1>
-    </div>
+	<!-- ======= Profil Section ======= -->
+	<section id="profil" class="section">
+		<div class="container">
+			<div class="section-heading">
+				<h1>Mon compte</h1>
+			</div>
 
-    <!-- ======= Profil Section ======= -->
-    <section id="profil" class="section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-md-10 mx-auto contact-form">
-                    <form name="profilForm" id="profilForm" action="" method="POST" novalidate>
-                        {{ form.text('lastName', 'Nom :', 'Veuillez entrer votre nom.') }}
-                        {{ form.text('firstName', 'Prénom :', 'Veuillez entrer votre prénom.') }}
-                        {{ form.email('email', 'Adresse de messagerie :', 'Veuillez entrer votre adresse de messagerie.') }}
-                        {{ form.text('phone', 'Téléphone :', 'Veuillez entrer votre numéro de téléphone.') }}
-                        <br>
-                        <div id="success"></div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary" id="profilButton">Modifier</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section><!-- End Profil Section -->
+			<div class="col-lg-8 col-md-10 mx-auto mt-5 form">
+				<form name="updateUserForm" id="updateUserForm" action="/user/update" method="POST" novalidate>
+					<h2 class="text-center">Informations du compte</h2>
+					{{ form.text('lastName', 'Nom *', 'required', '', user.lastName) }}
+					{{ form.text('firstName', 'Prénom *', 'required', '', user.firstName ) }}
+					{{ form.email('email', 'Adresse de messagerie *', 'required', '', user.email) }}
+					<br>
+					<div id="success"></div>
+					<div class="text-center">
+						<button type="submit" class="btn btn-primary" id="updateUserButton">Modifier</button>
+					</div>
+				</form>
+			</div>
 
-    <!-- ======= Profil Section ======= -->
-    <section id="profil" class="section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-md-10 mx-auto contact-form">
-                    <form name="profilForm" id="profilForm" action="" method="POST" novalidate>
-                        <h2 class="section__title text-center">Changer de mot de passe</h2>
-                        {{ form.password('password', 'Nouveau mot de passe :', 'Veuillez entrer un mot de passe.') }}
-                        {{ form.password('passwordConfirm', 'Confirmer le mot de passe :', 'Veuillez confirmer votre mot de passe.') }}
-                        <br>
-                        <div id="success"></div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary" id="profilButton">Changer de mot de passse</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section><!-- End Profil Section -->
+			<div class="col-lg-8 col-md-10 mx-auto mt-5 form">
+				<form name="updatePasswordForm" id="updatePasswordForm" action="/user/updatePassword" method="POST">
+					<h2 class="text-center">Modifier le mot de passe</h2>
+					{{ form.password('password', 'Nouveau mot de passe *', 'required') }}
+					{{ form.password('passwordConfirm', 'Confirmer le mot de passe *', 'required') }}
+					<br>
+					<div id="success"></div>
+					<div class="text-center">
+						<button type="submit" class="btn btn-primary" id="updatePasswordButton">Modifier</button>
+					</div>
+				</form>
+			</div>
 
-    <!-- ======= Profil Section ======= -->
-    <section id="profil" class="section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-md-10 mx-auto contact-form">
-                    <h2 class="section__title text-center">Supprimer le compte</h2>
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-danger" id="profilButton">Supprimer mon compte</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section><!-- End Profil Section -->
+			<div class="col-lg-8 col-md-10 mx-auto mt-5 form">
+				<h2>Supprimer votre compte</h2>
+				<div>
+					<a class="btn btn-danger" href="#" data-toggle="modal" data-target="#deleteAccount">
+						<i class="fas fa-trash-alt fa-sm fa-fw mr-2"></i>
+						<span>Supprimer définitivement mon compte</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</section><!-- End Profil Section -->
+
+	<!-- Delete Account Modal-->  
+	<div class="modal fade" id="deleteAccount" tabindex="-1" role="dialog" aria-labelledby="deleteAccount" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Suppression du compte</h5>
+					<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					Cette action est irréversible. Êtes-vous sûr de vouloir supprimer votre compte ?
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-danger" href="/user/delete/{{ user.id }}">Supprimer</a>
+					<button class="btn btn-primary" type="button" data-dismiss="modal">Annuler</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 {% endblock %}
 
 {% block script %}
-<!-- Bootstrap core JavaScript-->
-        <script src="/vendor/jquery/jquery.min.js"></script>
-        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-        <!-- Core plugin JavaScript-->
-        <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+		<!-- Bootstrap core JavaScript-->
+		<script src="/vendor/jquery/jquery.min.js"></script>
+		<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-        <!-- Leaflet JavaScript -->
-        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
-        <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+		<!-- Core plugin JavaScript-->
+		<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-        <!-- Toastr JavaScript -->
+		<!-- Toastr JavaScript -->
         <script src="/vendor/toastr/toastr.min.js"></script>
 
-        <!-- Page level plugins -->
-        <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
-        <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+		<!-- Custom scripts for Dashboard-->
+		<script src="/public/js/dashboard/dashboard.min.js"></script>
 
-        <!-- Page level custom scripts -->
-        <script src="/public/js/dashboard/datatables.js"></script>
-
-        <!-- Custom scripts for Dashboard-->
-        <script src="/public/js/dashboard/dashboard.min.js"></script>
-
-        <script src="/public/js/map.js"></script>
-        <script src="/public/js/marker.js"></script>
+		<!-- Custom scripts -->
         <script src="/public/js/flash.js"></script>
-        <script src="/public/js/createStore.js"></script>
-
+        <script src="/public/js/authentication.js"></script>
 
 {% endblock %}
