@@ -25,4 +25,9 @@ class MainController extends Controller
     {
         $this->render('/main/contact', []);
     }
+
+    public function error()
+    {
+        $this->render('main/error', []);
+    }
 }

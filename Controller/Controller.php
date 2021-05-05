@@ -11,7 +11,7 @@ abstract class Controller
     {
         $loader = new \Twig\Loader\FilesystemLoader('./View/');
         $twig = new \Twig\Environment($loader, [
-            'cache' => false,// '/path/to/compilation_cache',
+            'cache' => false, // '/path/to/compilation_cache',
             'debug' => true
         ]);
         $twig->addExtension(new \Twig\Extension\DebugExtension());

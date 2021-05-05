@@ -3,6 +3,7 @@
 namespace App;
 
 use Controller\MainController;
+use Exception;
 
 /**
  * Main Router
@@ -21,7 +22,7 @@ class Main
             header('Location: '.$uri);
         }
 
-        $params = explode('/', $_GET['p']);
+/*         $params = explode('/', $_GET['p']);
         if($params[0] != ''){
             $controller = '\\Controller\\'.ucfirst(array_shift($params)).'Controller';
             $controller = new $controller();
@@ -32,11 +33,48 @@ class Main
                 (isset($params[0])) ? call_user_func_array([$controller, $action], $params) : $controller->$action();
             } else {
                 http_response_code(404);
-                echo "La page demandée n'existe pas";
+                header("Location: /main/error");
+                exit;
+            }
+        } else {
+            $controller = new MainController;
+            $controller->index();
+        } */
+
+        $params = explode('/', $_GET['p']);
+        if($params[0] != ''){
+            $controller = '\\Controller\\'.ucfirst(array_shift($params)).'Controller';
+            if (!class_exists($controller)) {
+                throw new Exception('Division par zéro.');
+
+/*                 http_response_code(404);
+                header("Location: /main/error");
+                exit; */
+            }
+
+                    try {
+            $controller = new $controller();
+        } catch(Exception  $e ) {
+            http_response_code(404);
+            header("Location: /main/error");
+            exit;
+        }
+
+            $action = (isset($params[0])) ? array_shift($params) : 'index';
+
+            if (method_exists($controller, $action)){
+                (isset($params[0])) ? call_user_func_array([$controller, $action], $params) : $controller->$action();
+            } else {              
+                //throw new Exception();
+                
+                http_response_code(404);
+                header("Location: /main/error");
+                exit;
             }
         } else {
             $controller = new MainController;
             $controller->index();
         }
+
     }
 }

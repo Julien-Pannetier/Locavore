@@ -123,13 +123,25 @@ Form
   margin-bottom: 0;
 }
 
-.form input {
+.form input,
+.form select {
   height: 44px;
   color: #515151;
 }
 
 .form textarea {
   padding: 10px 12px;
+}
+
+.form h2 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0 0 15px 0;
+  text-transform: uppercase;
+}
+
+.form [type="checkbox"] {
+  height: 1em;
 }
 
 .btn {
@@ -186,6 +198,7 @@ Form
 
 [type="checkbox"] + label {
   cursor: pointer;
+  padding-bottom: 10px;
 }
 
 [type="checkbox"] + label:before {

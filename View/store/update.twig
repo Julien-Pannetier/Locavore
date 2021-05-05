@@ -11,47 +11,103 @@
 {% block content %}
 
 	<!-- ======= Update Store Section ======= -->
-	<section id="updateStore" class="section">
+	<section id="updateStore">
 		<div class="container">
-            <div class="section-heading">
+            <div class="section-heading mt-5">
 				<h1>Modifier le point de vente</h1>
-				<p>
-					Est dolorum ut non facere possimus quibusdam eligendi voluptatem. Quia id aut similique quia voluptas sit quaerat debitis. Rerum omnis ipsam aperiam consequatur laboriosam nemo harum praesentium.
-				</p>
 			</div>
 			<div class="row">
-				<div class="col-lg-8 col-md-10 mx-auto form">
+				<div class="col-md-10 mx-auto form">
 					<form name="updateStoreForm" id="updateStoreForm" action="/store/update/{{ store.id }}" method="POST">
+						<h2>Description du point de vente</h2>
 						{{ form.text('name', 'Nom du point de vente *', 'required', '', store.name) }}
 						{{ form.textarea('description', 'Description *', 'required', '', store.description) }}
 						{{ form.select('type', 'Type *', [{"value": "Vente à la ferme"}, {"value": "Marchés"}, {"value": "Drive fermier"}], 'required', store.type) }}
-						{{ form.text('address', 'Adresse *', 'required', '', store.address) }}
-						{{ form.text('postalCode', 'Code postal *', 'required', '', store.postal_code) }}
-						{{ form.text('city', 'Ville *', 'required', '', store.city) }}
-						{{ form.text('country', 'Pays *', 'required', '', store.country) }}
 						
+						<h2>Produits commercialisés</h2>
+						<div class="row mb-3">
+							<div class="col-sm-4">
+								{{ form.checkbox('Alcool', 'checkbox[]', 'Alcool / cidre / bière', '1', 'Alcool / cidre / bière' in store.family_name|products ? 'checked' : null) }}
+							</div>
+							<div class="col-sm-4">
+								{{ form.checkbox('Jus', 'checkbox[]', 'Jus / boissons sans alcool', '2', 'Jus / boissons sans alcool' in store.family_name|products ? 'checked' : null) }}
+							</div>
+							<div class="col-sm-4">
+								{{ form.checkbox('Infusion', 'checkbox[]', 'Thé / infusion', '3', 'Thé / infusion' in store.family_name|products ? 'checked' : null) }}
+							</div>
+							<div class="col-sm-4">
+								{{ form.checkbox('Lait', 'checkbox[]', 'Lait / beurre / glace', '4', 'Lait / beurre / glace' in store.family_name|products ? 'checked' : null) }}
+							</div>
+							<div class="col-sm-4">
+								{{ form.checkbox('Fromage', 'checkbox[]', 'Fromage', '5', 'Fromage' in store.family_name|products ? 'checked' : null) }}
+							</div>
+							<div class="col-sm-4">
+								{{ form.checkbox('Œufs', 'checkbox[]', 'Œufs', '6', 'Œufs' in store.family_name|products ? 'checked' : null) }}
+							</div>
+							<div class="col-sm-4">
+								{{ form.checkbox('Farine', 'checkbox[]', 'Farine', '7', 'Farine' in store.family_name|products ? 'checked' : null) }} 
+							</div>
+							<div class="col-sm-4">
+								{{ form.checkbox('Légumes', 'checkbox[]', 'Légumes', '8', 'Légumes' in store.family_name|products ? 'checked' : null) }}
+							</div>
+							<div class="col-sm-4">
+								{{ form.checkbox('Fruits', 'checkbox[]', 'Fruits', '9', 'Fruits' in store.family_name|products ? 'checked' : null) }}
+							</div>
+							<div class="col-sm-4">
+								{{ form.checkbox('Bœuf', 'checkbox[]', 'Bœuf / veau', '10', 'Bœuf / veau' in store.family_name|products ? 'checked' : null) }}
+							</div>
+							<div class="col-sm-4">
+								{{ form.checkbox('Mouton', 'checkbox[]', 'Agneau / mouton / chèvre', '11', 'Agneau / mouton / chèvre' in store.family_name|products ? 'checked' : null) }}
+							</div>
+							<div class="col-sm-4">
+								{{ form.checkbox('Volaille', 'checkbox[]', 'Volaille / lapin', '12', 'Volaille / lapin' in store.family_name|products ? 'checked' : null) }}
+							</div>
+							<div class="col-sm-4">
+								{{ form.checkbox('Porc', 'checkbox[]', 'Porc / charcuterie', '13', 'Porc / charcuterie' in store.family_name|products ? 'checked' : null) }}
+							</div>
+							<div class="col-sm-4">
+								{{ form.checkbox('Miel', 'checkbox[]', 'Miel', '14', 'Miel' in store.family_name|products ? 'checked' : null) }}
+							</div>
+							<div class="col-sm-4">
+								{{ form.checkbox('Escargots', 'checkbox[]', 'Escargots', '15', 'Escargots' in store.family_name|products ? 'checked' : null) }}
+							</div>
+							<div class="col-sm-4">
+								{{ form.checkbox('Poisson', 'checkbox[]', 'Poisson / fruit de mer / algues', '16', 'Poisson / fruit de mer / algues' in store.family_name|products ? 'checked' : null) }}
+							</div>
+							<div class="col-sm-4">
+								{{ form.checkbox('Aromates', 'checkbox[]', 'Aromates / épices', '17', 'Aromates / épices' in store.family_name|products ? 'checked' : null) }}
+							</div>
+						</div>
+						
+						<h2>Adresse et contact</h2>
+						<div class="row">
+							<div class="col-sm-6">
+								{{ form.text('address', 'Adresse *', 'required', '', store.address) }}
+							</div>
+							<div class="col-sm-6">
+								{{ form.text('postalCode', 'Code postal *', 'required', '', store.postal_code) }}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								{{ form.text('city', 'Ville *', 'required', '', store.city) }}
+							</div>
+							<div class="col-sm-6">
+								{{ form.text('country', 'Pays *', 'required', '', store.country) }}
+							</div>
+						</div>
+
+						<!-- ======= Update Store Map ======= -->
 						<div id="updateStoreMap" class="map"></div>
 						
-						{{ form.text('lat', 'Latitude *', 'required', '', store.wkt | latitude) }}
-						{{ form.text('lng', 'Longitude *', 'required', '', store.wkt | longitude) }}
-
-						{{ form.checkbox('Alcool', 'checkbox[]', 'Alcool / cidre / bière', '1', 'Alcool / cidre / bière' in store.family_name|products ? 'checked' : null) }}
-						{{ form.checkbox('Jus', 'checkbox[]', 'Jus / boissons sans alcool', '2', 'Jus / boissons sans alcool' in store.family_name|products ? 'checked' : null) }}
-						{{ form.checkbox('Infusion', 'checkbox[]', 'Thé / infusion', '3', 'Thé / infusion' in store.family_name|products ? 'checked' : null) }}
-						{{ form.checkbox('Lait', 'checkbox[]', 'Lait / beurre / glace', '4', 'Lait / beurre / glace' in store.family_name|products ? 'checked' : null) }}
-						{{ form.checkbox('Fromage', 'checkbox[]', 'Fromage', '5', 'Fromage' in store.family_name|products ? 'checked' : null) }}
-						{{ form.checkbox('Œufs', 'checkbox[]', 'Œufs', '6', 'Œufs' in store.family_name|products ? 'checked' : null) }}
-						{{ form.checkbox('Farine', 'checkbox[]', 'Farine', '7', 'Farine' in store.family_name|products ? 'checked' : null) }}                        
-						{{ form.checkbox('Légumes', 'checkbox[]', 'Légumes', '8', 'Légumes' in store.family_name|products ? 'checked' : null) }}
-						{{ form.checkbox('Fruits', 'checkbox[]', 'Fruits', '9', 'Fruits' in store.family_name|products ? 'checked' : null) }}
-						{{ form.checkbox('Bœuf', 'checkbox[]', 'Viande de bœuf / veau', '10', 'Viande de bœuf / veau' in store.family_name|products ? 'checked' : null) }}
-						{{ form.checkbox('Mouton', 'checkbox[]', 'Viande d\'agneau / mouton / chèvre', '11', 'Viande d\'agneau / mouton / chèvre' in store.family_name|products ? 'checked' : null) }}
-						{{ form.checkbox('Volaille', 'checkbox[]', 'Viande de volaille / lapin', '12', 'Viande de volaille / lapin' in store.family_name|products ? 'checked' : null) }}
-						{{ form.checkbox('Porc', 'checkbox[]', 'Viande de porc / charcuterie', '13', 'Viande de porc / charcuterie' in store.family_name|products ? 'checked' : null) }}
-						{{ form.checkbox('Miel', 'checkbox[]', 'Miel', '14', 'Miel' in store.family_name|products ? 'checked' : null) }}
-						{{ form.checkbox('Escargots', 'checkbox[]', 'Escargots', '15', 'Escargots' in store.family_name|products ? 'checked' : null) }}
-						{{ form.checkbox('Poisson', 'checkbox[]', 'Poisson / fruit de mer / algues', '16', 'Poisson / fruit de mer / algues' in store.family_name|products ? 'checked' : null) }}
-						{{ form.checkbox('Aromates', 'checkbox[]', 'Aromates / épices', '17', 'Aromates / épices' in store.family_name|products ? 'checked' : null) }}
+						<div class="row">
+							<div class="col-sm-6">
+								{{ form.text('lat', 'Latitude *', 'required', '', store.wkt | latitude) }}
+							</div>
+							<div class="col-sm-6">
+								{{ form.text('lng', 'Longitude *', 'required', '', store.wkt | longitude) }}
+							</div>
+						</div>
 
 						{{ form.text('phone', 'Téléphone', '', '', store.phone) }}
 						{{ form.text('email', 'Adresse électronique', '', '', store.email) }}
@@ -59,6 +115,8 @@
 						{{ form.text('facebook', 'Page Facebook', '', '', store.facebook) }}
 						{{ form.text('twitter', 'Page Twitter', '', '', store.twitter) }}
 						{{ form.text('instagram', 'Page Instagram', '', '', store.instagram) }}                                              
+						
+						<h2>Horaires</h2>
 						{{ form.text('monday', 'Lundi', '', '', store.monday) }}
 						{{ form.text('tuesday', 'Mardi', '', '', store.tuesday) }}
 						{{ form.text('wednesday', 'Mercredi', '', '', store.wednesday) }}
@@ -71,8 +129,6 @@
 							{{ form.select('status', 'Statut', [{"value": "En attente"}, {"value": "Approuvé"}, {"value": "Rejeté"}], '' ,store.status) }}
 						{% endif %}
 
-						<br>
-						<div id="success"></div>
 						<div class="text-center">
 							<button type="submit" class="btn btn-primary" id="updateStoreButton">Modifier le point de vente</button>
 						</div>

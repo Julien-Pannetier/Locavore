@@ -6,6 +6,10 @@ body {
 	@include sans-serif-font;
 }
 
+.error {
+    min-height: 80vh;
+}
+
 h1,
 h2,
 h3,

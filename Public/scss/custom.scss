@@ -121,13 +121,25 @@ Form
 		margin-bottom: 0;
 	}
 
-	input {
+	input,
+	select {
 		height: 44px;
 		color: lighten($secondary, 5);
 	}
 
 	textarea {
 		padding: 10px 12px;
+	}
+
+	h2 {
+		font-size: 1.2rem;
+		font-weight: bold;
+		margin: 0 0 15px 0;
+		text-transform: uppercase;
+	}
+
+	[type="checkbox"] {
+		height: 1em;
 	}
 }
 
@@ -186,6 +198,7 @@ Form
 
 	+ label {
 		cursor: pointer;
+		padding-bottom: 10px;
 
 		&:before {
 			content: "\2713";
