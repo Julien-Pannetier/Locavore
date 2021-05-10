@@ -1,0 +1,28 @@
+{% extends 'default.twig' %}
+
+{% block description %}
+	Description
+{% endblock %}
+{% block author %}
+	Auteur
+{% endblock %}
+{% block title %}
+	Title
+{% endblock %}
+
+{% block content %}
+
+	<!-- ======= Error Section ======= -->
+	<section id="error" class="section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-12 mb-5 text-center">
+					<span class="display-1">404</span>
+					<div class="mb-5 lead">La page que vous recherchez est introuvable.</div>
+					<a class="btn btn-primary" href="/">Retour à l'accueil</a>
+				</div>
+			</div>
+		</div>
+	</section><!-- End 404 Section -->
+
+{% endblock %}

@@ -1,46 +1,46 @@
-{% extends 'authentication.twig' %}
+{% extends 'default.twig' %}
 {% import 'form.twig' as form %}
 
 {% block description %}
-    Description
+	Description
 {% endblock %}
 {% block author %}
-    Auteur
+	Auteur
 {% endblock %}
 {% block title %}
-    Title
+	Title
 {% endblock %}
 
 {% block content %}
 
-    <!-- ======= Register Section ======= -->
-    <section id="register" class="section">
-        <div class="container">
-            <div class="section-heading">
+	<!-- ======= Register Section ======= -->
+	<section id="register" class="section">
+		<div class="container">
+			<div class="section-heading">
 				<h1>Inscription</h1>
 			</div>
-            <div class="row">
-                <div class="col-lg-8 col-md-10 mx-auto form">
-                    <form name="registerForm" id="registerForm" action="" method="POST">
-                        {{ form.text('lastName', 'Nom', 'required') }}
-                        {{ form.text('firstName', 'Prénom', 'required') }}
-                        {{ form.email('email', 'Adresse de messagerie', 'required') }}
-                        {{ form.password('password', 'Mot de passe', 'required') }}
-                        <br>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary" id="registerButton">S'inscrire</button>
-                        </div>
-                    </form>
-                    <hr>
-                    <div class="text-center">
-						<a class="small" href="/user/login">Déjà inscrit ? Se connecter !</a>
-                    </div>
-                    <div class="text-center">
-						<a class="small" href="/user/forgotPassword">Mot de passe oublié ?</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section><!-- End Register Section -->
+			<div class="row">
+				<div class="col-lg-8 col-md-10 mx-auto">
+					<form name="registerForm" id="registerForm" class="form" action="" method="POST">
+						{{ form.text('lastName', 'Nom *', 'required') }}
+						{{ form.text('firstName', 'Prénom *', 'required') }}
+						{{ form.email('email', 'Adresse de messagerie *', 'required') }}
+						{{ form.password('password', 'Mot de passe *', 'required') }}
+						<br>
+						<div class="text-center">
+							<button type="submit" class="btn btn-primary" id="registerButton">S'inscrire</button>
+						</div>
+						<hr>
+						<div class="text-center">
+							<a class="small" href="/user/login">Déjà inscrit ? Se connecter !</a>
+						</div>
+						{# <div class="text-center">
+							<a class="small" href="/user/forgotPassword">Mot de passe oublié ?</a>
+						</div> #}
+					</form>
+				</div>
+			</div>
+		</div>
+	</section><!-- End Register Section -->
 
 {% endblock %}

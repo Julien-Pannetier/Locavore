@@ -1,4 +1,4 @@
-{% extends 'authentication.twig' %}
+{% extends 'default.twig' %}
 {% import 'form.twig' as form %}
 
 {% block description %}
@@ -20,22 +20,22 @@
 				<h1>Connexion</h1>
 			</div>
 			<div class="row">
-				<div class="col-lg-8 col-md-10 mx-auto form">
-					<form name="loginForm" id="loginForm" action="" method="POST">
-						{{ form.email('email', 'Adresse de messagerie', 'required') }}
-						{{ form.password('password', 'Mot de passe', 'required') }}
+				<div class="col-lg-8 col-md-10 mx-auto">
+					<form name="loginForm" id="loginForm" class="form" action="/user/login" method="POST">
+						{{ form.email('email', 'Adresse de messagerie *', 'required') }}
+						{{ form.password('password', 'Mot de passe *', 'required') }}
 						<br>
 						<div class="text-center">
-							<button type="submit" class="btn btn-primary" id="loginButton">Connexion</button>
+							<button type="submit" class="btn btn-primary" id="loginButton">Se connecter</button>
 						</div>
+						<hr>
+						<div class="text-center">
+							<a class="small" href="/user/register">Créer un compte !</a>
+						</div>
+						{# <div class="text-center">
+							<a class="small" href="/user/forgotPassword">Mot de passe oublié ?</a>
+						</div> #}
 					</form>
-					<hr>
-					<div class="text-center">
-						<a class="small" href="/user/register">Créer un compte !</a>
-					</div>
-					<div class="text-center">
-						<a class="small" href="/user/forgotPassword">Mot de passe oublié ?</a>
-					</div>
 				</div>
 			</div>
 		</div>

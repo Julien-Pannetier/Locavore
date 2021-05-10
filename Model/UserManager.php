@@ -106,7 +106,7 @@ class UserManager extends Database
      */
     public function update($id, $lastName, $firstName, $email)
     {
-        $query = 'UPDATE users SET last_name = :lastName, first_name = :firstName, email = :email WHERE id = :id';
+        $query = 'UPDATE users SET last_name = :lastName, first_name = :firstName, email = :email, update_at = NOW() WHERE id = :id';
         $stmt = $this->db->prepare($query);
         $stmt->bindParam("lastName", $lastName, PDO::PARAM_STR);
         $stmt->bindParam("firstName", $firstName, PDO::PARAM_STR);
@@ -125,7 +125,7 @@ class UserManager extends Database
      */
     public function updatePassword($id, $password) 
     {
-        $query = 'UPDATE users SET password = :password WHERE id = :id';
+        $query = 'UPDATE users SET password = :password, update_at = NOW() WHERE id = :id';
         $stmt = $this->db->prepare($query);
         $stmt->bindParam("password", $password, PDO::PARAM_STR);
         $stmt->bindParam("id", $id, PDO::PARAM_INT);

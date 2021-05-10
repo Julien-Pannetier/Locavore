@@ -37,8 +37,8 @@ class StoreManager extends Database
         $req->bindParam("id", $id, PDO::PARAM_INT);
         $req->execute();
         while ($data = $req->fetch()) {
-            //$store = new Store($data);
-            $store = $data;
+            $store = new Store($data);
+            //$store = $data;
         }
         return $store;
     }

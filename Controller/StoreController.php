@@ -7,6 +7,7 @@ use Helper\Redirect;
 use Helper\Validator;
 use Model\StoreManager;
 use Controller\Controller;
+use Helper\NotFoundException;
 use Model\StoresProductsFamilyManager;
 
 class StoreController extends Controller
@@ -28,7 +29,7 @@ class StoreController extends Controller
 	 * Affiche un point de vente
 	 *
 	 * @param integer $id Id du point de vente
-	 * @return void
+	 * route(/store/findOne/{id})
 	 */
 	public function findOne(int $id)
 	{
@@ -36,7 +37,7 @@ class StoreController extends Controller
 		if(isset($store)){
 			$this->render('/store/findOneById', compact('store'));
 		} else {
-			$this->redirect->notFound();
+			throw new NotFoundException("La page que vous recherchez est introuvable.");
 		}
 	}
 
@@ -44,7 +45,7 @@ class StoreController extends Controller
 	 * Affiche la liste de tous les points de vente
 	 * Affiche la liste de tous les points de vente d'un utilisateur
 	 *
-	 * @return void
+	 * route(/store/findAll)
 	 */
 	public function findAll()
 	{
@@ -84,7 +85,7 @@ class StoreController extends Controller
 	 * Affiche la liste de tous les points de vente approuvés
 	 * Affiche la liste des points de vente approuvés d'un utilisateur
 	 *
-	 * @return void
+	 * route(/store/findAllApproved)
 	 */
 	public function findAllApproved()
 	{
@@ -125,7 +126,7 @@ class StoreController extends Controller
 	 * Affiche la liste de tous les points de vente en attente de validation
 	 * Affiche la liste des points de vente en attente de validation d'un utilisateur
 	 *
-	 * @return void
+	 * route(/store/findAllPending)
 	 */
 	public function findAllPending()
 	{
@@ -166,7 +167,7 @@ class StoreController extends Controller
 	 * Affiche la liste de tous les points de vente rejetés
 	 * Affiche la liste des points de vente rejetés d'un utilisateur
 	 *
-	 * @return void
+	 * route(/store/findAllRejected)
 	 */
 	public function findAllRejected()
 	{
@@ -206,7 +207,7 @@ class StoreController extends Controller
 	/**
 	 * Crée un point de vente
 	 *
-	 * @return void
+	 * route(/store/create)
 	 */
 	public function create()
 	{
@@ -297,7 +298,7 @@ class StoreController extends Controller
 	 * Modifie un point de vente
 	 *
 	 * @param integer $id Id du point de vente
-	 * @return void
+	 * route(/store/update/{id})
 	 */
 	public function update(int $id)
 	{
@@ -305,7 +306,7 @@ class StoreController extends Controller
 			$store = $this->storeManager->findOneById($id);
 			if ($store) {
 				$userId = $_SESSION['user']['id'];
-				if (($userId === $store->user_id) || ($_SESSION['user']['role'] === 'admin')) {
+				if (($userId === $store->getUserId()) || ($_SESSION['user']['role'] === 'admin')) {
 					$errors = array();
 					if(!empty($_POST)) {
 						$this->validator->isNotNul('name', "Veuillez entrer un nom de point vente.");
@@ -391,7 +392,7 @@ class StoreController extends Controller
 					exit();
 				}
 			} else {
-			$this->redirect->notFound();
+				throw new NotFoundException("La page que vous recherchez est introuvable.");
 			}
 		} else {
 			$this->redirect->notConnected();
@@ -406,25 +407,23 @@ class StoreController extends Controller
 	 */
 	public function delete(int $id)
 	{
-		if ($this->validator->isAdmin()) {
-			$this->storesProductsFamilyManager->delete($id);
-			$this->storeManager->delete($id);
-			$this->session->setFlash("success", "Le point de vente a bien été supprimé.");
-			header("Location: /store/findAll");
-			exit();
-		} else if ($this->validator->isConnected()) {
-			$userId = $_SESSION['user']['id'];
-			$store = $this->storeManager->findOneById($id);	
-			if ($userId === $store->user_id) {
-				$this->storesProductsFamilyManager->delete($id);
-				$this->storeManager->delete($id);
-				$this->session->setFlash("success", "Le point de vente a bien été supprimé.");
-				header("Location: /store/findAll");
-				exit();
+		if ($this->validator->isConnected()) {
+			$store = $this->storeManager->findOneById($id);
+			if ($store) {
+				$userId = $_SESSION['user']['id'];
+				if (($userId === $store->getUserId()) || ($_SESSION['user']['role'] === 'admin')) {
+					$this->storesProductsFamilyManager->delete($id);
+					$this->storeManager->delete($id);
+					$this->session->setFlash("success", "Le point de vente a bien été supprimé.");
+					header("Location: /store/findAll");
+					exit();
+				} else {
+					$this->session->setflash("error", "Vous n'avez pas les droits nécessaires pour effectuer cette opération.");
+					header("Location: /user/login");
+					exit();
+				}
 			} else {
-				$this->session->setflash("error", "Vous n'avez pas les droits nécessaires pour effectuer cette opération.");
-				header("Location: /user/login");
-				exit();
+				throw new NotFoundException("La page que vous recherchez est introuvable.");
 			}
 		} else {
 			$this->redirect->notConnected();

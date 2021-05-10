@@ -35,7 +35,7 @@ class Redirect
 
     public function notFound()
     {
-        $this->session->setFlash("error", "La page demandée n'existe pas.");
+		$this->session->setFlash("error", "La page demandée n'existe pas.");
         header('Location: /');
         exit();
     }

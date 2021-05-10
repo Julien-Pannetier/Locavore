@@ -11,91 +11,62 @@
 {% block content %}
 
 	<!-- ======= Profil Section ======= -->
-	<section id="profil" class="section">
+	<section id="profil">
 		<div class="container">
-			<div class="section-heading">
+			<div class="section-heading mt-5">
 				<h1>Mon compte</h1>
 			</div>
-
-			<div class="col-lg-8 col-md-10 mx-auto mt-5 form">
-				<form name="updateUserForm" id="updateUserForm" action="/user/update" method="POST" novalidate>
-					<h2 class="text-center">Informations du compte</h2>
-					{{ form.text('lastName', 'Nom *', 'required', '', user.lastName) }}
-					{{ form.text('firstName', 'Prénom *', 'required', '', user.firstName ) }}
-					{{ form.email('email', 'Adresse de messagerie *', 'required', '', user.email) }}
-					<br>
-					<div id="success"></div>
-					<div class="text-center">
-						<button type="submit" class="btn btn-primary" id="updateUserButton">Modifier</button>
-					</div>
-				</form>
+			<div class="row">
+				<div class="col-lg-8 col-md-10 mx-auto">
+					<form name="updateUserForm" id="updateUserForm" class="form" action="/user/update" method="POST">
+						<h2 class="text-center">Informations du compte</h2>
+						{{ form.text('lastName', 'Nom *', 'required', '', user.lastName) }}
+						{{ form.text('firstName', 'Prénom *', 'required', '', user.firstName ) }}
+						{{ form.email('email', 'Adresse de messagerie *', 'required', '', user.email) }}
+						<br>
+						<div id="success"></div>
+						<div class="text-center">
+							<button type="submit" class="btn btn-primary" id="updateUserButton">Modifier</button>
+						</div>
+					</form>
+				</div>
 			</div>
-
-			<div class="col-lg-8 col-md-10 mx-auto mt-5 form">
-				<form name="updatePasswordForm" id="updatePasswordForm" action="/user/updatePassword" method="POST">
-					<h2 class="text-center">Modifier le mot de passe</h2>
-					{{ form.password('password', 'Nouveau mot de passe *', 'required') }}
-					{{ form.password('passwordConfirm', 'Confirmer le mot de passe *', 'required') }}
-					<br>
-					<div id="success"></div>
-					<div class="text-center">
-						<button type="submit" class="btn btn-primary" id="updatePasswordButton">Modifier</button>
-					</div>
-				</form>
-			</div>
-
-			<div class="col-lg-8 col-md-10 mx-auto mt-5 form">
-				<h2>Supprimer votre compte</h2>
-				<div>
-					<a class="btn btn-danger" href="#" data-toggle="modal" data-target="#deleteAccount">
-						<i class="fas fa-trash-alt fa-sm fa-fw mr-2"></i>
-						<span>Supprimer définitivement mon compte</span>
-					</a>
+			<div class="row">
+				<div class="col-lg-8 col-md-10 mx-auto my-5">
+					<form name="updatePasswordForm" id="updatePasswordForm" class="form" action="/user/updatePassword" method="POST">
+						<h2 class="text-center">Modifier le mot de passe</h2>
+						{{ form.password('password', 'Nouveau mot de passe *', 'required') }}
+						{{ form.password('passwordConfirm', 'Confirmer le mot de passe *', 'required') }}
+						<br>
+						<div id="success"></div>
+						<div class="text-center">
+							<button type="submit" class="btn btn-primary" id="updatePasswordButton">Modifier</button>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
 	</section><!-- End Profil Section -->
 
-	<!-- Delete Account Modal-->  
-	<div class="modal fade" id="deleteAccount" tabindex="-1" role="dialog" aria-labelledby="deleteAccount" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">Suppression du compte</h5>
-					<button class="close" type="button" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					Cette action est irréversible. Êtes-vous sûr de vouloir supprimer votre compte ?
-				</div>
-				<div class="modal-footer">
-					<a class="btn btn-danger" href="/user/delete/{{ user.id }}">Supprimer</a>
-					<button class="btn btn-primary" type="button" data-dismiss="modal">Annuler</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
 {% endblock %}
 
 {% block script %}
 
-		<!-- Bootstrap core JavaScript-->
-		<script src="/vendor/jquery/jquery.min.js"></script>
-		<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<!-- Bootstrap core JavaScript-->
+	<script src="/vendor/jquery/jquery.min.js"></script>
+	<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-		<!-- Core plugin JavaScript-->
-		<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+	<!-- Core plugin JavaScript-->
+	<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-		<!-- Toastr JavaScript -->
-        <script src="/vendor/toastr/toastr.min.js"></script>
+	<!-- Toastr JavaScript -->
+	<script src="/vendor/toastr/toastr.min.js"></script>		
 
-		<!-- Custom scripts for Dashboard-->
-		<script src="/public/js/dashboard/dashboard.min.js"></script>
+	<!-- Custom scripts for Dashboard-->
+	<script src="/public/js/dashboard/dashboard.min.js"></script>
 
-		<!-- Custom scripts -->
-        <script src="/public/js/flash.js"></script>
-        <script src="/public/js/authentication.js"></script>
+	<!-- Custom scripts -->
+	<script src="/public/js/flash.js"></script>
+	<script src="/public/js/main.js"></script>
 
 {% endblock %}
