@@ -25,20 +25,14 @@ class StoreManager extends Database
     public function findOneById(int $id)
     {
         $store = null;
-        $query = "SELECT s.id, s.user_id, s.name, s.description, s.type, s.address, s.postal_code, s.city, s.country, ST_AsText(s.lng_lat) as wkt, s.phone, s.email, s.website, s.facebook, s.twitter, s.instagram, s.monday, s.tuesday, s.wednesday, s.thursday, s.friday, s.saturday, s.sunday, s.status,
-            (SELECT GROUP_CONCAT(pf.family_name SEPARATOR ', ') AS fn
-            FROM products_family pf
-            INNER JOIN stores_products_family spf ON spf.product_family_id = pf.id
-            WHERE spf.store_id = s.id
-            GROUP BY spf.store_id) AS family_name 
-        FROM stores s
-        WHERE s.id = :id";
+        $query = "SELECT id, user_id, name, description, type, products, address, postal_code, city, country, ST_AsText(lng_lat) as lng_lat, phone, email, website, facebook, twitter, instagram, monday, tuesday, wednesday, thursday, friday, saturday, sunday, status
+                FROM stores
+                WHERE id = :id";
         $req = $this->db->prepare($query);
         $req->bindParam("id", $id, PDO::PARAM_INT);
         $req->execute();
         while ($data = $req->fetch()) {
             $store = new Store($data);
-            //$store = $data;
         }
         return $store;
     }
@@ -50,7 +44,7 @@ class StoreManager extends Database
      * @param [int] $limit
      * @return object
      */
-    public function findAll($offset, $limit) 
+    public function findAll($offset, $limit)
     {
         $stores = [];
         $query = 'SELECT * FROM stores ORDER BY creation_at DESC LIMIT :offset, :limit';
@@ -145,15 +139,10 @@ class StoreManager extends Database
     public function findAllAjax($offset, $limit)
     {
         $stores = [];
-        $query = "SELECT s.id, s.user_id, s.name, s.description, s.type, s.address, s.postal_code, s.city, s.country, ST_AsText(s.lng_lat) as wkt, s.phone, s.email, s.website, s.facebook, s.twitter, s.instagram, s.monday, s.tuesday, s.wednesday, s.thursday, s.friday, s.saturday, s.sunday,
-                    (SELECT GROUP_CONCAT(pf.family_name SEPARATOR ', ') AS fn
-                    FROM products_family pf
-                    INNER JOIN stores_products_family spf ON spf.product_family_id = pf.id
-                    WHERE spf.store_id = s.id
-                    GROUP BY spf.store_id) AS family_name 
-                FROM stores s
+        $query = "SELECT id, user_id, name, description, type, products, address, postal_code, city, country, ST_AsText(lng_lat) as lng_lat, phone, email, website, facebook, twitter, instagram, monday, tuesday, wednesday, thursday, friday, saturday, sunday
+                FROM stores
                 WHERE status = 'approuvé'
-                ORDER BY s.creation_at DESC 
+                ORDER BY creation_at DESC 
                 LIMIT :offset, :limit";
         $req = $this->db->prepare($query);
         $req->bindParam("offset", $offset, PDO::PARAM_INT);
@@ -172,6 +161,7 @@ class StoreManager extends Database
      * @param [string] $name
      * @param [string] $description
      * @param [string] $type
+     * @param [string] $products
      * @param [string] $address
      * @param [string] $postalCode
      * @param [string] $city
@@ -194,15 +184,16 @@ class StoreManager extends Database
      * @param [string] $status
      * @return boolean
      */
-    public function create($userId, $name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat, $phone, $email, $website, $facebook, $twitter, $instagram, $monday, $tuesday, $wednesday, $thursday, $friday, $saturday, $sunday, $status)
+    public function create($userId, $name, $description, $type, $products, $address, $postalCode, $city, $country, $lng, $lat, $phone, $email, $website, $facebook, $twitter, $instagram, $monday, $tuesday, $wednesday, $thursday, $friday, $saturday, $sunday, $status)
     {
         $wkt = "POINT(".$lng." ".$lat.")";
-        $query = "INSERT INTO stores(user_id, name, description, type, address, postal_code, city, country, lng_lat, phone, email, website, facebook, twitter, instagram, monday, tuesday, wednesday, thursday, friday, saturday, sunday, status, creation_at) VALUES (:userId, :name, :description, :type, :address, :postalCode, :city, :country, ST_GeomFromText(:wkt), :phone, :email, :website, :facebook, :twitter, :instagram, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday, :status, NOW())";
+        $query = "INSERT INTO stores(user_id, name, description, type, products, address, postal_code, city, country, lng_lat, phone, email, website, facebook, twitter, instagram, monday, tuesday, wednesday, thursday, friday, saturday, sunday, status, creation_at) VALUES (:userId, :name, :description, :type, :products, :address, :postalCode, :city, :country, ST_GeomFromText(:wkt), :phone, :email, :website, :facebook, :twitter, :instagram, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday, :status, NOW())";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam("userId", $userId, PDO::PARAM_INT);
         $stmt->bindParam("name", $name, PDO::PARAM_STR);
         $stmt->bindParam("description", $description, PDO::PARAM_STR);
         $stmt->bindParam("type", $type, PDO::PARAM_STR);
+        $stmt->bindParam("products", $products, PDO::PARAM_STR);
         $stmt->bindParam("address", $address, PDO::PARAM_STR);
         $stmt->bindParam("postalCode", $postalCode, PDO::PARAM_STR);
         $stmt->bindParam("city", $city, PDO::PARAM_STR);
@@ -233,6 +224,7 @@ class StoreManager extends Database
      * @param [string] $name
      * @param [string] $description
      * @param [string] $type
+     * @param [string] $products
      * @param [string] $address
      * @param [string] $postalCode
      * @param [string] $city
@@ -255,14 +247,15 @@ class StoreManager extends Database
      * @param [string] $status
      * @return boolean
      */
-    public function update($id, $name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat, $phone, $email, $website, $facebook, $twitter, $instagram, $monday, $tuesday, $wednesday, $thursday, $friday, $saturday, $sunday, $status) 
+    public function update($id, $name, $description, $type, $products, $address, $postalCode, $city, $country, $lng, $lat, $phone, $email, $website, $facebook, $twitter, $instagram, $monday, $tuesday, $wednesday, $thursday, $friday, $saturday, $sunday, $status) 
     {
         $wkt = "POINT(".$lng." ".$lat.")";
-        $query = "UPDATE stores SET name = :name, description = :description, type = :type, address = :address, postal_code = :postalCode, city = :city, country = :country, lng_lat = ST_GeomFromText(:wkt), phone = :phone, email = :email, website = :website, facebook = :facebook, twitter = :twitter, instagram = :instagram, monday = :monday, tuesday = :tuesday, wednesday = :wednesday, thursday = :thursday, friday = :friday, saturday = :saturday, sunday = :sunday, status = :status, update_at = NOW() WHERE id = :id";
+        $query = "UPDATE stores SET name = :name, description = :description, type = :type, products = :products, address = :address, postal_code = :postalCode, city = :city, country = :country, lng_lat = ST_GeomFromText(:wkt), phone = :phone, email = :email, website = :website, facebook = :facebook, twitter = :twitter, instagram = :instagram, monday = :monday, tuesday = :tuesday, wednesday = :wednesday, thursday = :thursday, friday = :friday, saturday = :saturday, sunday = :sunday, status = :status, update_at = NOW() WHERE id = :id";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam("name", $name, PDO::PARAM_STR);
         $stmt->bindParam("description", $description, PDO::PARAM_STR);
         $stmt->bindParam("type", $type, PDO::PARAM_STR);
+        $stmt->bindParam("products", $products, PDO::PARAM_STR);
         $stmt->bindParam("address", $address, PDO::PARAM_STR);
         $stmt->bindParam("postalCode", $postalCode, PDO::PARAM_STR);
         $stmt->bindParam("city", $city, PDO::PARAM_STR);
@@ -300,16 +293,5 @@ class StoreManager extends Database
         $stmt->bindParam("id", $id, PDO::PARAM_INT);
         $isSuccess = $stmt->execute();
         return $isSuccess;
-    }
-
-    /**
-     * Retourne l'identifiant de la dernière ligne insérée
-     *
-     * @return int
-     */
-    public function lastId()
-    {
-        $id = $this->db->lastInsertId();
-        return $id;
     }
 }

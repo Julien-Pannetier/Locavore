@@ -9,6 +9,7 @@ class Store extends Model
     protected $name;
     protected $description;
     protected $type;
+    protected $products;
     protected $address;
     protected $postalCode;
     protected $city;
@@ -136,6 +137,26 @@ class Store extends Model
     public function setType($type)
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of products
+     */ 
+    public function getProducts()
+    {
+        return $this->products;
+    }
+
+    /**
+     * Set the value of products
+     *
+     * @return  self
+     */ 
+    public function setProducts($products)
+    {
+        $this->products = $products;
 
         return $this;
     }

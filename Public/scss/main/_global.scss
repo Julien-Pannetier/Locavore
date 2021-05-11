@@ -97,6 +97,18 @@ Section
 	}
 }
 
+.product {
+	display: inline-block;
+	padding: 8px 15px 10px 15px;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1;
+	color: $white;
+	background: $primary;
+	margin: 5px;
+	border-radius: 4px;
+}
+
 /*--------------------------------------------------------------
 Filter
 --------------------------------------------------------------*/
@@ -161,7 +173,7 @@ Information
 	width: 100%;
 	box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
 	
-	&__icon {
+	&-icon {
 		font-size: 20px;
 		color: $primary;
 		float: left;
@@ -180,7 +192,15 @@ Information
 		}
 	}
 
-	&__title {
+	&-title {
+		font-size: 1.2rem;
+		font-weight: bold;
+		margin: 0 0 20px 0;
+		text-align: center;
+		text-transform: uppercase;
+	}
+
+	&-subtitle {
 		padding: 0 0 0 60px;
 		font-size: 20px;
 		font-weight: 600;
@@ -188,7 +208,7 @@ Information
 		color: #222222;
 		}
 
-	&__text {
+	&-text {
 		padding: 0 0 10px 60px;
 		margin: 0 0 20px 0;
 		font-size: 14px;
@@ -203,7 +223,7 @@ Social
 	text-align: center;
 	margin-top: 30px;
 
-	&__link {
+	&-link {
 		color: #919191;
 		transition: 0.3s;
 		&:hover {
@@ -211,7 +231,7 @@ Social
 		}
 	}
 
-	&__icon {
+	&-icon {
 		font-size: 1.33333em;
 		margin: 0 10px;
 	}

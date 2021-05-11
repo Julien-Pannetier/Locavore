@@ -98,6 +98,18 @@ Section
   color: #515151;
 }
 
+.product {
+  display: inline-block;
+  padding: 8px 15px 10px 15px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  color: #fff;
+  background: #5cb874;
+  margin: 5px;
+  border-radius: 4px;
+}
+
 /*--------------------------------------------------------------
 Filter
 --------------------------------------------------------------*/
@@ -161,7 +173,7 @@ Information
           box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
 }
 
-.information__icon {
+.information-icon {
   font-size: 20px;
   color: #5cb874;
   float: left;
@@ -182,12 +194,20 @@ Information
   transition: all 0.3s ease-in-out;
 }
 
-.information__icon:hover {
+.information-icon:hover {
   background: #5cb874;
   color: #fff;
 }
 
-.information__title {
+.information-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0 0 20px 0;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.information-subtitle {
   padding: 0 0 0 60px;
   font-size: 20px;
   font-weight: 600;
@@ -195,7 +215,7 @@ Information
   color: #222222;
 }
 
-.information__text {
+.information-text {
   padding: 0 0 10px 60px;
   margin: 0 0 20px 0;
   font-size: 14px;
@@ -210,17 +230,17 @@ Social
   margin-top: 30px;
 }
 
-.social__link {
+.social-link {
   color: #919191;
   -webkit-transition: 0.3s;
   transition: 0.3s;
 }
 
-.social__link:hover {
+.social-link:hover {
   color: #5cb874;
 }
 
-.social__icon {
+.social-icon {
   font-size: 1.33333em;
   margin: 0 10px;
 }

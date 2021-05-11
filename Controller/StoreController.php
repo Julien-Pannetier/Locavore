@@ -8,7 +8,6 @@ use Helper\Validator;
 use Model\StoreManager;
 use Controller\Controller;
 use Helper\NotFoundException;
-use Model\StoresProductsFamilyManager;
 
 class StoreController extends Controller
 {
@@ -19,7 +18,6 @@ class StoreController extends Controller
 	public function __construct()
 	{
 		$this->storeManager = new StoreManager();
-		$this->storesProductsFamilyManager = new StoresProductsFamilyManager();
 		$this->validator = new Validator($_POST);
 		$this->redirect = new Redirect();
 		$this->session = new Session();
@@ -234,6 +232,7 @@ class StoreController extends Controller
 					$name = htmlspecialchars($_POST['name']);
 					$description = htmlspecialchars($_POST['description']);
 					$type = htmlspecialchars($_POST['type']);
+					$products = implode(', ', $_POST['checkbox']);
 					$address = htmlspecialchars($_POST['address']);
 					$postalCode = htmlspecialchars($_POST['postalCode']);
 					$city = htmlspecialchars($_POST['city']);
@@ -258,19 +257,14 @@ class StoreController extends Controller
 					if ($this->validator->isAdmin()) {
 						$status = htmlspecialchars($_POST['status']);
 					}
-					$stmt = $this->storeManager->create($userId, $name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat, $phone, $email, $website, $facebook, $twitter, $instagram, $monday, $tuesday, $wednesday, $thursday, $friday, $saturday, $sunday, $status);
-					if ($stmt === false) {
-						$this->session->setFlash("error", "Erreur lors de la création d'un nouveau point de vente.");
-						header("Location: /store/create");
-						exit;
-					} else {
-						$storeId = $this->storeManager->lastId();
-						$products = $_POST['checkbox'];
-						foreach($products as $productId) {
-							$this->storesProductsFamilyManager->create( $storeId, $productId);
-						}
+					$stmt = $this->storeManager->create($userId, $name, $description, $type, $products, $address, $postalCode, $city, $country, $lng, $lat, $phone, $email, $website, $facebook, $twitter, $instagram, $monday, $tuesday, $wednesday, $thursday, $friday, $saturday, $sunday, $status);
+					if ($stmt) {
 						$this->session->setFlash("success", "Le point de vente a bien été créé.");
 						header("Location: /store/findAll");
+						exit;
+					} else {
+						$this->session->setFlash("error", "Erreur lors de la création du nouveau point de vente.");
+						header("Location: /store/create");
 						exit;
 					}
 				} else {
@@ -329,6 +323,7 @@ class StoreController extends Controller
 							$name = htmlspecialchars($_POST['name']);
 							$description = htmlspecialchars($_POST['description']);
 							$type = htmlspecialchars($_POST['type']);
+							$products = implode(', ', $_POST['checkbox']);
 							$address = htmlspecialchars($_POST['address']);
 							$postalCode = htmlspecialchars($_POST['postalCode']);
 							$city = htmlspecialchars($_POST['city']);
@@ -348,25 +343,18 @@ class StoreController extends Controller
 							$friday = htmlspecialchars($_POST['friday']);
 							$saturday = htmlspecialchars($_POST['saturday']);
 							$sunday = htmlspecialchars($_POST['sunday']);
-							$status = $store->status;
+							$status = $store->getStatus();
 							if ($this->validator->isAdmin()) {
 								$status = htmlspecialchars($_POST['status']);
 							}
-
-							$stmt = $this->storeManager->update($id, $name, $description, $type, $address, $postalCode, $city, $country, $lng, $lat, $phone, $email, $website, $facebook, $twitter, $instagram, $monday, $tuesday, $wednesday, $thursday, $friday, $saturday, $sunday, $status);		
-
-							if ($stmt === false) {
-								$this->session->setFlash("error", "Erreur lors de la modification du point de vente.");
-								header("Location: /store/update/$id");
-								exit();
-							} else {
-								$this->storesProductsFamilyManager->delete($id);
-								$products = $_POST['checkbox'];
-								foreach($products as $productId) {
-									$this->storesProductsFamilyManager->create($id, $productId);
-								}
+							$stmt = $this->storeManager->update($id, $name, $description, $type, $products, $address, $postalCode, $city, $country, $lng, $lat, $phone, $email, $website, $facebook, $twitter, $instagram, $monday, $tuesday, $wednesday, $thursday, $friday, $saturday, $sunday, $status);		
+							if ($stmt) {
 								$this->session->setFlash("success", "Le point de vente a bien été modifié");
 								header("Location: /store/findAll");
+								exit();
+							} else {
+								$this->session->setFlash("error", "Erreur lors de la modification du point de vente.");
+								header("Location: /store/update/$id");
 								exit();
 							}
 						} else {
@@ -412,11 +400,16 @@ class StoreController extends Controller
 			if ($store) {
 				$userId = $_SESSION['user']['id'];
 				if (($userId === $store->getUserId()) || ($_SESSION['user']['role'] === 'admin')) {
-					$this->storesProductsFamilyManager->delete($id);
-					$this->storeManager->delete($id);
-					$this->session->setFlash("success", "Le point de vente a bien été supprimé.");
-					header("Location: /store/findAll");
-					exit();
+					$stmt = $this->storeManager->delete($id);
+					if ($stmt) {
+						$this->session->setFlash("success", "Le point de vente a bien été supprimé.");
+						header("Location: /store/findAll");
+						exit();
+					} else {
+						$this->session->setFlash("error", "Erreur lors de la suppression du point de vente.");
+						header("Location: /store/findAll");
+						exit();
+					}
 				} else {
 					$this->session->setflash("error", "Vous n'avez pas les droits nécessaires pour effectuer cette opération.");
 					header("Location: /user/login");

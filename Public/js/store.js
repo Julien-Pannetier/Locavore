@@ -58,7 +58,7 @@ class Store
 			});
 
 			// Ajout des marqueurs à la carte
-			const [lng, lat] = store.wkt.substr(6).substr(0, store.wkt.substr(6).length - 1).split(" ");
+			const [lng, lat] = store.lng_lat.substr(6).substr(0, store.lng_lat.substr(6).length - 1).split(" ");
 			self.marker = self.map.addMarkers(lat, lng, {icon: icons});
 
 			// Ajout de popups aux marqueurs

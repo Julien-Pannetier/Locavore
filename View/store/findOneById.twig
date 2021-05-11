@@ -1,103 +1,111 @@
 {% extends 'default.twig' %}
 
 {% block description %}
-    Description
+	Description
 {% endblock %}
 {% block author %}
-    Auteur
+	Auteur
 {% endblock %}
 {% block title %}
-    Title
+	Title
 {% endblock %}
 
 {% block content %}
 
-    <!-- ======= Store Section ======= -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section__title">{{ store.name }}</h2>
-            <div class="row">
-                <div>
-                    <p>{{ store.description }}</p>
-                    {{ dump(store) }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6 d-flex align-items-stretch">
-                    <div class="information">
-                        <div>
-                            <i class="information__icon fas fa-map-marker-alt"></i>
-                            <h4 class="information__title">Adresse :</h4>
-                            <p class="information__text">{{ store.address }}, {{ store.postalCode }} {{ store.city }}</p>
-                        </div>
-                        <div>
-                            <i class="information__icon fas fa-phone"></i>
-                            <h4 class="information__title">Téléphone :</h4>
-                            <p class="information__text">{{ store.phone }}</p>
-                        </div>
-                        <div>
-                            <i class="information__icon fas fa-at"></i>
-                            <h4 class="information__title">Adresse électronique :</h4>
-                            <p class="information__text"><a href="mailto:{{ store.email }}">{{ store.email }}</a></p>
-                        </div>
-                        <div>
-                            <i class="information__icon fas fa-globe"></i>
-                            <h4 class="information__title">Site internet :</h4>
-                            <p class="information__text"><a href="{{ store.website }}">{{ store.website }}</a></p>
-                        </div>
-                        <div class="social">
-                            {% if store.twitter %}
-                                <a class="social__link" href="{{ store.twitter }}"><i class="social__icon fab fa-twitter"></i></a>
-                            {% endif %}
-                            {% if store.facebook %}
-                                <a class="social__link" href="{{ store.facebook }}"><i class="social__icon fab fa-facebook-f"></i></a>
-                            {% endif %}
-                            {% if store.instagram %}
-                                <a class="social__link" href="{{ store.instagram }}"><i class="social__icon fab fa-instagram"></i></a>
-                            {% endif %} 
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 mt-5 mt-lg-0 d-flex align-items-stretch">
-                    <div class="information">
-                        <div>
-                            <p class="information__text">Lundi : {{ store.monday }}</p>
-                            <p class="information__text">Mardi : {{ store.tuesday }}</p>
-                            <p class="information__text">Mercredi : {{ store.wednesday }}</p>
-                            <p class="information__text">Jeudi : {{ store.thursday }}</p>
-                            <p class="information__text">Vendredi : {{ store.friday }}</p>
-                            <p class="information__text">Samedi : {{ store.saturday }}</p>
-                            <p class="information__text">Dimanche : {{ store.sunday }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section><!-- End Store Section -->
+	<!-- ======= Store Section ======= -->
+	<section id="store" class="section">
+		<div class="container">
+			<div class="section-heading">
+				<h1>{{ store.name }}</h1>
+				{% if store.products %}
+					<p>
+						{% for product in store.products|products %}
+							<span class="product">{{ product }}</span>
+						{% endfor %}
+					<p>
+				{% endif %}
+				<p>
+					{{ store.description }}
+				</p>
+			</div>
+			<div class="row">
+				<div class="col-lg-6 d-flex align-items-stretch">
+					<div class="information">
+						<h2 class="information-title">Adresse et contact</h2>
+						<div>
+							<i class="information-icon fas fa-map-marker-alt"></i>
+							<h3 class="information-subtitle">Adresse :</h3>
+							<p class="information-text">{{ store.address }}, {{ store.postalCode }} {{ store.city }}</p>
+						</div>
+						<div>
+							<i class="information-icon fas fa-phone"></i>
+							<h3 class="information-subtitle">Téléphone :</h3>
+							<p class="information-text">{{ store.phone }}</p>
+						</div>
+						<div>
+							<i class="information-icon fas fa-at"></i>
+							<h3 class="information-subtitle">Adresse électronique :</h3>
+							<p class="information-text"><a href="mailto:{{ store.email }}">{{ store.email }}</a></p>
+						</div>
+						<div>
+							<i class="information-icon fas fa-globe"></i>
+							<h3 class="information-subtitle">Site internet :</h3>
+							<p class="information-text"><a href="{{ store.website }}">{{ store.website }}</a></p>
+						</div>
+						<div class="social">
+							{% if store.twitter %}
+								<a class="social-link" href="{{ store.twitter }}"><i class="social-icon fab fa-twitter"></i></a>
+							{% endif %}
+							{% if store.facebook %}
+								<a class="social-link" href="{{ store.facebook }}"><i class="social-icon fab fa-facebook-f"></i></a>
+							{% endif %}
+							{% if store.instagram %}
+								<a class="social-link" href="{{ store.instagram }}"><i class="social-icon fab fa-instagram"></i></a>
+							{% endif %} 
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6 mt-5 mt-lg-0 d-flex align-items-stretch">
+					<div class="information">
+						<div>
+							<h2 class="information-title">Horaires d'ouverture</h2>
+							<p class="information-text">Lundi : {{ store.monday }}</p>
+							<p class="information-text">Mardi : {{ store.tuesday }}</p>
+							<p class="information-text">Mercredi : {{ store.wednesday }}</p>
+							<p class="information-text">Jeudi : {{ store.thursday }}</p>
+							<p class="information-text">Vendredi : {{ store.friday }}</p>
+							<p class="information-text">Samedi : {{ store.saturday }}</p>
+							<p class="information-text">Dimanche : {{ store.sunday }}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section><!-- End Store Section -->
 
 {% endblock %}
 
 {% block script %}
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<!-- Bootstrap core JavaScript-->
+	<script src="/vendor/jquery/jquery.min.js"></script>
+	<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+	<!-- Core plugin JavaScript-->
+	<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Leaflet JavaScript -->
-    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+	<!-- Leaflet JavaScript -->
+	<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+	<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
 
-    <!-- Toastr JavaScript -->
-    <script src="/vendor/toastr/toastr.min.js"></script>
+	<!-- Toastr JavaScript -->
+	<script src="/vendor/toastr/toastr.min.js"></script>
 
-    <!-- Custom scripts for Dashboard-->
-    <script src="/public/js/dashboard/dashboard.min.js"></script>
+	<!-- Custom scripts for Dashboard-->
+	<script src="/public/js/dashboard/dashboard.min.js"></script>
 
-    <!-- Custom scripts -->
-    <script src="/public/js/flash.js"></script>
-    <script src="/public/js/main.js"></script>
+	<!-- Custom scripts -->
+	<script src="/public/js/flash.js"></script>
+	<script src="/public/js/main.js"></script>
 
 {% endblock %}
