@@ -45,18 +45,18 @@
 				<div class="collapse navbar-collapse" id="navbarResponsive">
 					<ul class="navbar-nav ml-auto">
 						<li class="nav-item">
-							<a class="nav-link" href="/main/about">A propos</a>
+							<a href="/main/about">A propos</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="/main/faq">Vous êtes producteurs ?</a>
+							<a href="/main/faq">Vous êtes producteurs ?</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="/main/contact">Contact</a>
+							<a href="/main/contact">Contact</a>
 						</li>
 					   {% if session.user %}
 							<!-- Nav Item -->
 							<li class="nav-item dropdown">
-								<a class="nav-link " href="#" id="mainNavigationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<a href="#" id="mainNavigationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
 									<i class="fas fa-caret-down"></i>
 								</a>
@@ -68,7 +68,7 @@
 										Mon compte
 									</a>
 									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+									<a class="dropdown-item" href="#" data-toggle="modal" data-target="#mainLogoutModal">
 										<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
 										Déconnexion
 									</a>
@@ -127,11 +127,11 @@
 		</footer>
 
 		<!-- Logout Modal-->
-		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+		<div class="modal fade" id="mainLogoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="logoutModalLabel">Confirmation de déconnexion</h5>
+						<h5 class="modal-title" id="mainLogoutModalLabel">Déconnexion</h5>
 						<button class="close" type="button" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">×</span>
 						</button>
@@ -140,8 +140,8 @@
 						Etes-vous sûr de vouloir vous déconnecter ?
 					</div>
 					<div class="modal-footer">
-						<button class="btn btn-secondary" type="button" data-dismiss="modal">Non</button>
-						<a class="btn btn-primary" href="/user/logout">Oui</a>
+						<a class="btn btn-danger" href="/user/logout">Se déconnecter</a>
+						<button class="btn btn-primary" type="button" data-dismiss="modal">Annuler</button>
 					</div>
 				</div>
 			</div>

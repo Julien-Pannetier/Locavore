@@ -1,0 +1,48 @@
+/*--------------------------------------------------------------
+Checkbox
+--------------------------------------------------------------*/
+[type="checkbox"] {
+	opacity: 0;
+	width: 1em;
+	height: 1em;
+	display: grid;
+	grid-template-areas: "checkbox";
+
+	> * {
+		grid-area: checkbox;
+	}
+
+	&:checked + label:before {
+		color: $white;			
+		background-color: $primary;
+		border-color: $primary;
+	}
+
+	+ label {
+		cursor: pointer;
+		padding-bottom: 10px;
+
+		&:before {
+			content: "\2713";
+			display: inline-block;
+			width: 1.6em;
+			height: 1.6em;
+			border-radius: 0.35em;
+			border: 1px solid #d1d3e2;
+			padding-left: 0.35em;
+			margin-right: 1em;
+			color: transparent;
+			transition: 0.2s;
+		}
+
+		&:active:before {
+			transform: scale(0);
+		}
+	}
+}
+
+@media (max-width: 768px) {
+	.form h2 {
+		text-align: center;
+	}
+}

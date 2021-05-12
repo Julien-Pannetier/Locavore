@@ -1,58 +1,57 @@
 {% extends 'default.twig' %}
 
 {% block description %}
-    Description
+	Description
 {% endblock %}
 {% block author %}
-    Auteur
+	Auteur
 {% endblock %}
 {% block title %}
-    Title
+	Title
 {% endblock %}
 
 {% block content %}
 
-    <!-- ======= Map Section ======= -->
-    <section class="section">
-        <div class="container">
-            <div class="section-heading">
-                <h1>Carte</h1>
-                <p>
-                    Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.
-                </p>
-            </div>
-            <div class="row">
-                <div id="storesFilter" class="col-lg-12 d-flex justify-content-center filter">
-                    <input type="radio" id="allStore" name="storeType" value="All" checked/>
-                    <label for="allStore">Tous les points de vente</label>
-                    <input type="radio" id="Farm" name="storeType" value="Vente à la ferme" />
-                    <label for="Farm">A la ferme</label>
-                    <input type="radio" id="Market" name="storeType" value="Marchés" />
-                    <label for="Market">Marchés</label>
-                    <input type="radio" id="Drive" name="storeType" value="Drive fermier" />
-                    <label for="Drive">Drive fermier</label>
-                </div>
-            </div>
-            <div id="map" class="map"></div>
-        </div>
-    </section><!-- End Map Section -->
+	<!-- ======= Map Section ======= -->
+	<section class="section">
+		<div class="container">
+			<div class="section-heading">
+				<h1>Carte</h1>
+				<p>
+					Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.
+				</p>
+			</div>
+			<div class="row">
+				<div id="storesFilter" class="col-lg-12 filter">
+					<input type="radio" id="allStore" name="storeType" value="All" checked/>
+					<label for="allStore">Tous les points de vente</label>
+					<input type="radio" id="Farm" name="storeType" value="Vente à la ferme" />
+					<label for="Farm">A la ferme</label>
+					<input type="radio" id="Market" name="storeType" value="Marchés" />
+					<label for="Market">Marchés</label>
+					<input type="radio" id="Drive" name="storeType" value="Drive fermier" />
+					<label for="Drive">Drive fermier</label>
+				</div>
+			</div>
+			<div id="map" class="map"></div>
+		</div>
+	</section><!-- End Map Section -->
 
-    <!-- ======= Cta Section ======= -->
-    <section id="cta" class="cta">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-9 text-center text-lg-left">
-                    <h2>Call To Action</h2>
-                    <p>
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </p>
-                </div>
-                <div class="col-lg-3 d-flex justify-content-center justify-content-lg-end align-items-lg-center">
-                    <a class="btn btn-inverse-primary" href="#">Call To Action</a>
-                </div>
-            </div>
-        </div>
-    </section><!-- End Cta Section -->
+	<!-- ======= Cta Section ======= -->
+	<section id="cta" class="cta">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-9 text-center text-lg-left">
+					<h2>Call To Action</h2>
+					<p>
+						Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</p>
+				</div>
+				<div class="col-lg-3 d-flex justify-content-center justify-content-lg-end align-items-lg-center">
+					<a class="btn btn-inverse-primary" href="#">Call To Action</a>
+				</div>
+			</div>
+		</div>
+	</section><!-- End Cta Section -->
 
 {% endblock %}
-

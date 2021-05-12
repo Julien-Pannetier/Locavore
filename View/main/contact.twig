@@ -2,40 +2,40 @@
 {% import 'form.twig' as form %}
 
 {% block description %}
-    Description
+	Description
 {% endblock %}
 {% block author %}
-    Auteur
+	Auteur
 {% endblock %}
 {% block title %}
-    Title
+	Title
 {% endblock %}
 
 {% block content %}
 
-    <!-- ======= Contact Section ======= -->
-    <section id="contact" class="section">
-        <div class="container">
-            <div class="section-heading">
-                <h1>Contact</h1>
-                <p>
-                    Est dolorum ut non facere possimus quibusdam eligendi voluptatem. Quia id aut similique quia voluptas sit quaerat debitis. Rerum omnis ipsam aperiam consequatur laboriosam nemo harum praesentium.
-                </p>
-            </div>
-            <div class="row">
-                <div class="col-lg-8 col-md-10 mx-auto">
-                    <form name="contactForm" id="contactForm" class="form" action="" method="POST">
-                        {{ form.text('name', 'Nom *', 'Veuillez entrer votre nom.') }}
-                        {{ form.email('email', 'Adresse de messagerie *', 'Veuillez entrer votre adresse de messagerie.') }}
-                        {{ form.text('subject', 'Objet *', 'Veuillez entrer l\'objet de votre message.') }}
-                        {{ form.textarea('message', 'Message *', 'Veuillez entrer votre message.') }}
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary " id="contactButton">Envoyer</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section><!-- End Contact Section -->
+	<!-- ======= Contact Section ======= -->
+	<section id="contact" class="section">
+		<div class="container">
+			<div class="section-heading">
+				<h1>Contact</h1>
+				<p>
+					Est dolorum ut non facere possimus quibusdam eligendi voluptatem. Quia id aut similique quia voluptas sit quaerat debitis. Rerum omnis ipsam aperiam consequatur laboriosam nemo harum praesentium.
+				</p>
+			</div>
+			<div class="row">
+				<div class="col-lg-8 col-md-10 mx-auto">
+					<form name="contactForm" id="contactForm" class="form" action="" method="POST">
+						{{ form.text('name', 'Nom *', 'Veuillez entrer votre nom.') }}
+						{{ form.email('email', 'Adresse de messagerie *', 'Veuillez entrer votre adresse de messagerie.') }}
+						{{ form.text('subject', 'Objet *', 'Veuillez entrer l\'objet de votre message.') }}
+						{{ form.textarea('message', 'Message *', 'Veuillez entrer votre message.') }}
+						<div class="text-center">
+							<button type="submit" class="btn btn-primary " id="contactButton">Envoyer</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section><!-- End Contact Section -->
 
 {% endblock %}

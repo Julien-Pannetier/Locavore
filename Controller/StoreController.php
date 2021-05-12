@@ -323,7 +323,10 @@ class StoreController extends Controller
 							$name = htmlspecialchars($_POST['name']);
 							$description = htmlspecialchars($_POST['description']);
 							$type = htmlspecialchars($_POST['type']);
-							$products = implode(', ', $_POST['checkbox']);
+							$products = null;
+							if(!empty($_POST['checkbox'])) {
+								$products = implode(', ', $_POST['checkbox']);								
+							}
 							$address = htmlspecialchars($_POST['address']);
 							$postalCode = htmlspecialchars($_POST['postalCode']);
 							$city = htmlspecialchars($_POST['city']);

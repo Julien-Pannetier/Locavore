@@ -20,7 +20,6 @@ p {
 	font-size: 1rem;
 	line-height: 1.5;
 	margin: 30px 0;
-	
 }
 
 a {
@@ -95,24 +94,27 @@ Section
 			color: lighten($secondary, 5);
 		}
 	}
-}
 
-.product {
-	display: inline-block;
-	padding: 8px 15px 10px 15px;
-	font-size: 14px;
-	font-weight: 600;
-	line-height: 1;
-	color: $white;
-	background: $primary;
-	margin: 5px;
-	border-radius: 4px;
+	.product {
+		display: inline-block;
+		padding: 8px 15px 10px 15px;
+		font-size: 14px;
+		font-weight: 600;
+		line-height: 1;
+		color: $white;
+		background: $primary;
+		margin: 5px;
+		border-radius: 4px;
+	}
 }
 
 /*--------------------------------------------------------------
 Filter
 --------------------------------------------------------------*/
 .filter {
+	display: flex;
+	justify-content: center;
+	
 	input {
 		display: none;
 
@@ -139,6 +141,16 @@ Filter
 		&:active {
 			color: $white;
 			background: $primary;
+		}
+	}
+}
+
+@media (max-width: 768px) {
+	.filter {
+		flex-direction: column;
+
+		label {
+			text-align: center;
 		}
 	}
 }
